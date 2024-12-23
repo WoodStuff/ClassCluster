@@ -1,4 +1,5 @@
 ﻿using ClassCluster;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ClassClusterTests;
 
@@ -17,6 +18,15 @@ public class PointTests
 	public void TupleConstruction_InitializesProperties()
 	{
 		Point p1 = (1, 2.5);
+		Assert.AreEqual(1, p1.X);
+		Assert.AreEqual(2.5, p1.Y);
+	}
+
+	[TestMethod]
+	public void VectorConstruction_InitializesProperties()
+	{
+		Vector v1 = new(1, 2.5);
+		Point p1 = (Point)v1;
 		Assert.AreEqual(1, p1.X);
 		Assert.AreEqual(2.5, p1.Y);
 	}
@@ -46,7 +56,7 @@ public class PointTests
 	}
 
 	[TestMethod]
-	public void Addition_HandlesNegativeCoordinatesCorrectly()
+	public void Addition_HandlesNegativeCoordinatesProperly()
 	{
 		Point p1 = new(1, -7.2);
 		Point p2 = new(-4.5, 8);
@@ -70,7 +80,7 @@ public class PointTests
 	}
 
 	[TestMethod]
-	public void Subtraction_HandlesNegativeCoordinatesCorrectly()
+	public void Subtraction_HandlesNegativeCoordinatesProperly()
 	{
 		Point p1 = new(5.5, 6);
 		Point p2 = new(7, -2.2);
@@ -87,7 +97,7 @@ public class PointTests
 	}
 
 	[TestMethod]
-	public void Inverse_WorksCorrectly()
+	public void Inverse_WorksProperly()
 	{
 		Point p1 = new(5.5, -2);
 		Point result = -p1;
@@ -157,6 +167,7 @@ public class PointTests
 		double distance = p1.DistanceFromOrigin();
 		Assert.AreEqual(5, distance);
 	}
+
 	[TestMethod]
 	public void DistanceFromOrigin_ReturnsCorrectDistance_WhenPointIsOnAxis()
 	{
@@ -199,5 +210,100 @@ public class PointTests
 		double d1 = p1.DistanceFromOrigin();
 		double d2 = p1.Distance(Point.Origin);
 		Assert.AreEqual(d1, d2);
+	}
+
+	[TestMethod]
+	public void GridDistFromOrigin_ReturnsCorrectDistance_AtPositiveCoordinates()
+	{
+		Point p1 = new(3, 6);
+		double distance = p1.GridDistFromOrigin();
+		Assert.AreEqual(9, distance);
+	}
+
+	[TestMethod]
+	public void GridDistFromOrigin_ReturnsCorrectDistance_AtNegativeCoordinates()
+	{
+		Point p1 = new(-3, -6);
+		double distance = p1.GridDistFromOrigin();
+		Assert.AreEqual(9, distance);
+	}
+
+	[TestMethod]
+	public void GridDistFromOrigin_ReturnsCorrectDistance_WhenPointIsOnAxis()
+	{
+		Point p1 = new(9, 0);
+		double distance = p1.GridDistFromOrigin();
+		Assert.AreEqual(9, distance);
+	}
+
+	[TestMethod]
+	public void GridDistToPoint_ReturnsCorrectDistance()
+	{
+		Point p1 = new(3, 1);
+		Point p2 = new(8, 5);
+		double distance = p1.GridDist(p2);
+		Assert.AreEqual(9, distance);
+	}
+
+	[TestMethod]
+	public void GridDistToPoint_ReturnsCorrectDistance_WhenPointsHaveDifferentSigns()
+	{
+		Point p1 = new(3, 4);
+		Point p2 = new(-1, -1);
+		double distance = p1.GridDist(p2);
+		Assert.AreEqual(9, distance);
+	}
+
+	[TestMethod]
+	public void GridDistToPoint_ReturnsCorrectDistance_WhenPointsAreOnAxes()
+	{
+		Point p1 = new(6, 0);
+		Point p2 = new(0, -3);
+		double distance = p1.GridDist(p2);
+		Assert.AreEqual(9, distance);
+	}
+
+	[TestMethod]
+	public void GridDistFromOrigin_IsEquivalentToDistanceToOriginPoint()
+	{
+		Point p1 = new(7, 2);
+		double d1 = p1.GridDistFromOrigin();
+		double d2 = p1.GridDist(Point.Origin);
+		Assert.AreEqual(d1, d2);
+	}
+
+	[TestMethod]
+	public void Normalize_ReturnsNormalizedPoint()
+	{
+		Point p1 = new(4, 3);
+		Assert.AreEqual(new(0.8, 0.6), p1.ToNormalized());
+	}
+
+	[TestMethod]
+	public void Normalize_LeavesUnitPointsUnchanged()
+	{
+		Point p1 = new(1, 0);
+		Point p2 = new(0, 1);
+
+		Assert.AreEqual(p1, p1.ToNormalized());
+		Assert.AreEqual(p2, p2.ToNormalized());
+	}
+
+	[TestMethod]
+	public void Normalize_LeavesOriginUnchanged()
+	{
+		Point p1 = Point.Origin;
+		Assert.AreEqual(p1, p1.ToNormalized());
+	}
+
+	[TestMethod]
+	public void Normalize_IsEquivalentToNormalized_ForSamePoint()
+	{
+		Point p1 = new(4, 7);
+		Point p2 = p1.ToNormalized();
+
+		p1.Normalize();
+
+		Assert.AreEqual(p1, p2);
 	}
 }

@@ -76,6 +76,20 @@ public class Point(double x, double y) : IObject2D
 	{
 		return p1.GridDist(p2);
 	}
+	/// <summary>
+	/// Normalizes the point as if it was a vector.
+	/// Shortens the point to have a length of 1 while maintaining the direction and returns it.
+	/// </summary>
+	/// <returns>The normalized point.</returns>
+	public Point ToNormalized()
+	{
+		double length = DistanceFromOrigin();
+		if (length != 0)
+		{
+			return new(X / length, Y / length);
+		}
+		return this;
+	}
 
 	/// <summary>
 	/// Normalizes the point as if it was a vector.

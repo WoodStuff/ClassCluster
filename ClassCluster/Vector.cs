@@ -29,6 +29,20 @@ namespace ClassCluster
 			return Math.Sqrt(X * X + Y * Y);
 		}
 		/// <summary>
+		/// Normalizes the vector.
+		/// Shortens the vector to have a length of 1 while maintaining the direction and returns it.
+		/// </summary>
+		/// <returns>The normalized vector.</returns>
+		public Vector ToNormalized()
+		{
+			double length = Magnitude();
+			if (length != 0)
+			{
+				return new(X / length, Y / length);
+			}
+			return this;
+		}
+		/// <summary>
 		/// Calculates the dot product between this vector and the input vector.
 		/// </summary>
 		/// <param name="other">The point to calculate the dot product with.</param>
