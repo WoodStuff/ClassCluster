@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClassCluster
+﻿namespace ClassCluster
 {
 	/// <summary>
 	/// Represents a 2D vector.
 	/// </summary>
 	public class Vector(double x, double y)
 	{
+		/// <summary>
+		/// The zero vector [0, 0];
+		/// </summary>
+		public static Vector Zero => new(0, 0);
 		/// <summary>
 		/// The X position of the vector.
 		/// </summary>
@@ -21,13 +19,11 @@ namespace ClassCluster
 		public double Y { get; set; } = y;
 
 		/// <summary>
-		/// Calculates the point's length.
+		/// Calculates the vector's magnitude, or length.
 		/// </summary>
-		/// <returns>A double representing the length.</returns>
-		public double Magnitude()
-		{
-			return Math.Sqrt(X * X + Y * Y);
-		}
+		/// <returns>A double representing the magnitude.</returns>
+		public double Magnitude => Math.Sqrt(X * X + Y * Y);
+
 		/// <summary>
 		/// Normalizes the vector.
 		/// Shortens the vector to have a length of 1 while maintaining the direction and returns it.
@@ -35,7 +31,7 @@ namespace ClassCluster
 		/// <returns>The normalized vector.</returns>
 		public Vector ToNormalized()
 		{
-			double length = Magnitude();
+			double length = Magnitude;
 			if (length != 0)
 			{
 				return new(X / length, Y / length);
@@ -69,8 +65,9 @@ namespace ClassCluster
 		/// <returns>The angle between the two vectors.</returns>
 		public double AngleBetween(Vector other, Angles type = Angles.Radians)
 		{
+			if (Magnitude == 0 || other.Magnitude == 0) throw new InvalidOperationException("Cannot calculate angle with a zero vector.");
 			double dotProduct = this * other;
-			double magnitudesProduct = Magnitude() * other.Magnitude();
+			double magnitudesProduct = Magnitude * other.Magnitude;
 			double angle = Math.Acos(dotProduct / magnitudesProduct);
 			if (type != Angles.Radians) angle = Utils.ConvertAngle(Angles.Radians, angle, type);
 			return angle;
@@ -87,7 +84,7 @@ namespace ClassCluster
 			return v1.AngleBetween(v2, type);
 		}
 		/// <summary>
-		/// Rotates the vector by some angle and returns it.
+		/// Rotates the vector counterclockwise and returns it.
 		/// </summary>
 		/// <param name="angle">The angle to rotate by.</param>
 		/// <param name="type">The angle unit. Defaults to radians.</param>
@@ -106,7 +103,7 @@ namespace ClassCluster
 		/// </summary>
 		public void Normalize()
 		{
-			double length = Magnitude();
+			double length = Magnitude;
 			if (length != 0)
 			{
 				X /= length;
@@ -114,7 +111,7 @@ namespace ClassCluster
 			}
 		}
 		/// <summary>
-		/// Rotates the vector.
+		/// Rotates the vector counterclockwise.
 		/// </summary>
 		/// <param name="angle">The angle to rotate by.</param>
 		/// <param name="type">The angle unit. Defaults to radians.</param>
@@ -157,13 +154,15 @@ namespace ClassCluster
 		}
 
 		public static Vector operator +(Vector left, Vector right) => new(left.X + right.X, left.Y + right.Y);
-		public static Vector operator +(Vector v, double scalar) => new(v.X + scalar, v.Y + scalar);
 		public static Vector operator -(Vector left, Vector right) => new(left.X - right.X, left.Y - right.Y);
-		public static Vector operator -(Vector v, double scalar) => new(v.X - scalar, v.Y - scalar);
 		public static Vector operator -(Vector v) => new(-v.X, -v.Y);
 
 		public static Vector operator *(Vector v, double scalar) => new(v.X * scalar, v.Y * scalar);
 		public static double operator *(Vector v1, Vector v2) => Dot(v1, v2);
-		public static Vector operator /(Vector v, double scalar) => new(v.X / scalar, v.Y / scalar);
+		public static Vector operator /(Vector v, double scalar)
+		{
+			if (scalar == 0) throw new DivideByZeroException();
+			return new(v.X / scalar, v.Y / scalar);
+		}
 	}
 }

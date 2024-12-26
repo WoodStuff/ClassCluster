@@ -1,7 +1,4 @@
-﻿using ClassCluster;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace ClassClusterTests;
+﻿namespace ClassCluster.Tests;
 
 [TestClass]
 public class PointTests
@@ -32,7 +29,7 @@ public class PointTests
 	}
 
 	[TestMethod]
-	public void Equality_ReturnsTrueForSameValues()
+	public void Equality_ReturnsTrue_ForSameValues()
 	{
 		Point p1 = new(6, -8);
 		Point p2 = new(6, -8);
@@ -40,11 +37,18 @@ public class PointTests
 	}
 
 	[TestMethod]
-	public void Equality_ReturnsFalseForDifferentValues()
+	public void Equality_ReturnsFalse_ForDifferentValues()
 	{
 		Point p1 = new(6, -8);
 		Point p2 = new(7, -8);
 		Assert.AreNotEqual(p1, p2);
+	}
+
+	[TestMethod]
+	public void Equality_ReturnsFalse_ForNull()
+	{
+		Point p1 = new(6, -8);
+		Assert.AreNotEqual(null, p1);
 	}
 
 	[TestMethod]
@@ -150,6 +154,13 @@ public class PointTests
 		Point p1 = new(20, 15);
 		Point result = p1 / -5;
 		Assert.AreEqual(new(-4, -3), result);
+	}
+
+	[TestMethod]
+	public void Division_ByZero_ThrowsError()
+	{
+		Point p1 = new(20, 15);
+		Assert.ThrowsException<DivideByZeroException>(() => _ = p1 / 0);
 	}
 
 	[TestMethod]

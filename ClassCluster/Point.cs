@@ -143,5 +143,9 @@ public class Point(double x, double y) : IObject2D
 	public static Point operator -(Point p, Vector v) => new(p.X - v.X, p.Y - v.Y);
 	public static Point operator -(Point p) => new(-p.X, -p.Y);
 	public static Point operator *(Point p, double scalar) => new(p.X * scalar, p.Y * scalar);
-	public static Point operator /(Point p, double scalar) => new(p.X / scalar, p.Y / scalar);
+	public static Point operator /(Point p, double scalar)
+	{
+		if (scalar == 0) throw new DivideByZeroException();
+		return new(p.X / scalar, p.Y / scalar);
+	}
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassCluster", "ClassCluster\ClassCluster.csproj", "{4E3682E5-CBB3-4DFB-A573-497B57AF164C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassClusterTests", "ClassClusterTests\ClassClusterTests.csproj", "{F91141C0-008F-4A91-9A9D-0B6EDA68AC79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassCluster.Tests", "ClassClusterTests\ClassCluster.Tests.csproj", "{F91141C0-008F-4A91-9A9D-0B6EDA68AC79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
