@@ -1,4 +1,6 @@
-﻿namespace ClassCluster;
+﻿using ClassCluster.Interfaces;
+
+namespace ClassCluster;
 
 /// <summary>
 /// Represents a 2D point.
@@ -84,11 +86,8 @@ public class Point(double x, double y) : IObject2D
 	public Point ToNormalized()
 	{
 		double length = DistanceFromOrigin();
-		if (length != 0)
-		{
-			return new(X / length, Y / length);
-		}
-		return this;
+		if (length == 0) return this;
+		return new(X / length, Y / length);
 	}
 
 	/// <summary>
@@ -98,17 +97,12 @@ public class Point(double x, double y) : IObject2D
 	public void Normalize()
 	{
 		double length = DistanceFromOrigin();
-		if (length != 0)
-		{
-			X /= length;
-			Y /= length;
-		}
+		if (length == 0) return;
+		X /= length;
+		Y /= length;
 	}
 
-	public override string ToString()
-	{
-		return $"({X}, {Y})";
-	}
+	public override string ToString() => $"({X}, {Y})";
 	public override bool Equals(object? obj)
 	{
 		if (obj == null || GetType() != obj.GetType())
@@ -117,7 +111,7 @@ public class Point(double x, double y) : IObject2D
 		}
 
 		Point other = (Point)obj;
-		return Math.Abs(X - other.X) < 0.000001 && Math.Abs(Y - other.Y) < 0.000001;
+		return Math.Abs(X - other.X) < 1e-6 && Math.Abs(Y - other.Y) < 1e-6;
 	}
 	public override int GetHashCode()
 	{

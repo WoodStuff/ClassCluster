@@ -3,6 +3,7 @@
 [TestClass]
 public class VectorTests
 {
+	#region Constructor Tests
 	[TestMethod]
 	public void Constructor_InitializesProperties()
 	{
@@ -19,7 +20,9 @@ public class VectorTests
 		Assert.AreEqual(1, v1.X);
 		Assert.AreEqual(2.5, v1.Y);
 	}
+	#endregion
 
+	#region Equality Tests
 	[TestMethod]
 	public void Equality_ReturnsTrue_ForSameValues()
 	{
@@ -42,7 +45,9 @@ public class VectorTests
 		Vector v1 = new(6, -8);
 		Assert.AreNotEqual(null, v1);
 	}
+	#endregion
 
+	#region Operator Tests
 	[TestMethod]
 	public void Addition_ReturnsCorrectSum()
 	{
@@ -60,7 +65,7 @@ public class VectorTests
 	}
 
 	[TestMethod]
-	public void Addition_LeavesVectorUnchangedWithOrigin()
+	public void Addition_LeavesVectorUnchanged_WithZeroVector()
 	{
 		Vector v1 = new(5, 8);
 		Assert.AreEqual(v1, v1 + Vector.Zero);
@@ -101,6 +106,14 @@ public class VectorTests
 	}
 
 	[TestMethod]
+	public void Inverse_LeavesZeroVectorUnchanged()
+	{
+		Vector v1 = Vector.Zero;
+		Vector result = -v1;
+		Assert.AreEqual(v1, result);
+	}
+
+	[TestMethod]
 	public void Multiplication_ReturnsCorrectProduct()
 	{
 		Vector v1 = new(2, 5);
@@ -122,6 +135,14 @@ public class VectorTests
 		Vector v1 = new(2, 5);
 		Vector result = v1 * -3;
 		Assert.AreEqual(new(-6, -15), result);
+	}
+
+	[TestMethod]
+	public void Multiplication_ReturnsZeroVector_WhenMultiplyingByZero()
+	{
+		Vector v1 = new(2, 5);
+		Vector result = v1 * 0;
+		Assert.AreEqual(Vector.Zero, result);
 	}
 
 	[TestMethod]
@@ -154,7 +175,9 @@ public class VectorTests
 		Point v1 = new(20, 15);
 		Assert.ThrowsException<DivideByZeroException>(() => _ = v1 / 0);
 	}
+	#endregion
 
+	#region Method Tests
 	[TestMethod]
 	public void Magnitude_ReturnsCorrectMagnitude()
 	{
@@ -376,4 +399,5 @@ public class VectorTests
 		Vector rotated = v1.RotatedBy(Math.PI, Angles.Radians);
 		Assert.AreEqual(-v1, rotated);
 	}
+	#endregion
 }

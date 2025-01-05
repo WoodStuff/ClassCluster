@@ -3,6 +3,7 @@
 [TestClass]
 public class PointTests
 {
+	#region Constructor Tests
 	[TestMethod]
 	public void Constructor_InitializesProperties()
 	{
@@ -27,7 +28,9 @@ public class PointTests
 		Assert.AreEqual(1, p1.X);
 		Assert.AreEqual(2.5, p1.Y);
 	}
+	#endregion
 
+	#region Equality Tests
 	[TestMethod]
 	public void Equality_ReturnsTrue_ForSameValues()
 	{
@@ -50,7 +53,9 @@ public class PointTests
 		Point p1 = new(6, -8);
 		Assert.AreNotEqual(null, p1);
 	}
+	#endregion
 
+	#region Operator Tests
 	[TestMethod]
 	public void Addition_ReturnsCorrectSum()
 	{
@@ -68,7 +73,7 @@ public class PointTests
 	}
 
 	[TestMethod]
-	public void Addition_LeavesPointUnchangedWithOrigin()
+	public void Addition_LeavesPointUnchanged_WithOrigin()
 	{
 		Point p1 = new(5, 8);
 		Assert.AreEqual(p1, p1 + Point.Origin);
@@ -109,6 +114,14 @@ public class PointTests
 	}
 
 	[TestMethod]
+	public void Inverse_LeavesOriginUnchanged()
+	{
+		Point p1 = Point.Origin;
+		Point result = -p1;
+		Assert.AreEqual(p1, result);
+	}
+
+	[TestMethod]
 	public void Multiplication_ReturnsCorrectProduct()
 	{
 		Point p1 = new(2, 5);
@@ -130,6 +143,14 @@ public class PointTests
 		Point p1 = new(2, 5);
 		Point result = p1 * -3;
 		Assert.AreEqual(new(-6, -15), result);
+	}
+
+	[TestMethod]
+	public void Multiplication_ReturnsOrigin_WhenMultiplyingByZero()
+	{
+		Point p1 = new(2, 5);
+		Point result = p1 * 0;
+		Assert.AreEqual(Point.Origin, result);
 	}
 
 	[TestMethod]
@@ -162,7 +183,9 @@ public class PointTests
 		Point p1 = new(20, 15);
 		Assert.ThrowsException<DivideByZeroException>(() => _ = p1 / 0);
 	}
+	#endregion
 
+	#region Method Tests
 	[TestMethod]
 	public void DistanceFromOrigin_ReturnsCorrectDistance_AtPositiveCoordinates()
 	{
@@ -317,4 +340,5 @@ public class PointTests
 
 		Assert.AreEqual(p1, p2);
 	}
+	#endregion
 }

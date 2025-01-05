@@ -122,10 +122,7 @@
 			Y = rotated.Y;
 		}
 
-		public override string ToString()
-		{
-			return $"[{X}, {Y}]";
-		}
+		public override string ToString() => $"[{X}, {Y}]";
 		public override bool Equals(object? obj)
 		{
 			if (obj == null || GetType() != obj.GetType())

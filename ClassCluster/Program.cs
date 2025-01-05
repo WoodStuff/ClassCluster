@@ -8,9 +8,8 @@ class Program
 {
 	public static void Main()
 	{
-		Vector v1 = new(0, 0);
-		Vector v2 = new(0, 0);
-		double angle = Vector.AngleBetween(v1, v2);
-		Console.WriteLine(angle);
+		Line l1 = new((1, 1), (2, 3));
+		l1.P2 = (1, 1);
+		Console.WriteLine(l1.Slope);
 	}
 }

@@ -1,10 +1,15 @@
-﻿namespace ClassCluster;
+﻿using ClassCluster.Interfaces;
+
+namespace ClassCluster;
 
 /// <summary>
 /// Represents an unbounded 2D line.
 /// </summary>
 public class Line : IObject2D
 {
+	private Point _p1;
+	private Point _p2;
+
 	/// <summary>
 	/// A horizontal line on the X axis.
 	/// </summary>
@@ -16,35 +21,44 @@ public class Line : IObject2D
 	/// <summary>
 	/// The first anchor point for the line.
 	/// </summary>
-	public Point P1 { get; set; }
+	public Point P1
+	{
+		get { return _p1; }
+		set { _p1 = value; }
+	}
 	/// <summary>
 	/// The second anchor point for the line.
 	/// </summary>
-	public Point P2 { get; set; }
+	public Point P2
+	{
+		get { return _p2; }
+		set { _p2 = value; }
+	}
 
 	public Line(Point p1, Point p2)
 	{
-		if (p1 == p2) throw new ArgumentException("Cannot create a line with two same points");
-		P1 = p1;
-		P2 = p2;
+		_p1 = p1;
+		_p2 = p2;
 	}
 	public Line(Point point)
 	{
-		if (point == Point.Origin) throw new ArgumentException("Cannot create a line with two same points");
-		P1 = Point.Origin;
-		P2 = point;
-	}
-	public Line(double s, double i)
-	{
-		P1 = new(0, i);
-		P2 = new(1, s + i);
+		_p1 = Point.Origin;
+		_p2 = point;
 	}
 	public Line(double p1x, double p1y, double p2x, double p2y)
 	{
-		P1 = new(p1x, p1y);
-		P2 = new(p2x, p2y);
+		_p1 = new(p1x, p1y);
+		_p2 = new(p2x, p2y);
+	}
+	public Line(double s, double i)
+	{
+		_p1 = new(0, i);
+		_p2 = new(1, s + i);
 	}
 
+	/// <summary>
+	/// The rate of change of the line. An increase in X by 1 adds to the Y by the slope.
+	/// </summary>
 	public double Slope
 	{
 		get
@@ -55,11 +69,14 @@ public class Line : IObject2D
 			return slope;
 		}
 	}
+	/// <summary>
+	/// The Y at which the line intersects the Y axis.
+	/// </summary>
 	public double YIntercept
 	{
 		get
 		{
-			if (IsVertical())
+			if (IsVertical)
 			{
 				double p = P1.X;
 				if (p == 0) return 0;
@@ -69,11 +86,14 @@ public class Line : IObject2D
 			return P1.Y - Slope * P1.X;
 		}
 	}
+	/// <summary>
+	/// The X at which the line intersects the X axis.
+	/// </summary>
 	public double XIntercept
 	{
 		get
 		{
-			if (IsHorizontal())
+			if (IsHorizontal)
 			{
 				double p = P1.Y;
 				if (p == 0) return 0;
@@ -83,29 +103,23 @@ public class Line : IObject2D
 			return -YIntercept / Slope;
 		}
 	}
-
 	/// <summary>
 	/// Checks if the line is straight horizontal.
 	/// </summary>
-	/// <returns>Result of the check.</returns>
-	public bool IsHorizontal()
-	{
-		return Slope == 0;
-	}
+	/// <returns>If the line has slope equal to 0.</returns>
+	public bool IsHorizontal => Slope == 0;
 	/// <summary>
 	/// Checks if the line is straight vertical.
 	/// </summary>
-	/// <returns>Result of the check.</returns>
-	public bool IsVertical()
-	{
-		return Slope == double.PositiveInfinity;
-	}
+	/// <returns>If the line has +infinity slope.</returns>
+	public bool IsVertical => Slope == double.PositiveInfinity;
+
 	/// <summary>
 	/// Checks if the line is parallel to another line.
 	/// </summary>
 	/// <param name="other">The line to check parallelness.</param>
 	/// <returns>Result of the check.</returns>
-	public bool IsParallel(Line other)
+	public bool IsParallelTo(Line other)
 	{
 		return Slope == other.Slope;
 	}
@@ -115,17 +129,19 @@ public class Line : IObject2D
 	/// <param name="l1">The first line to check parallelness of.</param>
 	/// <param name="l2">The second line to check parallelness of.</param>
 	/// <returns>Result of the check.</returns>
-	public static bool IsParallel(Line l1, Line l2)
+	public static bool AreParallel(Line l1, Line l2)
 	{
-		return l1.IsParallel(l2);
+		return l1.IsParallelTo(l2);
 	}
 	/// <summary>
 	/// Checks if the line is perpendicular to another line.
 	/// </summary>
 	/// <param name="other">The line to check perpendicularness.</param>
 	/// <returns>Result of the check.</returns>
-	public bool IsPerpendicular(Line other)
+	public bool IsPerpendicularTo(Line other)
 	{
+		if (IsHorizontal) return other.IsVertical;
+		if (IsVertical) return other.IsHorizontal;
 		return Slope * other.Slope == -1;
 	}
 	/// <summary>
@@ -134,9 +150,9 @@ public class Line : IObject2D
 	/// <param name="l1">The first line to check perpendicularness of.</param>
 	/// <param name="l2">The second line to check perpendicularness of.</param>
 	/// <returns>Result of the check.</returns>
-	public static bool IsPerpendicular(Line l1, Line l2)
+	public static bool ArePerpendicular(Line l1, Line l2)
 	{
-		return l1.IsPerpendicular(l2);
+		return l1.IsPerpendicularTo(l2);
 	}
 	/// <summary>
 	/// Checks if the line contains a point.
@@ -145,8 +161,8 @@ public class Line : IObject2D
 	/// <returns>If the line includes the point.</returns>
 	public bool Contains(Point p)
 	{
-		if (IsVertical()) return p.X == P1.X;
-		return Math.Round(PointAtX(p.X)!.Y, 6) == p.Y;
+		if (IsVertical) return p.X == P1.X;
+		return PointAtX(p.X)! == p;
 	}
 	/// <summary>
 	/// Gets the point at the specified x coordinate.
@@ -155,8 +171,8 @@ public class Line : IObject2D
 	/// <returns>The point that is contained by the line at the specified x coordinate.</returns>
 	public Point? PointAtX(double x)
 	{
-		if (IsVertical()) return null;
-		if (IsHorizontal()) return new(x, P1.Y);
+		if (IsVertical) return null;
+		if (IsHorizontal) return new(x, P1.Y);
 		return new(x, Slope * x + YIntercept);
 	}
 	/// <summary>
@@ -166,8 +182,8 @@ public class Line : IObject2D
 	/// <returns>The point that is contained by the line at the specified y coordinate.</returns>
 	public Point? PointAtY(double y)
 	{
-		if (IsHorizontal()) return null;
-		if (IsVertical()) return new(P1.X, y);
+		if (IsHorizontal) return null;
+		if (IsVertical) return new(P1.X, y);
 		return new((y - YIntercept) / Slope, y);
 	}
 	/// <summary>
@@ -177,7 +193,7 @@ public class Line : IObject2D
 	/// <returns>A point representing the intersection.</returns>
 	public Point? Intersection(Line other)
 	{
-		if (IsParallel(other)) return null;
+		if (IsParallelTo(other)) return null;
 
 		double xIntersection = (other.YIntercept - YIntercept) / (Slope - other.Slope);
 		double yIntersection = PointAtX(xIntersection)!.Y;
@@ -188,6 +204,7 @@ public class Line : IObject2D
 	/// Moves the line to pass through the origin.
 	/// </summary>
 	/// <param name="p2">By default the first anchor point will be moved to (0, 0). This should be set to true if the second anchor point is to be moved to the origin.</param>
+	/// <param name="normalize">If the other point should be normalized.</param>
 	/// <returns>The line passing through the origin.</returns>
 	public Line ToOrigin(bool p2 = false, bool normalize = false)
 	{
@@ -199,6 +216,15 @@ public class Line : IObject2D
 		}
 		return l;
 	}
+	/// <summary>
+	/// Creates a line parallel to this one that passes through a given point.
+	/// </summary>
+	/// <param name="p">The point the line must pass through.</param>
+	/// <returns>A new parallel line passing through the point p.</returns>
+	public Line ParallelThrough(Point p)
+	{
+		return new Line(p, p + P2 - P1);
+	}
 
 	/// <summary>
 	/// Clones the line with the same anchor points.
@@ -209,15 +235,7 @@ public class Line : IObject2D
 		return (Line)MemberwiseClone();
 	}
 
-	public static Line Parallel(Line l, Point p)
-	{
-		return new Line(p, p + l.P2 - l.P1);
-	}
-
-	public override string ToString()
-	{
-		return $"-{P1}--{P2}-";
-	}
+	public override string ToString() => $"-{P1}--{P2}-";
 	public override bool Equals(object? obj)
 	{
 		if (obj == null || GetType() != obj.GetType())
@@ -226,8 +244,8 @@ public class Line : IObject2D
 		}
 
 		Line other = (Line)obj;
-		double inter = IsVertical() ? PointAtY(0)!.X : YIntercept;
-		double otherInter = other.IsVertical() ? other.PointAtY(0)!.X : other.YIntercept;
+		double inter = IsVertical ? PointAtY(0)!.X : YIntercept;
+		double otherInter = other.IsVertical ? other.PointAtY(0)!.X : other.YIntercept;
 		return Math.Abs(Slope - other.Slope) < 0.000001 && Math.Abs(inter - otherInter) < 0.000001;
 	}
 	public override int GetHashCode()

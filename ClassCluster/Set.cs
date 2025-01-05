@@ -17,7 +17,8 @@ public class Set : IEnumerable<double>
 	{
 		num = [];
 	}
-	public Set(params double[] n)
+	public Set(params double[] n) : this((IEnumerable<double>)n) { }
+	public Set(IEnumerable<double> n)
 	{
 		num = new(n);
 	}
@@ -204,22 +205,6 @@ public class Set : IEnumerable<double>
 			if (Contains(n)) num.Remove(n);
 		}
 	}
-	/// <summary>
-	/// Adds a value to every number in the set.
-	/// </summary>
-	/// <param name="value">The value to add.</param>
-	public void AddToAll(double value)
-	{
-		num = new HashSet<double>(num.Select(x => x + value));
-	}
-	/// <summary>
-	/// Multiplies every value in the set by a scalar.
-	/// </summary>
-	/// <param name="scalar">The scalar to multiply by.</param>
-	public void MultiplyAll(double scalar)
-	{
-		num = new HashSet<double>(num.Select(x => x * scalar));
-	}
 
 	/// <summary>
 	/// Clones the set with the same numbers.
@@ -235,16 +220,20 @@ public class Set : IEnumerable<double>
 	public override string ToString()
 	{
 		if (num.Count == 0) return "{}";
+
 		List<double> sortedList = new(num);
 		sortedList.Sort();
 		string s = string.Join(", ", sortedList);
+
 		return $"{{{s}}}";
 	}
 	public override bool Equals(object? obj)
 	{
-		if (obj == null || GetType() != obj.GetType()) return false;
+		if (obj == null || GetType() != obj.GetType()) return false; // must be a set
+
 		Set otherSet = (Set)obj;
-		if (num.Count != otherSet.num.Count) return false;
+		if (num.Count != otherSet.num.Count) return false; // must have same amount of elements
+
 		foreach (double n in this)
 		{
 			if (!otherSet.Contains(n)) return false;
