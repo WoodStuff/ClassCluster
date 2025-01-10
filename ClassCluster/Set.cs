@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClassCluster.Interfaces;
+using System.Collections;
 
 namespace ClassCluster;
 
@@ -21,10 +22,6 @@ public class Set : IEnumerable<double>
 	public Set(IEnumerable<double> n)
 	{
 		num = new(n);
-	}
-	public Set(Set t)
-	{
-		num = t.num;
 	}
 	public Set(HashSet<double> s)
 	{
@@ -128,27 +125,6 @@ public class Set : IEnumerable<double>
 		return final;
 	}
 	/// <summary>
-	/// Creates an intersection of two sets.
-	/// </summary>
-	/// <param name="other">The set to intersect with.</param>
-	public Set Intersection(Set other)
-	{
-		Set final = Clone();
-		final.Intersect(other);
-		return final;
-	}
-	/// <summary>
-	/// Creates an intersection of two sets.
-	/// </summary>
-	/// <param name="s1">The first set.</param>
-	/// <param name="s2">The second set.</param>
-	public static Set Intersection(Set s1, Set s2)
-	{
-		Set final = s1.Clone();
-		final.Intersect(s2);
-		return final;
-	}
-	/// <summary>
 	/// Creates a difference of two sets.
 	/// </summary>
 	/// <param name="other">The set to remove.</param>
@@ -169,6 +145,27 @@ public class Set : IEnumerable<double>
 		final.Remove(s2);
 		return final;
 	}
+	/// <summary>
+	/// Creates an intersection of two sets.
+	/// </summary>
+	/// <param name="other">The set to intersect with.</param>
+	public Set Intersection(Set other)
+	{
+		Set final = Clone();
+		final.Keep(other);
+		return final;
+	}
+	/// <summary>
+	/// Creates an intersection of two sets.
+	/// </summary>
+	/// <param name="s1">The first set.</param>
+	/// <param name="s2">The second set.</param>
+	public static Set Intersection(Set s1, Set s2)
+	{
+		Set final = s1.Clone();
+		final.Keep(s2);
+		return final;
+	}
 
 	/// <summary>
 	/// Adds values to the set.
@@ -182,19 +179,6 @@ public class Set : IEnumerable<double>
 		}
 	}
 	/// <summary>
-	/// Removes values from the set that aren't in the other.
-	/// </summary>
-	/// <param name="values">The values to keep.</param>
-	public void Intersect(params IEnumerable<double> values)
-	{
-		Set final = [];
-		foreach (double n in this)
-		{
-			if (values.Contains(n)) final.Add(n);
-		}
-		num = final.num;
-	}
-	/// <summary>
 	/// Removes the values from the set. The set doesn't get changed if it doesn't contain the value.
 	/// </summary>
 	/// <param name="value">The value to remove.</param>
@@ -204,6 +188,19 @@ public class Set : IEnumerable<double>
 		{
 			if (Contains(n)) num.Remove(n);
 		}
+	}
+	/// <summary>
+	/// Removes values from the set that aren't in the other.
+	/// </summary>
+	/// <param name="values">The values to keep.</param>
+	public void Keep(params IEnumerable<double> values)
+	{
+		Set final = [];
+		foreach (double n in this)
+		{
+			if (values.Contains(n)) final.Add(n);
+		}
+		num = final.num;
 	}
 
 	/// <summary>
@@ -265,13 +262,13 @@ public class Set : IEnumerable<double>
 		addedSet.Add(value);
 		return addedSet;
 	}
+	public static Set operator +(Set s1, Set s2) => Union(s1, s2);
 	public static Set operator -(Set s, double value)
 	{
 		Set subSet = s.Clone();
 		subSet.Remove(value);
 		return subSet;
 	}
-	public static Set operator +(Set s1, Set s2) => Union(s1, s2);
 	public static Set operator -(Set s1, Set s2) => Difference(s1, s2);
 	public static Set operator *(Set s1, Set s2) => Intersection(s1, s2);
 	public static int operator ~(Set s) => s.Count;

@@ -67,6 +67,26 @@ public class LineTests
 
 	#region Property Tests
 	[TestMethod]
+	public void AnchorPoints_AreChangeable()
+	{
+		Line l1 = new((1, 2), (3, 4))
+		{
+			P1 = (-5, 4),
+			P2 = (7, -2)
+		};
+		Assert.AreEqual((-5, 4), l1.P1);
+		Assert.AreEqual((7, -2), l1.P2);
+	}
+
+	[TestMethod]
+	public void AnchorPoints_WhenChangedToEqualTheOther_ThrowsError()
+	{
+		Line l1 = new((1, 2), (3, 4));
+		Assert.ThrowsException<ArgumentException>(() => l1.P1 = (3, 4));
+		Assert.ThrowsException<ArgumentException>(() => l1.P2 = (1, 2));
+	}
+
+	[TestMethod]
 	public void Slope_CalculatesCorrectSlope()
 	{
 		Line l1 = new((1, 3), (2, 5));

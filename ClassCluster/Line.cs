@@ -23,38 +23,35 @@ public class Line : IObject2D
 	/// </summary>
 	public Point P1
 	{
-		get { return _p1; }
-		set { _p1 = value; }
+		get => _p1;
+		set {
+			if (value == _p2) throw new ArgumentException("A line cannot have two same anchor points");
+			_p1 = value;
+		}
 	}
 	/// <summary>
 	/// The second anchor point for the line.
 	/// </summary>
 	public Point P2
 	{
-		get { return _p2; }
-		set { _p2 = value; }
+		get => _p2;
+		set
+		{
+			if (value == _p1) throw new ArgumentException("A line cannot have two same anchor points");
+			_p2 = value;
+		}
 	}
 
 	public Line(Point p1, Point p2)
 	{
+		if (p1 == p2)
+			throw new ArgumentException("A line cannot have two same anchor points");
 		_p1 = p1;
 		_p2 = p2;
 	}
-	public Line(Point point)
-	{
-		_p1 = Point.Origin;
-		_p2 = point;
-	}
-	public Line(double p1x, double p1y, double p2x, double p2y)
-	{
-		_p1 = new(p1x, p1y);
-		_p2 = new(p2x, p2y);
-	}
-	public Line(double s, double i)
-	{
-		_p1 = new(0, i);
-		_p2 = new(1, s + i);
-	}
+	public Line(Point point) : this(Point.Origin, point) { }
+	public Line(double p1x, double p1y, double p2x, double p2y) : this(new Point(p1x, p1y), new Point(p2x, p2y)) { }
+	public Line(double s, double i) : this(new Point(0, i), new Point(1, s + i)) { }
 
 	/// <summary>
 	/// The rate of change of the line. An increase in X by 1 adds to the Y by the slope.

@@ -22,6 +22,20 @@ public class VectorTests
 	}
 	#endregion
 
+	#region Property Tests
+	[TestMethod]
+	public void Coordinates_AreChangeable()
+	{
+		Vector v1 = new(1, 2.5)
+		{
+			X = -6.5,
+			Y = -3
+		};
+		Assert.AreEqual(-6.5, v1.X);
+		Assert.AreEqual(-3, v1.Y);
+	}
+	#endregion
+
 	#region Equality Tests
 	[TestMethod]
 	public void Equality_ReturnsTrue_ForSameValues()

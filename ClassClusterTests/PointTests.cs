@@ -30,6 +30,20 @@ public class PointTests
 	}
 	#endregion
 
+	#region Property Tests
+	[TestMethod]
+	public void Coordinates_AreChangeable()
+	{
+		Point p1 = new(1, 2.5)
+		{
+			X = -6.5,
+			Y = -3
+		};
+		Assert.AreEqual(-6.5, p1.X);
+		Assert.AreEqual(-3, p1.Y);
+	}
+	#endregion
+
 	#region Equality Tests
 	[TestMethod]
 	public void Equality_ReturnsTrue_ForSameValues()

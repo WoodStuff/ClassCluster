@@ -1,14 +1,19 @@
 ﻿namespace ClassCluster;
 
-// to be moved into Angle class
+/// <summary>
+/// Specifies an angle unit.
+/// </summary>
 public enum Angles
 {
 	Degrees,
 	Radians,
 }
-// to be moved into Plane class
-public enum Axes
+/// <summary>
+/// Specifies a point's relative position to a figure.
+/// </summary>
+public enum Position
 {
-	X,
-	Y,
+	Outside,
+	On,
+	Inside,
 }

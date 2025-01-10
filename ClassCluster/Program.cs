@@ -8,8 +8,9 @@ class Program
 {
 	public static void Main()
 	{
-		Line l1 = new((1, 1), (2, 3));
-		l1.P2 = (1, 1);
-		Console.WriteLine(l1.Slope);
+		Boundary<double> b1 = 5;
+
+		Console.WriteLine(b1.Value);
+		Console.WriteLine(b1.Closed);
 	}
 }
