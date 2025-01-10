@@ -1,3 +1,5 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace ClassCluster.Tests;
 
 [TestClass]
@@ -7,11 +9,11 @@ public class SetTests
 	[TestMethod]
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0028:Simplify collection initialization")]
 	public void Constructor_InitializesEmptySet_WithNoArguments()
-    {
-        Set s1 = new();
+	{
+		Set s1 = new();
 
-        Assert.AreEqual(0, s1.Count);
-    }
+		Assert.AreEqual(0, s1.Count);
+	}
 
 	[TestMethod]
 	public void Constructor_InitializesSet()
@@ -47,6 +49,16 @@ public class SetTests
 	}
 	#endregion
 
+	#region Property Tests
+	[TestMethod]
+	public void EmptySet_HasCorrectProperties()
+	{
+		Set s1 = [];
+		Assert.AreEqual(0, s1.Count);
+		Assert.IsTrue(s1.IsEmpty);
+	}
+	#endregion
+
 	#region Containment Tests
 	[TestMethod]
 	public void Contains_ReturnsTrue_ForElementInSet()
@@ -78,6 +90,78 @@ public class SetTests
 		Assert.IsFalse(s1.Contains(-1));
 		Assert.IsFalse(s1.Contains(0));
 		Assert.IsFalse(s1.Contains(1));
+	}
+
+	[TestMethod]
+	public void Subset_ReturnsTrue_WithSubsetOfOriginalSet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [2, 3, 4];
+
+		Assert.IsTrue(s1.Subset(s2));
+	}
+
+	[TestMethod]
+	public void Subset_ReturnsTrue_ForIdenticalSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [1, 2, 3, 4, 5];
+
+		Assert.IsTrue(s1.Subset(s2));
+	}
+
+	[TestMethod]
+	public void Subset_ReturnsFalse_WithSetWithoutCommonElements()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [6, 7, 8];
+
+		Assert.IsFalse(s1.Subset(s2));
+	}
+
+	[TestMethod]
+	public void Subset_ReturnsFalse_WithIntersectingSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [3, 4, 5, 6, 7];
+
+		Assert.IsFalse(s1.Subset(s2));
+	}
+
+	[TestMethod]
+	public void Subset_ReturnsFalse_WithSupersetOfOriginalSet()
+	{
+		Set s1 = [2, 3, 4];
+		Set s2 = [1, 2, 3, 4, 5];
+
+		Assert.IsFalse(s1.Subset(s2));
+	}
+
+	[TestMethod]
+	public void ProperSubset_ReturnsTrue_WithSubsetOfOriginalSet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [2, 3, 4];
+
+		Assert.IsTrue(s1.ProperSubset(s2));
+	}
+
+	[TestMethod]
+	public void ProperSubset_ReturnsFalse_ForIdenticalSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [1, 2, 3, 4, 5];
+
+		Assert.IsFalse(s1.ProperSubset(s2));
+	}
+
+	[TestMethod]
+	public void ProperSubset_ReturnsFalse_WithIntersectingSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [3, 4, 5, 6, 7];
+
+		Assert.IsFalse(s1.ProperSubset(s2));
 	}
 	#endregion
 
@@ -567,6 +651,65 @@ public class SetTests
 		int count = ~s1;
 
 		Assert.AreEqual(0, count);
+	}
+	#endregion
+
+	#region Element Finding Method Tests
+	[TestMethod]
+	public void Min_ReturnsSmallestValue()
+	{
+		Set s1 = [2, 4, 1.5, -4, 7, 0];
+
+		double result = s1.Min();
+
+		Assert.AreEqual(-4, result);
+	}
+
+	[TestMethod]
+	public void Min_ReturnsNaN_ForEmptySet()
+	{
+		Set s1 = [];
+
+		double result = s1.Min();
+
+		Assert.IsTrue(double.IsNaN(result));
+	}
+
+	[TestMethod]
+	public void Max_ReturnsLargestValue()
+	{
+		Set s1 = [2, 4, 1.5, -4, 7, 0];
+
+		double result = s1.Max();
+
+		Assert.AreEqual(7, result);
+	}
+
+	[TestMethod]
+	public void Max_ReturnsNaN_ForEmptySet()
+	{
+		Set s1 = [];
+
+		double result = s1.Max();
+
+		Assert.IsTrue(double.IsNaN(result));
+	}
+	#endregion
+
+	#region Iteration Tests
+	[TestMethod]
+	public void Iteration_LoopsThroughEachElement()
+	{
+		Set s1 = [2, 3, 5, 7, 11];
+
+		int i = 0;
+		foreach (double element in s1)
+		{
+			Assert.IsTrue(s1.Contains(element), "Foreach loop iterated through an element not in set.");
+			i++;
+		}
+
+		Assert.AreEqual(s1.Count, i, "Foreach loop did not loop through each element in set.");
 	}
 	#endregion
 }

@@ -28,7 +28,14 @@ public class Set : IEnumerable<double>
 		num = s;
 	}
 
+	/// <summary>
+	/// The number of elements in the set.
+	/// </summary>
 	public int Count => num.Count;
+	/// <summary>
+	/// Checks if the set is empty.
+	/// </summary>
+	public bool IsEmpty => Count == 0;
 
 	/// <summary>
 	/// Checks if the set contains a number.
@@ -65,14 +72,6 @@ public class Set : IEnumerable<double>
 			if (!Contains(n)) return false;
 		}
 		return true;
-	}
-	/// <summary>
-	/// Checks if the set is empty.
-	/// </summary>
-	/// <returns>If the set has 0 elements.</returns>
-	public bool IsEmpty()
-	{
-		return Count == 0;
 	}
 
 	/// <summary>
