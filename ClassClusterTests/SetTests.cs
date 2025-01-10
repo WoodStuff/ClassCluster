@@ -1,5 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace ClassCluster.Tests;
 
 [TestClass]
@@ -121,6 +119,7 @@ public class SetTests
 	}
 	#endregion
 
+	#region Element Control Method Tests
 	[TestMethod]
 	public void Add_AddsNumberToSet()
 	{
@@ -180,7 +179,7 @@ public class SetTests
 	public void Add_HandlesSetArgumentProperly()
 	{
 		Set s1 = [1, 2, 4, 6];
-		Set s2 = [3, 4, 5, 6, 5];
+		Set s2 = [3, 4, 5, 6];
 		s1.Add(s2);
 
 		Assert.IsTrue(s1.Contains(3));
@@ -237,11 +236,337 @@ public class SetTests
 	public void Remove_HandlesSetArgumentProperly()
 	{
 		Set s1 = [1, 2, 4, 6];
-		Set s2 = [3, 4, 5, 6, 4];
+		Set s2 = [3, 4, 5, 6];
 		s1.Remove(s2);
 
 		Assert.IsFalse(s1.Contains(4));
 		Assert.IsFalse(s1.Contains(6));
 		Assert.AreEqual(2, s1.Count);
 	}
+
+	[TestMethod]
+	public void Keep_RemovesNumbersFromSet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		s1.Keep(2);
+
+		Assert.AreEqual(s1, [2]);
+	}
+
+	[TestMethod]
+	public void Keep_KeepsMultipleNumbers()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		s1.Keep(2, 3, 5);
+
+		Assert.AreEqual(s1, [2, 3, 5]);
+	}
+
+	[TestMethod]
+	public void Keep_EmptiesSet_WhenKeepingNumbersNotInSet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		s1.Keep(6, 7, 8);
+
+		Assert.AreEqual(s1, []);
+	}
+
+	[TestMethod]
+	public void Keep_KeepsMultipleNumbers_WithMixedDuplicates()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		s1.Keep(2, 3, 4, 6, 4);
+
+		Assert.AreEqual(s1, [2, 3, 4]);
+	}
+
+	[TestMethod]
+	public void Keep_HandlesSetArgumentProperly()
+	{
+		Set s1 = [1, 2, 3, 4];
+		Set s2 = [3, 4, 5, 6];
+		s1.Keep(s2);
+
+		Assert.AreEqual(s1, [3, 4]);
+	}
+	#endregion
+
+	#region Set Combining Method Tests
+	[TestMethod]
+	public void Union_ReturnsCombinedSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [6, 7, 8];
+
+		Set result = s1.Union(s2);
+		Set expected = [1, 2, 3, 4, 5, 6, 7, 8];
+
+		Assert.AreEqual(expected, result);
+	}
+
+	[TestMethod]
+	public void Union_OmitsDuplicates()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [3, 4, 5, 6, 7];
+
+		Set result = s1.Union(s2);
+		Set expected = [1, 2, 3, 4, 5, 6, 7];
+
+		Assert.AreEqual(expected, result);
+	}
+
+	[TestMethod]
+	public void Union_ReturnsOriginalSet_WithEmptySet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [];
+
+		Set result = s1.Union(s2);
+
+		Assert.AreEqual(s1, result);
+	}
+
+	[TestMethod]
+	public void Union_ReturnsOriginalSet_WithSubset()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [2, 3, 5];
+
+		Set result = s1.Union(s2);
+
+		Assert.AreEqual(s1, result);
+	}
+
+	[TestMethod]
+	public void Union_ReturnsOriginalSet_WithSelf()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+
+		Set result = s1.Union(s1);
+
+		Assert.AreEqual(s1, result);
+	}
+
+	[TestMethod]
+	public void Union_ReturnsEmptySet_WithTwoEmptySets()
+	{
+		Set s1 = [];
+		Set s2 = [];
+
+		Set result = s1.Union(s2);
+
+		Assert.AreEqual([], result);
+	}
+
+	[TestMethod]
+	public void Difference_ReturnsDifferenceOfSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [2, 3, 5];
+
+		Set result = s1.Difference(s2);
+		Set expected = [1, 4];
+
+		Assert.AreEqual(expected, result);
+	}
+
+	[TestMethod]
+	public void Difference_OmitsElementsNotInSet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [2, 3, 5, 7, 11];
+
+		Set result = s1.Difference(s2);
+		Set expected = [1, 4];
+
+		Assert.AreEqual(expected, result);
+	}
+
+	[TestMethod]
+	public void Difference_ReturnsOriginalSet_WithEmptySet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [];
+
+		Set result = s1.Difference(s2);
+
+		Assert.AreEqual(s1, result);
+	}
+
+	[TestMethod]
+	public void Difference_ReturnsOriginalSet_WithSetWithoutCommonElements()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [6, 7, 8];
+
+		Set result = s1.Difference(s2);
+
+		Assert.AreEqual(s1, result);
+	}
+
+	[TestMethod]
+	public void Difference_ReturnsEmptySet_WithSelf()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+
+		Set result = s1.Difference(s1);
+
+		Assert.AreEqual([], result);
+
+	}
+
+	[TestMethod]
+	public void Difference_ReturnsEmptySet_WithTwoEmptySets()
+	{
+		Set s1 = [];
+		Set s2 = [];
+
+		Set result = s1.Difference(s2);
+
+		Assert.AreEqual([], result);
+	}
+
+	[TestMethod]
+	public void Intersection_ReturnsIntersectionOfSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [3, 4, 5, 6, 7];
+
+		Set result = s1.Intersection(s2);
+		Set expected = [3, 4, 5];
+
+		Assert.AreEqual(expected, result);
+	}
+
+	[TestMethod]
+	public void Intersection_ReturnsOriginalSet_WithSuperset()
+	{
+		Set s1 = [2, 3, 4];
+		Set s2 = [1, 2, 3, 4, 5];
+		
+		Set result = s1.Intersection(s2);
+
+		Assert.AreEqual(s1, result);
+	}
+
+	[TestMethod]
+	public void Intersection_ReturnsOriginalSet_WithSelf()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+
+		Set result = s1.Intersection(s1);
+		
+		Assert.AreEqual(s1, result);
+	}
+
+	[TestMethod]
+	public void Intersection_ReturnsEmptySet_WithSetWithoutCommonElements()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [];
+
+		Set result = s1.Intersection(s2);
+
+		Assert.AreEqual([], result);
+	}
+
+	[TestMethod]
+	public void Intersection_ReturnsEmptySet_WithEmptySet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [];
+
+		Set result = s1.Intersection(s2);
+
+		Assert.AreEqual([], result);
+	}
+
+	[TestMethod]
+	public void Intersection_ReturnsEmptySet_WithTwoEmptySets()
+	{
+		Set s1 = [];
+		Set s2 = [];
+
+		Set result = s1.Intersection(s2);
+
+		Assert.AreEqual([], result);
+	}
+	#endregion
+
+	#region Operator Tests
+	[TestMethod]
+	public void AdditionOperator_WithDouble_AddsNumberToSet()
+	{
+		Set s1 = [2, 3];
+		Set s2 = s1 + 8;
+
+		Assert.AreEqual([2, 3, 8], s2);
+	}
+
+	[TestMethod]
+	public void AdditionOperator_WithSet_CombinesSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [3, 4, 5, 6, 7];
+
+		Set result = s1 + s2;
+		Set expected = [1, 2, 3, 4, 5, 6, 7];
+
+		Assert.AreEqual(expected, result);
+	}
+
+	[TestMethod]
+	public void SubtractionOperator_WithDouble_RemovesNumberFromSet()
+	{
+		Set s1 = [2, 3, 8];
+		Set s2 = s1 - 8;
+
+		Assert.AreEqual([2, 3], s2);
+	}
+
+	[TestMethod]
+	public void SubtractionOperator_WithDouble_ReturnsDifferenceOfSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [2, 3, 5, 7, 11];
+
+		Set result = s1 - s2;
+		Set expected = [1, 4];
+
+		Assert.AreEqual(expected, result);
+	}
+
+	[TestMethod]
+	public void MultiplicationOperator_ReturnsIntersectionOfSets()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Set s2 = [3, 4, 5, 6, 7];
+
+		Set result = s1 * s2;
+		Set expected = [3, 4, 5];
+
+		Assert.AreEqual(expected, result);
+	}
+
+	[TestMethod]
+	public void CountOperator_ReturnsElementCount()
+	{
+		Set s1 = [2, 3, 5, 7, 11];
+
+		int count = ~s1;
+
+		Assert.AreEqual(5, count);
+	}
+
+	[TestMethod]
+	public void CountOperator_ReturnsZero_ForEmptySet()
+	{
+		Set s1 = [];
+
+		int count = ~s1;
+
+		Assert.AreEqual(0, count);
+	}
+	#endregion
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace ClassCluster.Tests;
+﻿namespace ClassCluster.Tests;
 
 [TestClass]
 public class LineTests

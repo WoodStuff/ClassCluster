@@ -9,7 +9,7 @@ namespace ClassCluster;
 public class Set : IEnumerable<double>
 {
 	/// <summary>
-	/// An empty tuple.
+	/// An empty set.
 	/// </summary>n
 	public static Set Empty => [];
 	private HashSet<double> num;
