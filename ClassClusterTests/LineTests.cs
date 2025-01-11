@@ -77,7 +77,7 @@ public class LineTests
 	}
 
 	[TestMethod]
-	public void AnchorPoints_WhenChangedToEqualTheOther_ThrowsError()
+	public void AnchorPoints_WhenChangedToEqualTheOther_ThrowError()
 	{
 		Line l1 = new((1, 2), (3, 4));
 		Assert.ThrowsException<ArgumentException>(() => l1.P1 = (3, 4));
