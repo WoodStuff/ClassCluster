@@ -185,7 +185,7 @@ public class SetTests
 	}
 
 	[TestMethod]
-	public void Equality_ReturnsTrue_ForSetsWithDifferentLengths()
+	public void Equality_ReturnsFalse_ForSetsWithDifferentLengths()
 	{
 		Set s1 = [-3, 2, 8, 4.5];
 		Set s2 = [-3, 2, 8, 4.5, -5.2];
@@ -194,7 +194,7 @@ public class SetTests
 	}
 
 	[TestMethod]
-	public void Equality_ReturnsTrue_ForSetsWithDifferentElements()
+	public void Equality_ReturnsFalse_ForSetsWithDifferentElements()
 	{
 		Set s1 = [-3, 2, 8, 4.5, -5];
 		Set s2 = [-3, 2, 8, 4.5, -5.2];
