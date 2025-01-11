@@ -711,5 +711,18 @@ public class SetTests
 
 		Assert.AreEqual(s1.Count, i, "Foreach loop did not loop through each element in set.");
 	}
+
+	[TestMethod]
+	public void Iteration_LoopsFromSmallestToLargest()
+	{
+		Set s1 = [5, -2, 4.2, 0, -26.5];
+
+		double previous = double.NegativeInfinity;
+		foreach (double element in s1)
+		{
+			Assert.IsTrue(element > previous, "Foreach loop did not loop through elements in correct order.");
+			previous = element;
+		}
+	}
 	#endregion
 }

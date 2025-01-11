@@ -272,12 +272,6 @@ public class Set : IEnumerable<double>
 	public static Set operator *(Set s1, Set s2) => Intersection(s1, s2);
 	public static int operator ~(Set s) => s.Count;
 
-	public IEnumerator<double> GetEnumerator()
-	{
-		return num.GetEnumerator();
-	}
-	IEnumerator IEnumerable.GetEnumerator()
-	{
-		return GetEnumerator();
-	}
+	public IEnumerator<double> GetEnumerator() => num.Order().GetEnumerator();
+	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
