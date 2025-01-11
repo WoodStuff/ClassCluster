@@ -57,6 +57,133 @@ public class SetTests
 		Assert.AreEqual(0, s1.Count);
 		Assert.IsTrue(s1.IsEmpty);
 	}
+
+	[TestMethod]
+	public void NonEmptySet_IsNotEmpty()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+		Assert.IsFalse(s1.IsEmpty);
+	}
+
+	[TestMethod]
+	public void Min_ReturnsSmallestValue()
+	{
+		Set s1 = [2, 4, 1.5, -4, 7, 0];
+
+		double result = s1.Min;
+
+		Assert.AreEqual(-4, result);
+	}
+
+	[TestMethod]
+	public void Min_ReturnsNaN_ForEmptySet()
+	{
+		Set s1 = [];
+
+		double result = s1.Min;
+
+		Assert.IsTrue(double.IsNaN(result));
+	}
+
+	[TestMethod]
+	public void Max_ReturnsLargestValue()
+	{
+		Set s1 = [2, 4, 1.5, -4, 7, 0];
+
+		double result = s1.Max;
+
+		Assert.AreEqual(7, result);
+	}
+
+	[TestMethod]
+	public void Max_ReturnsNaN_ForEmptySet()
+	{
+		Set s1 = [];
+
+		double result = s1.Max;
+
+		Assert.IsTrue(double.IsNaN(result));
+	}
+
+	[TestMethod]
+	public void Range_ReturnsCorrectValue_ForTwoValues()
+	{
+		Set s1 = [6, -7.5];
+
+		double result = s1.Range;
+
+		Assert.AreEqual(13.5, result);
+	}
+
+	[TestMethod]
+	public void Range_ReturnsCorrectValue_ForMoreThanTwoValues()
+	{
+		Set s1 = [2, 3, 5, 7, 11];
+
+		double result = s1.Range;
+
+		Assert.AreEqual(9, result);
+	}
+
+	[TestMethod]
+	public void Range_ReturnsZero_ForSingleValue()
+	{
+		Set s1 = [4.5];
+
+		double result = s1.Range;
+
+		Assert.AreEqual(0, result);
+	}
+
+	[TestMethod]
+	public void Range_ReturnsNaN_ForEmptySet()
+	{
+		Set s1 = [];
+
+		double result = s1.Range;
+
+		Assert.IsTrue(double.IsNaN(result));
+	}
+
+	[TestMethod]
+	public void Sum_CalculatesCorrectSum()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+
+		double result = s1.Sum;
+
+		Assert.AreEqual(15, result);
+	}
+
+	[TestMethod]
+	public void Sum_ReturnsZero_ForEmptySet()
+	{
+		Set s1 = [];
+
+		double result = s1.Sum;
+
+		Assert.AreEqual(0, result);
+	}
+
+	[TestMethod]
+	public void Average_CalculatesCorrectAverage()
+	{
+		Set s1 = [2, 3, 4, 5];
+
+		double result = s1.Average;
+
+		Assert.AreEqual(3.5, result);
+	}
+
+	[TestMethod]
+	public void Average_ReturnsNaN_ForEmptySet()
+	{
+		Set s1 = [];
+
+		double result = s1.Average;
+
+		Assert.IsTrue(double.IsNaN(result));
+	}
 	#endregion
 
 	#region Containment Tests
@@ -651,48 +778,6 @@ public class SetTests
 		int count = ~s1;
 
 		Assert.AreEqual(0, count);
-	}
-	#endregion
-
-	#region Element Finding Method Tests
-	[TestMethod]
-	public void Min_ReturnsSmallestValue()
-	{
-		Set s1 = [2, 4, 1.5, -4, 7, 0];
-
-		double result = s1.Min();
-
-		Assert.AreEqual(-4, result);
-	}
-
-	[TestMethod]
-	public void Min_ReturnsNaN_ForEmptySet()
-	{
-		Set s1 = [];
-
-		double result = s1.Min();
-
-		Assert.IsTrue(double.IsNaN(result));
-	}
-
-	[TestMethod]
-	public void Max_ReturnsLargestValue()
-	{
-		Set s1 = [2, 4, 1.5, -4, 7, 0];
-
-		double result = s1.Max();
-
-		Assert.AreEqual(7, result);
-	}
-
-	[TestMethod]
-	public void Max_ReturnsNaN_ForEmptySet()
-	{
-		Set s1 = [];
-
-		double result = s1.Max();
-
-		Assert.IsTrue(double.IsNaN(result));
 	}
 	#endregion
 

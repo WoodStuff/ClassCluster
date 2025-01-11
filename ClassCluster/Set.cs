@@ -1,5 +1,4 @@
-﻿using ClassCluster.Interfaces;
-using System.Collections;
+﻿using System.Collections;
 
 namespace ClassCluster;
 
@@ -38,6 +37,38 @@ public class Set : IEnumerable<double>
 	public bool IsEmpty => Count == 0;
 
 	/// <summary>
+	/// Returns the smallest value in the set.
+	/// </summary>
+	public double Min => IsEmpty ? double.NaN : this.First();
+	/// <summary>
+	/// Returns the largest value in the set.
+	/// </summary>
+	public double Max => IsEmpty ? double.NaN : this.Last();
+	/// <summary>
+	/// Calculates the range of the set - the difference between the largest and smallest values.
+	/// </summary>
+	public double Range => Max - Min;
+	/// <summary>
+	/// Adds up all the values in the set.
+	/// </summary>
+	public double Sum
+	{
+		get
+		{
+			double sum = 0;
+			foreach (double n in this)
+			{
+				sum += n;
+			}
+			return sum;
+		}
+	}
+	/// <summary>
+	/// Calculates the average value in the set.
+	/// </summary>
+	public double Average => Sum / Count;
+
+	/// <summary>
 	/// Checks if the set contains a number.
 	/// </summary>
 	/// <param name="value">The value to check for.</param>
@@ -74,34 +105,6 @@ public class Set : IEnumerable<double>
 		return true;
 	}
 
-	/// <summary>
-	/// Finds the smallest value in the set.
-	/// </summary>
-	/// <returns>The lowest value.</returns>
-	public double Min()
-	{
-		if (Count == 0) return double.NaN;
-		double lowest = double.PositiveInfinity;
-		foreach (double n in this)
-		{
-			if (n < lowest) lowest = n;
-		}
-		return lowest;
-	}
-	/// <summary>
-	/// Finds the largest value in the set.
-	/// </summary>
-	/// <returns>The highest value.</returns>
-	public double Max()
-	{
-		if (Count == 0) return double.NaN;
-		double lowest = double.NegativeInfinity;
-		foreach (double n in this)
-		{
-			if (n > lowest) lowest = n;
-		}
-		return lowest;
-	}
 	/// <summary>
 	/// Creates an union of two sets.
 	/// </summary>
@@ -242,6 +245,8 @@ public class Set : IEnumerable<double>
 		foreach (double number in num) hash = hash * 31 + number.GetHashCode();
 		return hash;
 	}
+
+	//public static explicit operator double[](Set s1) => ;
 
 	public static bool operator true(Set s) => s.Count > 0;
 	public static bool operator false(Set s) => s.Count == 0;
