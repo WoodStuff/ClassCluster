@@ -28,6 +28,26 @@ public class Set : IEnumerable<double>
 	}
 
 	/// <summary>
+	/// Creates a set containing all numbers in a range.
+	/// </summary>
+	/// <param name="start">The value to start at, inclusive.</param>
+	/// <param name="end">The value to end at, inclusive depending on the step.</param>
+	/// <param name="step">The difference between each value in the set. Must be positive.</param>
+	/// <returns>A set containing numbers starting at <paramref name="start"/> and ending at <paramref name="end"/>, with the specified <paramref name="step"/> between each value.</returns>
+	public static Set FromRange(double start, double end, double step = 1)
+	{
+		if (start > end) throw new ArgumentException("Start cannot be bigger than end.");
+		if (step <= 0) throw new ArgumentException("Step must be positive.");
+
+		Set set = [];
+		for (double i = start; i <= end; i += step)
+		{ 
+			set.Add(i);
+		}
+		return set;
+	}
+
+	/// <summary>
 	/// The number of elements in the set.
 	/// </summary>
 	public int Count => num.Count;
@@ -242,11 +262,9 @@ public class Set : IEnumerable<double>
 	public override int GetHashCode()
 	{
 		int hash = 17;
-		foreach (double number in num) hash = hash * 31 + number.GetHashCode();
+		foreach (double number in this) hash = hash * 31 + number.GetHashCode();
 		return hash;
 	}
-
-	//public static explicit operator double[](Set s1) => ;
 
 	public static bool operator true(Set s) => s.Count > 0;
 	public static bool operator false(Set s) => s.Count == 0;
@@ -275,6 +293,9 @@ public class Set : IEnumerable<double>
 	}
 	public static Set operator -(Set s1, Set s2) => Difference(s1, s2);
 	public static Set operator *(Set s1, Set s2) => Intersection(s1, s2);
+	/// <summary>
+	/// Returns the element count of the set.
+	/// </summary>
 	public static int operator ~(Set s) => s.Count;
 
 	public IEnumerator<double> GetEnumerator() => num.Order().GetEnumerator();
