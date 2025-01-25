@@ -5,29 +5,38 @@ namespace ClassCluster;
 /// <summary>
 /// Represents a 2D point.
 /// </summary>
-public class Point(double x, double y) : IObject2D
+public class Point : IObject2D
 {
+	private const double Tolerance = 1e-6;
+
+	private double _x;
+	private double _y;
+
 	/// <summary>
 	/// The point at (0, 0).
 	/// </summary>
-	public static Point Origin => (0, 0);
+	public static readonly Point Origin = new(0, 0);
+
 	/// <summary>
 	/// The X position of the point.
 	/// </summary>
-	public double X { get; set; } = x;
+	public double X { get => _x; }
 	/// <summary>
 	/// The Y position of the point.
 	/// </summary>
-	public double Y { get; set; } = y;
+	public double Y { get => _y; }
+
+	public Point(double x, double y)
+	{
+		_x = x;
+		_y = y;
+	}
 
 	/// <summary>
 	/// Calculates the point's euclidean distance from the origin (the point at (0, 0)).
 	/// </summary>
 	/// <returns>A double representing the euclidean distance.</returns>
-	public double DistanceFromOrigin()
-	{
-		return Math.Sqrt(X * X + Y * Y);
-	}
+	public double DistanceFromOrigin => Math.Sqrt(X * X + Y * Y);
 	/// <summary>
 	/// Calculates the point's euclidean distance from another point.
 	/// </summary>
@@ -53,10 +62,7 @@ public class Point(double x, double y) : IObject2D
 	/// Calculates the point's taxicab distance from the origin (the point at (0, 0)).
 	/// </summary>
 	/// <returns>A double representing the taxicab distance.</returns>
-	public double GridDistFromOrigin()
-	{
-		return Math.Abs(X) + Math.Abs(Y);
-	}
+	public double GridDistFromOrigin => Math.Abs(X) + Math.Abs(Y);
 	/// <summary>
 	/// Calculates the point's taxicab distance from another point.
 	/// </summary>
@@ -81,11 +87,12 @@ public class Point(double x, double y) : IObject2D
 	/// <summary>
 	/// Normalizes the point as if it was a vector.
 	/// Shortens the point to have a length of 1 while maintaining the direction and returns it.
+	/// Returns the origin if the given point is the origin.
 	/// </summary>
-	/// <returns>The normalized point.</returns>
+	/// <returns>The normalized point</returns>
 	public Point ToNormalized()
 	{
-		double length = DistanceFromOrigin();
+		double length = DistanceFromOrigin;
 		if (length == 0) return this;
 		return new(X / length, Y / length);
 	}
@@ -93,13 +100,14 @@ public class Point(double x, double y) : IObject2D
 	/// <summary>
 	/// Normalizes the point as if it was a vector.
 	/// Shortens the point to have a length of 1 while maintaining the direction.
+	/// Returns the origin if the given point is the origin.
 	/// </summary>
 	public void Normalize()
 	{
-		double length = DistanceFromOrigin();
+		double length = DistanceFromOrigin;
 		if (length == 0) return;
-		X /= length;
-		Y /= length;
+		_x /= length;
+		_y /= length;
 	}
 
 	public override string ToString() => $"({X}, {Y})";
@@ -111,16 +119,13 @@ public class Point(double x, double y) : IObject2D
 		}
 
 		Point other = (Point)obj;
-		return Math.Abs(X - other.X) < 1e-6 && Math.Abs(Y - other.Y) < 1e-6;
+		return Math.Abs(X - other.X) < Tolerance && Math.Abs(Y - other.Y) < Tolerance;
 	}
-	public override int GetHashCode()
-	{
-		return HashCode.Combine(X, Y);
-	}
+	public override int GetHashCode() => HashCode.Combine(X, Y);
 
 	public static implicit operator Point((double x, double y) tuple) => new(tuple.x, tuple.y);
 	public static explicit operator Point(Vector v) => new(v.X, v.Y);
-
+	
 	public static bool operator ==(Point left, Point right)
 	{
 		if (left is null) return right is null;
@@ -137,9 +142,10 @@ public class Point(double x, double y) : IObject2D
 	public static Point operator -(Point p, Vector v) => new(p.X - v.X, p.Y - v.Y);
 	public static Point operator -(Point p) => new(-p.X, -p.Y);
 	public static Point operator *(Point p, double scalar) => new(p.X * scalar, p.Y * scalar);
+	public static Point operator *(double scalar, Point p) => p * scalar;
 	public static Point operator /(Point p, double scalar)
 	{
-		if (scalar == 0) throw new DivideByZeroException();
+		if (scalar == 0) throw new DivideByZeroException("Attempted to divide a point by zero.");
 		return new(p.X / scalar, p.Y / scalar);
 	}
 }

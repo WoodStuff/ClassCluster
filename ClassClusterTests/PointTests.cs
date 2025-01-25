@@ -32,15 +32,51 @@ public class PointTests
 
 	#region Property Tests
 	[TestMethod]
-	public void Coordinates_AreChangeable()
+	public void DistanceFromOrigin_ReturnsCorrectDistance_AtPositiveCoordinates()
 	{
-		Point p1 = new(1, 2.5)
-		{
-			X = -6.5,
-			Y = -3
-		};
-		Assert.AreEqual(-6.5, p1.X);
-		Assert.AreEqual(-3, p1.Y);
+		Point p1 = new(3, 4);
+		double distance = p1.DistanceFromOrigin;
+		Assert.AreEqual(5, distance);
+	}
+
+	[TestMethod]
+	public void DistanceFromOrigin_ReturnsCorrectDistance_AtNegativeCoordinates()
+	{
+		Point p1 = new(-3, -4);
+		double distance = p1.DistanceFromOrigin;
+		Assert.AreEqual(5, distance);
+	}
+
+	[TestMethod]
+	public void DistanceFromOrigin_ReturnsCorrectDistance_WhenPointIsOnAxis()
+	{
+		Point p1 = new(0, 5);
+		double distance = p1.DistanceFromOrigin;
+		Assert.AreEqual(5, distance);
+	}
+
+	[TestMethod]
+	public void GridDistFromOrigin_ReturnsCorrectDistance_AtPositiveCoordinates()
+	{
+		Point p1 = new(3, 6);
+		double distance = p1.GridDistFromOrigin;
+		Assert.AreEqual(9, distance);
+	}
+
+	[TestMethod]
+	public void GridDistFromOrigin_ReturnsCorrectDistance_AtNegativeCoordinates()
+	{
+		Point p1 = new(-3, -6);
+		double distance = p1.GridDistFromOrigin;
+		Assert.AreEqual(9, distance);
+	}
+
+	[TestMethod]
+	public void GridDistFromOrigin_ReturnsCorrectDistance_WhenPointIsOnAxis()
+	{
+		Point p1 = new(9, 0);
+		double distance = p1.GridDistFromOrigin;
+		Assert.AreEqual(9, distance);
 	}
 	#endregion
 
@@ -195,35 +231,11 @@ public class PointTests
 	public void Division_ByZero_ThrowsError()
 	{
 		Point p1 = new(20, 15);
-		Assert.ThrowsException<DivideByZeroException>(() => _ = p1 / 0);
+		Assert.ThrowsException<DivideByZeroException>(() => p1 / 0);
 	}
 	#endregion
 
 	#region Method Tests
-	[TestMethod]
-	public void DistanceFromOrigin_ReturnsCorrectDistance_AtPositiveCoordinates()
-	{
-		Point p1 = new(3, 4);
-		double distance = p1.DistanceFromOrigin();
-		Assert.AreEqual(5, distance);
-	}
-
-	[TestMethod]
-	public void DistanceFromOrigin_ReturnsCorrectDistance_AtNegativeCoordinates()
-	{
-		Point p1 = new(-3, -4);
-		double distance = p1.DistanceFromOrigin();
-		Assert.AreEqual(5, distance);
-	}
-
-	[TestMethod]
-	public void DistanceFromOrigin_ReturnsCorrectDistance_WhenPointIsOnAxis()
-	{
-		Point p1 = new(0, 5);
-		double distance = p1.DistanceFromOrigin();
-		Assert.AreEqual(5, distance);
-	}
-
 	[TestMethod]
 	public void DistanceToPoint_ReturnsCorrectDistance()
 	{
@@ -255,33 +267,9 @@ public class PointTests
 	public void DistanceFromOrigin_IsEquivalentToDistanceToOriginPoint()
 	{
 		Point p1 = new(3, 4);
-		double d1 = p1.DistanceFromOrigin();
+		double d1 = p1.DistanceFromOrigin;
 		double d2 = p1.Distance(Point.Origin);
 		Assert.AreEqual(d1, d2);
-	}
-
-	[TestMethod]
-	public void GridDistFromOrigin_ReturnsCorrectDistance_AtPositiveCoordinates()
-	{
-		Point p1 = new(3, 6);
-		double distance = p1.GridDistFromOrigin();
-		Assert.AreEqual(9, distance);
-	}
-
-	[TestMethod]
-	public void GridDistFromOrigin_ReturnsCorrectDistance_AtNegativeCoordinates()
-	{
-		Point p1 = new(-3, -6);
-		double distance = p1.GridDistFromOrigin();
-		Assert.AreEqual(9, distance);
-	}
-
-	[TestMethod]
-	public void GridDistFromOrigin_ReturnsCorrectDistance_WhenPointIsOnAxis()
-	{
-		Point p1 = new(9, 0);
-		double distance = p1.GridDistFromOrigin();
-		Assert.AreEqual(9, distance);
 	}
 
 	[TestMethod]
@@ -315,7 +303,7 @@ public class PointTests
 	public void GridDistFromOrigin_IsEquivalentToDistanceToOriginPoint()
 	{
 		Point p1 = new(7, 2);
-		double d1 = p1.GridDistFromOrigin();
+		double d1 = p1.GridDistFromOrigin;
 		double d2 = p1.GridDist(Point.Origin);
 		Assert.AreEqual(d1, d2);
 	}

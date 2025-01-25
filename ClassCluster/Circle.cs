@@ -21,14 +21,13 @@ public class Circle : IFigure2D
 		get => _radius;
 		set
 		{
-			if (value <= 0) throw new ArgumentException("Radius must be positive");
+			if (value <= 0 || double.IsNaN(value)) throw new ArgumentException("Radius must be positive");
 			_radius = value;
 		}
 	}
 
 	public Circle(Point center, double radius)
 	{
-		if (radius <= 0) throw new ArgumentException("Radius must be positive");
 		Center = center;
 		Radius = radius;
 	}
@@ -37,15 +36,27 @@ public class Circle : IFigure2D
 	/// <summary>
 	/// The diameter of the edge - twice the radius.
 	/// </summary>
-	public double Diameter => Radius * 2;
+	public double Diameter
+	{
+		get => Radius * 2;
+		set => Radius = value / 2;
+	}
 	/// <summary>
 	/// The circumference of the circle.
 	/// </summary>
-	public double Circumference => Radius * Math.Tau;
+	public double Circumference
+	{
+		get => Radius * Math.Tau;
+		set => Radius = value / Math.Tau;
+	}
 	/// <summary>
 	/// The area of the circle.
 	/// </summary>
-	public double Area => Radius * Radius * Math.PI;
+	public double Area
+	{
+		get => Radius * Radius * Math.PI;
+		set => Radius = Math.Sqrt(value / Math.PI);
+	}
 
 	/// <summary>
 	/// Calculates a point's signed distance from the circle.
@@ -57,6 +68,10 @@ public class Circle : IFigure2D
 	{
 		return p.Distance(Center) - Radius;
 	}
+	/*public Point PointAtAngle(double angle, Angles type)
+	{
+		angle = Utils.ConvertAngle(type, angle, Angles.Radians);
+	}*/
 	/// <summary>
 	/// Finds the relative position of a point to the circle.
 	/// </summary>
@@ -85,4 +100,19 @@ public class Circle : IFigure2D
 	{
 		return HashCode.Combine(Center, Radius);
 	}
+
+	public static bool operator ==(Circle left, Circle right)
+	{
+		if (left is null) return right is null;
+		return left.Equals(right);
+	}
+	public static bool operator !=(Circle left, Circle right)
+	{
+		return !(left == right);
+	}
+
+	public static Circle operator +(Circle c, Vector v) => new(c.Center + v, c.Radius);
+	public static Circle operator +(Circle c, double n) => new(c.Center, c.Radius + n);
+	public static Circle operator -(Circle c, Vector v) => new(c.Center - v, c.Radius);
+	public static Circle operator -(Circle c, double n) => new(c.Center, c.Radius - n);
 }

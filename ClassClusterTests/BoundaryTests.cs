@@ -35,10 +35,10 @@ public class BoundaryTests
 	[TestMethod]
 	public void Constructor_ThrowsError_WhenValueIsInfiniteAndClosed()
 	{
-		Assert.ThrowsException<ArgumentException>(() => _ = new Boundary<double>(double.PositiveInfinity, true));
-		Assert.ThrowsException<ArgumentException>(() => _ = new Boundary<double>(double.NegativeInfinity, true));
-		Assert.ThrowsException<ArgumentException>(() => _ = new Boundary<float>(float.PositiveInfinity, true));
-		Assert.ThrowsException<ArgumentException>(() => _ = new Boundary<float>(float.NegativeInfinity, true));
+		Assert.ThrowsException<ArgumentException>(() => new Boundary<double>(double.PositiveInfinity, true));
+		Assert.ThrowsException<ArgumentException>(() => new Boundary<double>(double.NegativeInfinity, true));
+		Assert.ThrowsException<ArgumentException>(() => new Boundary<float>(float.PositiveInfinity, true));
+		Assert.ThrowsException<ArgumentException>(() => new Boundary<float>(float.NegativeInfinity, true));
 	}
 
 	[TestMethod]

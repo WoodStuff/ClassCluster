@@ -15,7 +15,7 @@ public class LineTests
 	[TestMethod]
 	public void Constructor_FromTwoPoints_WithSamePoints_ThrowsError()
 	{
-		Assert.ThrowsException<ArgumentException>(() => _ = new Line((1, 2), (1, 2)));
+		Assert.ThrowsException<ArgumentException>(() => new Line((1, 2), (1, 2)));
 	}
 
 	[TestMethod]
@@ -29,7 +29,7 @@ public class LineTests
 	[TestMethod]
 	public void Constructor_FromSinglePoint_WithOrigin_ThrowsError()
 	{
-		Assert.ThrowsException<ArgumentException>(() => _ = new Line(Point.Origin));
+		Assert.ThrowsException<ArgumentException>(() => new Line(Point.Origin));
 	}
 
 	[TestMethod]
@@ -43,7 +43,7 @@ public class LineTests
 	[TestMethod]
 	public void Constructor_FromCoordinates_WithSamePoints_ThrowsError()
 	{
-		Assert.ThrowsException<ArgumentException>(() => _ = new Line(1, 2, 1, 2));
+		Assert.ThrowsException<ArgumentException>(() => new Line(1, 2, 1, 2));
 	}
 
 	[TestMethod]

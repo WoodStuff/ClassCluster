@@ -779,6 +779,23 @@ public class SetTests
 
 		Assert.AreEqual(0, count);
 	}
+
+	[TestMethod]
+	public void Boolean_ReturnsTrue_ForNonEmptySet()
+	{
+		Set s1 = [1, 2, 3, 4, 5];
+
+		if (s1) { /* passed */ }
+		else { Assert.Fail("Non-empty set returned false."); }
+	}
+
+	[TestMethod]
+	public void Boolean_ReturnsFalse_ForEmptySet()
+	{
+		Set s1 = [];
+
+		if (s1) { Assert.Fail("Empty set returned false."); }
+	}
 	#endregion
 
 	#region Iteration Tests

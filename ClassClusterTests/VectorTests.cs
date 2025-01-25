@@ -23,16 +23,35 @@ public class VectorTests
 	#endregion
 
 	#region Property Tests
-	[TestMethod]
-	public void Coordinates_AreChangeable()
+	public void Magnitude_ReturnsCorrectMagnitude()
 	{
-		Vector v1 = new(1, 2.5)
-		{
-			X = -6.5,
-			Y = -3
-		};
-		Assert.AreEqual(-6.5, v1.X);
-		Assert.AreEqual(-3, v1.Y);
+		Vector v1 = new(3, 4);
+		double magnitude = v1.Magnitude;
+		Assert.AreEqual(5, magnitude);
+	}
+
+	[TestMethod]
+	public void Magnitude_ReturnsCorrectMagnitude_AtPositiveCoordinates()
+	{
+		Vector v1 = new(3, 4);
+		double magnitude = v1.Magnitude;
+		Assert.AreEqual(5, magnitude);
+	}
+
+	[TestMethod]
+	public void Magnitude_ReturnsCorrectMagnitude_AtNegativeCoordinates()
+	{
+		Vector v1 = new(-3, -4);
+		double magnitude = v1.Magnitude;
+		Assert.AreEqual(5, magnitude);
+	}
+
+	[TestMethod]
+	public void Magnitude_ReturnsCorrectDistance_WhenPointIsOnAxis()
+	{
+		Vector v1 = new(0, 5);
+		double magnitude = v1.Magnitude;
+		Assert.AreEqual(5, magnitude);
 	}
 	#endregion
 
@@ -187,43 +206,11 @@ public class VectorTests
 	public void Division_ByZero_ThrowsError()
 	{
 		Point v1 = new(20, 15);
-		Assert.ThrowsException<DivideByZeroException>(() => _ = v1 / 0);
+		Assert.ThrowsException<DivideByZeroException>(() => v1 / 0);
 	}
 	#endregion
 
 	#region Method Tests
-	[TestMethod]
-	public void Magnitude_ReturnsCorrectMagnitude()
-	{
-		Vector v1 = new(3, 4);
-		double magnitude = v1.Magnitude;
-		Assert.AreEqual(5, magnitude);
-	}
-
-	[TestMethod]
-	public void Magnitude_ReturnsCorrectMagnitude_AtPositiveCoordinates()
-	{
-		Vector v1 = new(3, 4);
-		double magnitude = v1.Magnitude;
-		Assert.AreEqual(5, magnitude);
-	}
-
-	[TestMethod]
-	public void Magnitude_ReturnsCorrectMagnitude_AtNegativeCoordinates()
-	{
-		Vector v1 = new(-3, -4);
-		double magnitude = v1.Magnitude;
-		Assert.AreEqual(5, magnitude);
-	}
-
-	[TestMethod]
-	public void Magnitude_ReturnsCorrectDistance_WhenPointIsOnAxis()
-	{
-		Vector v1 = new(0, 5);
-		double magnitude = v1.Magnitude;
-		Assert.AreEqual(5, magnitude);
-	}
-
 	[TestMethod]
 	public void Normalize_ReturnsNormalizedVector()
 	{
@@ -363,15 +350,15 @@ public class VectorTests
 	{
 		Vector v1 = new(5, 2);
 		Vector v2 = Vector.Zero;
-		Assert.ThrowsException<InvalidOperationException>(() => _ = v1.AngleBetween(v2));
-		Assert.ThrowsException<InvalidOperationException>(() => _ = v2.AngleBetween(v1));
+		Assert.ThrowsException<InvalidOperationException>(() => v1.AngleBetween(v2));
+		Assert.ThrowsException<InvalidOperationException>(() => v2.AngleBetween(v1));
 	}
 
 	[TestMethod]
 	public void AngleBetween_ThrowsError_WithTwoZeroVectors()
 	{
 		Vector v1 = Vector.Zero;
-		Assert.ThrowsException<InvalidOperationException>(() => _ = v1.AngleBetween(v1));
+		Assert.ThrowsException<InvalidOperationException>(() => v1.AngleBetween(v1));
 	}
 
 	[TestMethod]
