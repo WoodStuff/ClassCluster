@@ -1,5 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace ClassCluster.Tests;
 
 [TestClass]
@@ -362,7 +360,7 @@ public class SetTests
 		Assert.IsTrue(s1.Contains(8));
 		Assert.AreEqual(3, s1.Count);
 	}
-	
+
 	[TestMethod]
 	public void Add_AddsMultipleNumbersToSet()
 	{
@@ -414,7 +412,7 @@ public class SetTests
 		Set s1 = [2, 3];
 		Assert.IsFalse(s1.Contains(8));
 		Assert.AreEqual(2, s1.Count);
-		
+
 		s1.Remove(8);
 		Assert.IsFalse(s1.Contains(8));
 		Assert.AreEqual(2, s1.Count);
@@ -655,7 +653,7 @@ public class SetTests
 	{
 		Set s1 = [2, 3, 4];
 		Set s2 = [1, 2, 3, 4, 5];
-		
+
 		Set result = s1.Intersection(s2);
 
 		Assert.AreEqual(s1, result);
@@ -667,7 +665,7 @@ public class SetTests
 		Set s1 = [1, 2, 3, 4, 5];
 
 		Set result = s1.Intersection(s1);
-		
+
 		Assert.AreEqual(s1, result);
 	}
 
@@ -702,6 +700,59 @@ public class SetTests
 		Set result = s1.Intersection(s2);
 
 		Assert.AreEqual([], result);
+	}
+	#endregion
+
+	#region Set Generation Method Tests
+	[TestMethod]
+	public void FromRange_GeneratesCorrectSet_WithoutStep()
+	{
+		Set s1 = Set.FromRange(3, 7);
+		Set expected = [3, 4, 5, 6, 7];
+
+		Assert.AreEqual(expected, s1);
+	}
+
+	[TestMethod]
+	public void FromRange_GeneratesCorrectSet_WithStep()
+	{
+		Set s1 = Set.FromRange(3, 11, 2);
+		Set expected = [3, 5, 7, 9, 11];
+
+		Assert.AreEqual(expected, s1);
+	}
+
+	[TestMethod]
+	public void FromRange_GeneratesSingleton_WhenStartIsEqualToEnd()
+	{
+		Set s1 = Set.FromRange(7, 7);
+		Set expected = [7];
+
+		Assert.AreEqual(1, s1.Count, "Generated set did not have only one element.");
+		Assert.AreEqual(expected, s1);
+	}
+
+	[TestMethod]
+	public void FromRange_ExcludesEnd_WhenStepSkipsOverEnd()
+	{
+		Set s1 = Set.FromRange(3, 10, 2);
+		Set expected = [3, 5, 7, 9];
+
+		Assert.IsFalse(s1.Contains(10), "Set contained end element when step did not align with it.");
+		Assert.AreEqual(expected, s1);
+	}
+
+	[TestMethod]
+	public void FromRange_ThrowsError_WhenStepIsNotPositive()
+	{
+		Assert.ThrowsException<ArgumentException>(() => Set.FromRange(1, 5, 0), "Set with step 0 was accepted.");
+		Assert.ThrowsException<ArgumentException>(() => Set.FromRange(1, 5, -2), "Set with negative was accepted.");
+	}
+
+	[TestMethod]
+	public void FromRange_ThrowsError_WhenStartIsGreaterThanEnd()
+	{
+		Assert.ThrowsException<ArgumentException>(() => Set.FromRange(5, 1));
 	}
 	#endregion
 
