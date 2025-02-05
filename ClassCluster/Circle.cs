@@ -88,6 +88,9 @@ public class Circle : IFigure2D
 		};
 	}
 
+	// interface members
+	double IFigure2D.Perimeter => Circumference;
+
 	public override string ToString() => $"Circle({Radius}) : {Center}";
 	public override bool Equals(object? obj)
 	{

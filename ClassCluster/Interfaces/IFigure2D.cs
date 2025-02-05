@@ -6,4 +6,5 @@
 internal interface IFigure2D : IObject2D
 {
 	double Area { get; }
+	double Perimeter { get; }
 }
