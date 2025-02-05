@@ -2,6 +2,13 @@
 
 internal static class Utils
 {
+	/// <summary>
+	/// Converts an <paramref name="angle"/> from the <paramref name="input"/> unit into the <paramref name="output"/> unit.
+	/// </summary>
+	/// <param name="input">The angle unit that <paramref name="angle"/> is in.</param>
+	/// <param name="angle">The value of the angle.</param>
+	/// <param name="output">The angle unit to convert the angle into.</param>
+	/// <returns>A double representing the angle in the <paramref name="output"/> unit.</returns>
 	public static double ConvertAngle(Angles input, double angle, Angles output)
 	{
 		if (input == output) return angle;
@@ -20,6 +27,11 @@ internal static class Utils
 		return angleInDegrees;
 	}
 
+	/// <summary>
+	/// Checks if a value is infinite.
+	/// </summary>
+	/// <param name="value">The value to check.</param>
+	/// <returns>If the value is at an infinite coordinate.</returns>
 	public static bool IsInfinity(object? value)
 	{
 		return value switch
