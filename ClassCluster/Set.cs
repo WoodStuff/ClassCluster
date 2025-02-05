@@ -5,7 +5,7 @@ namespace ClassCluster;
 /// <summary>
 /// Represents a set of numbers, which is unordered and can only have one of the same value.
 /// </summary>
-public class Set : IEnumerable<double>
+public class Set : ICollection<double>
 {
 	/// <summary>
 	/// An empty set.
@@ -224,6 +224,16 @@ public class Set : IEnumerable<double>
 		}
 		num = final.num;
 	}
+	/// <summary>
+	/// Removes all elements from the set.
+	/// </summary>
+	public void Clear() => num.Clear();
+	
+	// interface members
+	void ICollection<double>.Add(double value) => num.Add(value);
+	bool ICollection<double>.Remove(double value) => num.Remove(value);
+	bool ICollection<double>.IsReadOnly => false;
+	void ICollection<double>.CopyTo(double[] array, int arrayIndex) => num.CopyTo(array, arrayIndex);
 
 	/// <summary>
 	/// Clones the set with the same numbers.
