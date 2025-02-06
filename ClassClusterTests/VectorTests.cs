@@ -4,55 +4,38 @@
 public class VectorTests
 {
 	#region Constructor Tests
-	[TestMethod]
-	public void Constructor_InitializesProperties()
+	[DataTestMethod]
+	[DataRow(1, 2.5)]
+	[DataRow(-5.2, 0)]
+	public void Constructor_InitializesProperties(double x, double y)
 	{
-		Vector v1 = new(1, 2.5);
-		Assert.AreEqual(1, v1.X);
-		Assert.AreEqual(2.5, v1.Y);
+		Vector v1 = new(x, y);
+		Assert.AreEqual(x, v1.X);
+		Assert.AreEqual(y, v1.Y);
 	}
 
-	[TestMethod]
-	public void PointConstruction_InitializesProperties()
+	[DataTestMethod]
+	[DataRow(1, 2.5)]
+	[DataRow(-5.2, 0)]
+	public void PointConstruction_InitializesProperties(double x, double y)
 	{
-		Point p1 = new(1, 2.5);
+		Point p1 = new(x, y);
 		Vector v1 = (Vector)p1;
-		Assert.AreEqual(1, v1.X);
-		Assert.AreEqual(2.5, v1.Y);
+		Assert.AreEqual(x, v1.X);
+		Assert.AreEqual(y, v1.Y);
 	}
 	#endregion
 
 	#region Property Tests
-	[TestMethod]
-	public void Magnitude_ReturnsCorrectMagnitude()
+	[DataTestMethod]
+	[DataRow(3, 4, 5)]
+	[DataRow(-3, -4, 5)]
+	[DataRow(0, 5, 5)]
+	public void Magnitude_ReturnsCorrectMagnitude(double x, double y, double expected)
 	{
-		Vector v1 = new(3, 4);
+		Vector v1 = new(x, y);
 		double magnitude = v1.Magnitude;
-		Assert.AreEqual(5, magnitude);
-	}
-
-	[TestMethod]
-	public void Magnitude_ReturnsCorrectMagnitude_AtPositiveCoordinates()
-	{
-		Vector v1 = new(3, 4);
-		double magnitude = v1.Magnitude;
-		Assert.AreEqual(5, magnitude);
-	}
-
-	[TestMethod]
-	public void Magnitude_ReturnsCorrectMagnitude_AtNegativeCoordinates()
-	{
-		Vector v1 = new(-3, -4);
-		double magnitude = v1.Magnitude;
-		Assert.AreEqual(5, magnitude);
-	}
-
-	[TestMethod]
-	public void Magnitude_ReturnsCorrectDistance_WhenPointIsOnAxis()
-	{
-		Vector v1 = new(0, 5);
-		double magnitude = v1.Magnitude;
-		Assert.AreEqual(5, magnitude);
+		Assert.AreEqual(expected, magnitude);
 	}
 	#endregion
 
@@ -82,20 +65,14 @@ public class VectorTests
 	#endregion
 
 	#region Operator Tests
-	[TestMethod]
-	public void Addition_ReturnsCorrectSum()
+	[DataTestMethod]
+	[DataRow(1, 1.5, 3.2, 6)]
+	[DataRow(1, -7.2, -4.5, 8)]
+	public void Addition_ReturnsCorrectSum(double x1, double y1, double x2, double y2)
 	{
-		Vector v1 = new(1, 1.5);
-		Vector v2 = new(3.2, 6);
-		Assert.AreEqual(new(4.2, 7.5), v1 + v2);
-	}
-
-	[TestMethod]
-	public void Addition_HandlesNegativeCoordinatesProperly()
-	{
-		Vector v1 = new(1, -7.2);
-		Vector v2 = new(-4.5, 8);
-		Assert.AreEqual(new(-3.5, 0.8), v1 + v2);
+		Vector v1 = new(x1, y1);
+		Vector v2 = new(x2, y2);
+		Assert.AreEqual(new(x1 + x2, y1 + y2), v1 + v2);
 	}
 
 	[TestMethod]
@@ -106,20 +83,14 @@ public class VectorTests
 		Assert.AreEqual(v1, Vector.Zero + v1);
 	}
 
-	[TestMethod]
-	public void Subtraction_ReturnsCorrectDifference()
+	[DataTestMethod]
+	[DataRow(5, 7, 1.5, 4)]
+	[DataRow(5.5, 6, 7, -2.2)]
+	public void Subtraction_ReturnsCorrectDifference(double x1, double y1, double x2, double y2)
 	{
-		Vector v1 = new(5, 7);
-		Vector v2 = new(1.5, 4);
-		Assert.AreEqual(new(3.5, 3), v1 - v2);
-	}
-
-	[TestMethod]
-	public void Subtraction_HandlesNegativeCoordinatesProperly()
-	{
-		Vector v1 = new(5.5, 6);
-		Vector v2 = new(7, -2.2);
-		Assert.AreEqual(new(-1.5, 8.2), v1 - v2);
+		Vector v1 = new(x1, y1);
+		Vector v2 = new(x2, y2);
+		Assert.AreEqual(new(x1 - x2, y1 - y2), v1 - v2);
 	}
 
 	[TestMethod]
@@ -131,12 +102,14 @@ public class VectorTests
 		Assert.AreEqual(v1, result);
 	}
 
-	[TestMethod]
-	public void Inverse_WorksProperly()
+	[DataTestMethod]
+	[DataRow(5.5, -2)]
+	[DataRow(-4, 0)]
+	public void Inverse_WorksProperly(double x, double y)
 	{
-		Vector v1 = new(5.5, -2);
+		Vector v1 = new(x, y);
 		Vector result = -v1;
-		Assert.AreEqual(new(-5.5, 2), result);
+		Assert.AreEqual(new(-x, -y), result);
 	}
 
 	[TestMethod]
@@ -147,28 +120,15 @@ public class VectorTests
 		Assert.AreEqual(v1, result);
 	}
 
-	[TestMethod]
-	public void Multiplication_ReturnsCorrectProduct()
+	[DataTestMethod]
+	[DataRow(2, 5, 3)]
+	[DataRow(-2, -5, 3)]
+	[DataRow(2, 5, -3)]
+	public void Multiplication_ReturnsCorrectProduct(double x, double y, double scalar)
 	{
-		Vector v1 = new(2, 5);
-		Vector result = v1 * 3;
-		Assert.AreEqual(new(6, 15), result);
-	}
-
-	[TestMethod]
-	public void Multiplication_HandlesNegativeCoordinatesProperly()
-	{
-		Vector v1 = new(-2, -5);
-		Vector result = v1 * 3;
-		Assert.AreEqual(new(-6, -15), result);
-	}
-
-	[TestMethod]
-	public void Multiplication_HandlesNegativeScalarProperly()
-	{
-		Vector v1 = new(2, 5);
-		Vector result = v1 * -3;
-		Assert.AreEqual(new(-6, -15), result);
+		Vector v1 = new(x, y);
+		Vector result = v1 * scalar;
+		Assert.AreEqual(new(x * scalar, y * scalar), result);
 	}
 
 	[TestMethod]
@@ -179,28 +139,15 @@ public class VectorTests
 		Assert.AreEqual(Vector.Zero, result);
 	}
 
-	[TestMethod]
-	public void Division_ReturnsCorrectQuotient()
+	[DataTestMethod]
+	[DataRow(20, 15, 5)]
+	[DataRow(-20, -15, 5)]
+	[DataRow(20, 15, -5)]
+	public void Division_ReturnsCorrectQuotient(double x, double y, double scalar)
 	{
-		Vector v1 = new(20, 15);
-		Vector result = v1 / 5;
-		Assert.AreEqual(new(4, 3), result);
-	}
-
-	[TestMethod]
-	public void Division_HandlesNegativeCoordinatesProperly()
-	{
-		Vector v1 = new(-20, -15);
-		Vector result = v1 / 5;
-		Assert.AreEqual(new(-4, -3), result);
-	}
-
-	[TestMethod]
-	public void Division_HandlesNegativeScalarProperly()
-	{
-		Vector v1 = new(20, 15);
-		Vector result = v1 / -5;
-		Assert.AreEqual(new(-4, -3), result);
+		Vector v1 = new(x, y);
+		Vector result = v1 / scalar;
+		Assert.AreEqual(new(x / scalar, y / scalar), result);
 	}
 
 	[TestMethod]
@@ -247,22 +194,15 @@ public class VectorTests
 		Assert.AreEqual(v1, v2);
 	}
 
-	[TestMethod]
-	public void DotProduct_CalculatesCorrectResult()
+	[DataTestMethod]
+	[DataRow(3, 5, -2, 3, 9)]
+	[DataRow(4, 3, 3, -4, 0)]
+	public void DotProduct_CalculatesCorrectResult(double x1, double y1, double x2, double y2, double expected)
 	{
-		Vector v1 = new(3, 5);
-		Vector v2 = new(-2, 3);
+		Vector v1 = new(x1, y1);
+		Vector v2 = new(x2, y2);
 		double result = v1.Dot(v2);
-		Assert.AreEqual(9, result);
-	}
-
-	[TestMethod]
-	public void DotProduct_ReturnsZero_ForPerpendicularVectors()
-	{
-		Vector v1 = new(4, 3);
-		Vector v2 = new(3, -4);
-		double result = v1.Dot(v2);
-		Assert.AreEqual(0, result);
+		Assert.AreEqual(expected, result);
 	}
 
 	[TestMethod]
