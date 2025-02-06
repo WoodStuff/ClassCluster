@@ -23,6 +23,7 @@ public class VectorTests
 	#endregion
 
 	#region Property Tests
+	[TestMethod]
 	public void Magnitude_ReturnsCorrectMagnitude()
 	{
 		Vector v1 = new(3, 4);
