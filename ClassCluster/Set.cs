@@ -1,28 +1,29 @@
 ﻿using System.Collections;
+using System.Reflection;
 
 namespace ClassCluster;
 
 /// <summary>
 /// Represents a set of numbers, which is unordered and can only have one of the same value.
 /// </summary>
-public class Set : ICollection<double>
+public class Set<T> : ICollection<T> where T : notnull
 {
 	/// <summary>
 	/// An empty set.
 	/// </summary>n
-	public static Set Empty => [];
-	private HashSet<double> num;
+	public static Set<T> Empty => [];
+	private HashSet<T> num;
 
 	public Set()
 	{
 		num = [];
 	}
-	public Set(params double[] n) : this((IEnumerable<double>)n) { }
-	public Set(IEnumerable<double> n)
+	public Set(params T[] n) : this((IEnumerable<T>)n) { }
+	public Set(IEnumerable<T> n)
 	{
 		num = new(n);
 	}
-	public Set(HashSet<double> s)
+	public Set(HashSet<T> s)
 	{
 		num = s;
 	}
@@ -34,14 +35,14 @@ public class Set : ICollection<double>
 	/// <param name="end">The value to end at, inclusive depending on the step.</param>
 	/// <param name="step">The difference between each value in the set. Must be positive.</param>
 	/// <returns>A set containing numbers starting at <paramref name="start"/> and ending at <paramref name="end"/>, with the specified <paramref name="step"/> between each value.</returns>
-	public static Set FromRange(double start, double end, double step = 1)
+	public static Set<double> FromRange(double start, double end, double step = 1)
 	{
 		if (start > end) throw new ArgumentException("Start cannot be bigger than end.");
 		if (step <= 0) throw new ArgumentException("Step must be positive.");
 
-		Set set = [];
+		Set<double> set = [];
 		for (double i = start; i <= end; i += step)
-		{ 
+		{
 			set.Add(i);
 		}
 		return set;
@@ -57,56 +58,21 @@ public class Set : ICollection<double>
 	public bool IsEmpty => Count == 0;
 
 	/// <summary>
-	/// Returns the smallest value in the set.
-	/// </summary>
-	public double Min => IsEmpty ? double.NaN : this.First();
-	/// <summary>
-	/// Returns the largest value in the set.
-	/// </summary>
-	public double Max => IsEmpty ? double.NaN : this.Last();
-	/// <summary>
-	/// Calculates the range of the set - the difference between the largest and smallest values.
-	/// </summary>
-	public double Range => Max - Min;
-	/// <summary>
-	/// Adds up all the values in the set.
-	/// </summary>
-	public double Sum
-	{
-		get
-		{
-			double sum = 0;
-			foreach (double n in this)
-			{
-				sum += n;
-			}
-			return sum;
-		}
-	}
-	/// <summary>
-	/// Calculates the average value in the set.
-	/// </summary>
-	public double Average => Sum / Count;
-
-	/// <summary>
 	/// Checks if the set contains a number.
 	/// </summary>
 	/// <param name="value">The value to check for.</param>
 	/// <returns>If the set includes the number.</returns>
-	public bool Contains(double value)
-	{
-		return num.Contains(value);
-	}
+	public bool Contains(T value) => num.Contains(value);
 	/// <summary>
 	/// Checks if the provided set is a subset of this set.
 	/// </summary>
 	/// <param name="other">The set that may be a subset of the current one.</param>
 	/// <returns>true if <paramref name="other"/> is a subset of this set, otherwise false.</returns>
-	public bool Subset(Set other)
+	public bool Subset(Set<T> other)
 	{
-		foreach (double n in other)
+		foreach (T value in other)
 		{
-			if (!Contains(n)) return false;
+			if (!Contains(value)) return false;
 		}
 		return true;
 	}
@@ -115,12 +81,12 @@ public class Set : ICollection<double>
 	/// </summary>
 	/// <param name="other">The set that may be a proper subset of the current one.</param>
 	/// <returns>true if <paramref name="other"/> is a proper subset of this set, otherwise false.</returns>
-	public bool ProperSubset(Set other)
+	public bool ProperSubset(Set<T> other)
 	{
 		if (Count == other.Count) return false;
-		foreach (double n in other)
+		foreach (T value in other)
 		{
-			if (!Contains(n)) return false;
+			if (!Contains(value)) return false;
 		}
 		return true;
 	}
@@ -129,9 +95,9 @@ public class Set : ICollection<double>
 	/// Creates an union of two sets.
 	/// </summary>
 	/// <param name="other">The set to unionize with.</param>
-	public Set Union(Set other)
+	public Set<T> Union(Set<T> other)
 	{
-		Set final = Clone();
+		Set<T> final = Clone();
 		final.Add(other);
 		return final;
 	}
@@ -140,9 +106,9 @@ public class Set : ICollection<double>
 	/// </summary>
 	/// <param name="s1">The first set.</param>
 	/// <param name="s2">The second set.</param>
-	public static Set Union(Set s1, Set s2)
+	public static Set<T> Union(Set<T> s1, Set<T> s2)
 	{
-		Set final = s1.Clone();
+		Set<T> final = s1.Clone();
 		final.Add(s2);
 		return final;
 	}
@@ -150,9 +116,9 @@ public class Set : ICollection<double>
 	/// Creates a difference of two sets.
 	/// </summary>
 	/// <param name="other">The set to remove.</param>
-	public Set Difference(Set other)
+	public Set<T> Difference(Set<T> other)
 	{
-		Set final = Clone();
+		Set<T> final = Clone();
 		final.Remove(other);
 		return final;
 	}
@@ -161,9 +127,9 @@ public class Set : ICollection<double>
 	/// </summary>
 	/// <param name="s1">The first set.</param>
 	/// <param name="s2">The second set.</param>
-	public static Set Difference(Set s1, Set s2)
+	public static Set<T> Difference(Set<T> s1, Set<T> s2)
 	{
-		Set final = s1.Clone();
+		Set<T> final = s1.Clone();
 		final.Remove(s2);
 		return final;
 	}
@@ -171,9 +137,9 @@ public class Set : ICollection<double>
 	/// Creates an intersection of two sets.
 	/// </summary>
 	/// <param name="other">The set to intersect with.</param>
-	public Set Intersection(Set other)
+	public Set<T> Intersection(Set<T> other)
 	{
-		Set final = Clone();
+		Set<T> final = Clone();
 		final.Keep(other);
 		return final;
 	}
@@ -182,9 +148,9 @@ public class Set : ICollection<double>
 	/// </summary>
 	/// <param name="s1">The first set.</param>
 	/// <param name="s2">The second set.</param>
-	public static Set Intersection(Set s1, Set s2)
+	public static Set<T> Intersection(Set<T> s1, Set<T> s2)
 	{
-		Set final = s1.Clone();
+		Set<T> final = s1.Clone();
 		final.Keep(s2);
 		return final;
 	}
@@ -193,34 +159,34 @@ public class Set : ICollection<double>
 	/// Adds values to the set.
 	/// </summary>
 	/// <param name="values">The values to append.</param>
-	public void Add(params IEnumerable<double> values)
+	public void Add(params IEnumerable<T> values)
 	{
-		foreach (double n in values)
+		foreach (T value in values)
 		{
-			if (!Contains(n)) num.Add(n);
+			if (!Contains(value)) num.Add(value);
 		}
 	}
 	/// <summary>
 	/// Removes the values from the set. The set doesn't get changed if it doesn't contain the value.
 	/// </summary>
 	/// <param name="value">The value to remove.</param>
-	public void Remove(params IEnumerable<double> values)
+	public void Remove(params IEnumerable<T> values)
 	{
-		foreach (double n in values)
+		foreach (T value in values)
 		{
-			if (Contains(n)) num.Remove(n);
+			if (Contains(value)) num.Remove(value);
 		}
 	}
 	/// <summary>
 	/// Removes values from the set that aren't in the other.
 	/// </summary>
 	/// <param name="values">The values to keep.</param>
-	public void Keep(params IEnumerable<double> values)
+	public void Keep(params IEnumerable<T> values)
 	{
-		Set final = [];
-		foreach (double n in this)
+		Set<T> final = [];
+		foreach (T value in this)
 		{
-			if (values.Contains(n)) final.Add(n);
+			if (values.Contains(value)) final.Add(value);
 		}
 		num = final.num;
 	}
@@ -228,86 +194,119 @@ public class Set : ICollection<double>
 	/// Removes all elements from the set.
 	/// </summary>
 	public void Clear() => num.Clear();
-	
+
 	// interface members
-	void ICollection<double>.Add(double value) => num.Add(value);
-	bool ICollection<double>.Remove(double value) => num.Remove(value);
-	bool ICollection<double>.IsReadOnly => false;
-	void ICollection<double>.CopyTo(double[] array, int arrayIndex) => num.CopyTo(array, arrayIndex);
+	void ICollection<T>.Add(T value) => num.Add(value);
+	bool ICollection<T>.Remove(T value) => num.Remove(value);
+	bool ICollection<T>.IsReadOnly => false;
+	void ICollection<T>.CopyTo(T[] array, int arrayIndex) => SortedNum.ToHashSet().CopyTo(array, arrayIndex);
 
 	/// <summary>
 	/// Clones the set with the same numbers.
 	/// </summary>
 	/// <returns>A copy of the set.</returns>
-	public Set Clone()
+	public Set<T> Clone()
 	{
-		Set set = (Set)MemberwiseClone();
-		set.num = new HashSet<double>(num);
+		Set<T> set = (Set<T>)MemberwiseClone();
+		set.num = new HashSet<T>(num);
 		return set;
 	}
 
 	public override string ToString()
 	{
-		if (num.Count == 0) return "{}";
+		if (IsEmpty) return "{ }";
 
-		List<double> sortedList = new(num);
-		sortedList.Sort();
-		string s = string.Join(", ", sortedList);
+		string s = string.Join(", ", SortedNum);
 
-		return $"{{{s}}}";
+		return $"{{ {s} }}";
 	}
 	public override bool Equals(object? obj)
 	{
 		if (obj == null || GetType() != obj.GetType()) return false; // must be a set
 
-		Set otherSet = (Set)obj;
+		Set<T> otherSet = (Set<T>)obj;
 		if (num.Count != otherSet.num.Count) return false; // must have same amount of elements
 
-		foreach (double n in this)
+		foreach (T value in this)
 		{
-			if (!otherSet.Contains(n)) return false;
+			if (!otherSet.Contains(value)) return false;
 		}
 		return true;
 	}
 	public override int GetHashCode()
 	{
 		int hash = 17;
-		foreach (double number in this) hash = hash * 31 + number.GetHashCode();
+		foreach (T value in this) hash = hash * 31 + value.GetHashCode();
 		return hash;
 	}
 
-	public static bool operator true(Set s) => s.Count > 0;
-	public static bool operator false(Set s) => s.Count == 0;
-	public static bool operator ==(Set left, Set right)
+	public static bool operator true(Set<T> s) => s.Count > 0;
+	public static bool operator false(Set<T> s) => s.Count == 0;
+	public static bool operator ==(Set<T> left, Set<T> right)
 	{
 		if (left is null) return right is null;
 		return left.Equals(right);
 	}
-	public static bool operator !=(Set left, Set right)
+	public static bool operator !=(Set<T> left, Set<T> right)
 	{
 		return !(left == right);
 	}
 
-	public static Set operator +(Set s, double value)
+	public static Set<T> operator +(Set<T> s, T value)
 	{
-		Set addedSet = s.Clone();
+		Set<T> addedSet = s.Clone();
 		addedSet.Add(value);
 		return addedSet;
 	}
-	public static Set operator +(Set s1, Set s2) => Union(s1, s2);
-	public static Set operator -(Set s, double value)
+	public static Set<T> operator +(Set<T> s1, Set<T> s2) => Union(s1, s2);
+	public static Set<T> operator -(Set<T> s, T value)
 	{
-		Set subSet = s.Clone();
+		Set<T> subSet = s.Clone();
 		subSet.Remove(value);
 		return subSet;
 	}
-	public static Set operator -(Set s1, Set s2) => Difference(s1, s2);
-	public static Set operator *(Set s1, Set s2) => Intersection(s1, s2);
+	public static Set<T> operator -(Set<T> s1, Set<T> s2) => Difference(s1, s2);
+	public static Set<T> operator *(Set<T> s1, Set<T> s2) => Intersection(s1, s2);
 	/// <summary>
 	/// Returns the element count of the set.
 	/// </summary>
-	public static int operator ~(Set s) => s.Count;
+	public static int operator ~(Set<T> s) => s.Count;
 
-	public IEnumerator<double> GetEnumerator() => num.Order().GetEnumerator();
+	public IEnumerator<T> GetEnumerator() => SortedNum.GetEnumerator();
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+	private static bool IsComparable() => typeof(IComparable).IsAssignableFrom(typeof(T));
+	private HashSet<T> SortedNum => IsComparable() ? [.. num.OrderBy(x => x)] : num;
+}
+
+public static class SetExtensions
+{
+	/// <summary>
+	/// Returns the smallest value in the set.
+	/// </summary>
+	public static double Min(this Set<double> s) => s.IsEmpty ? double.NaN : s.First();
+	/// <summary>
+	/// Returns the largest value in the set.
+	/// </summary>
+	public static double Max(this Set<double> s) => s.IsEmpty ? double.NaN : s.Last();
+	/// <summary>
+	/// Calculates the range of the set - the difference between the largest and smallest values.
+	/// </summary>
+	public static double Range(this Set<double> s) => s.Max() - s.Min();
+	/// <summary>
+	/// Adds up all the values in the set.
+	/// </summary>
+	public static double Sum(this Set<double> s)
+	{
+		double sum = 0;
+		foreach (double n in s)
+		{
+			sum += n;
+		}
+		return sum;
+	}
+	/// <summary>
+	/// Calculates the average value in the set.
+	/// </summary>
+	public static double Average(this Set<double> s) => s.Sum() / s.Count;
 }
