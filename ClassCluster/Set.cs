@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Reflection;
+using System.Numerics;
 
 namespace ClassCluster;
 
@@ -284,29 +284,29 @@ public static class SetExtensions
 	/// <summary>
 	/// Returns the smallest value in the set.
 	/// </summary>
-	public static double Min(this Set<double> s) => s.IsEmpty ? double.NaN : s.First();
+	public static T Min<T>(this Set<T> s) where T : INumber<T> => s.IsEmpty ? throw new InvalidOperationException("Set is empty") : s.First();
 	/// <summary>
 	/// Returns the largest value in the set.
 	/// </summary>
-	public static double Max(this Set<double> s) => s.IsEmpty ? double.NaN : s.Last();
+	public static T Max<T>(this Set<T> s) where T : INumber<T> => s.IsEmpty ? throw new InvalidOperationException("Set is empty") : s.Last();
 	/// <summary>
 	/// Calculates the range of the set - the difference between the largest and smallest values.
 	/// </summary>
-	public static double Range(this Set<double> s) => s.Max() - s.Min();
+	public static T Range<T>(this Set<T> s) where T : INumber<T> => s.Max() - s.Min();
 	/// <summary>
 	/// Adds up all the values in the set.
 	/// </summary>
-	public static double Sum(this Set<double> s)
+	public static T Sum<T>(this Set<T> s) where T : INumber<T>
 	{
-		double sum = 0;
-		foreach (double n in s)
+		T sum = T.Zero;
+		foreach (T value in s)
 		{
-			sum += n;
+			sum += value;
 		}
 		return sum;
 	}
 	/// <summary>
 	/// Calculates the average value in the set.
 	/// </summary>
-	public static double Average(this Set<double> s) => s.Sum() / s.Count;
+	public static double Average<T>(this Set<T> s) where T : INumber<T> => (double)(dynamic)s.Sum() / s.Count;
 }
