@@ -281,6 +281,7 @@ public class Set<T> : ICollection<T> where T : notnull
 
 public static class SetExtensions
 {
+	#region Numeric Methods
 	/// <summary>
 	/// Returns the smallest value in the set.
 	/// </summary>
@@ -309,4 +310,31 @@ public static class SetExtensions
 	/// Calculates the average value in the set.
 	/// </summary>
 	public static double Average<T>(this Set<T> s) where T : INumber<T> => (double)(dynamic)s.Sum() / s.Count;
+	#endregion
+
+	#region Point Methods
+	public static Point Sum(this Set<Point> s)
+	{
+		Point sum = Point.Origin;
+		foreach (var point in s)
+		{
+			sum += point;
+		}
+		return sum;
+	}
+	public static Point Average(this Set<Point> s) => s.Sum() / s.Count;
+	#endregion
+
+	#region Vector Methods
+	public static Vector Sum(this Set<Vector> s)
+	{
+		Vector sum = Vector.Zero;
+		foreach (var vector in s)
+		{
+			sum += vector;
+		}
+		return sum;
+	}
+	public static Vector Average(this Set<Vector> s) => s.Sum() / s.Count;
+	#endregion
 }
