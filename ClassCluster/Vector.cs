@@ -11,15 +11,15 @@ public class Vector
 	private double _y;
 
 	/// <summary>
-	/// The zero vector [0, 0];
+	/// The zero vector [0, 0].
 	/// </summary>
 	public static Vector Zero => new(0, 0);
 	/// <summary>
-	/// The unit vector [1, 0];
+	/// The unit vector [1, 0].
 	/// </summary>
 	public static Vector UnitX => new(1, 0);
 	/// <summary>
-	/// The unit vector [0, 1];
+	/// The unit vector [0, 1].
 	/// </summary>
 	public static Vector UnitY => new(0, 1);
 
@@ -37,6 +37,15 @@ public class Vector
 		_x = x;
 		_y = y;
 	}
+
+	/// <summary>
+	/// Creates a vector with magnitude 1 corresponding to the angle given.
+	/// Starts from [0, 1] and goes counterclockwise.
+	/// </summary>
+	/// <param name="angle">The angle.</param>
+	/// <param name="type">The angle unit that <paramref name="angle"/> is expressed in.</param>
+	/// <returns>A normalized vector with the angle provided by <paramref name="angle"/>.</returns>
+	public static Vector FromAngle(double angle, AngleUnit type = AngleUnit.Radians) => UnitX.RotatedBy(Utils.ConvertAngle(type, angle, AngleUnit.Radians));
 
 	/// <summary>
 	/// Calculates the vector's magnitude, or length.

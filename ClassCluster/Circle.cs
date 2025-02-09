@@ -60,10 +60,13 @@ public class Circle : IFigure2D
 	{
 		return p.Distance(Center) - Radius;
 	}
-	/*public Point PointAtAngle(double angle, AngleUnit type)
-	{
-		angle = Utils.ConvertAngle(type, angle, AngleUnit.Radians);
-	}*/
+	/// <summary>
+	/// Finds the point on this circle on a specified angle.
+	/// </summary>
+	/// <param name="angle">The angle to find the point at.</param>
+	/// <param name="type">The unit <paramref name="angle"/> is expressed in.</param>
+	/// <returns>The point on this circle located at the <paramref name="angle"/></returns>
+	public Point PointAtAngle(double angle, AngleUnit type = AngleUnit.Radians) => Center + Vector.FromAngle(angle, type) * Radius;
 	/// <summary>
 	/// Finds the relative position of a point to the circle.
 	/// </summary>
