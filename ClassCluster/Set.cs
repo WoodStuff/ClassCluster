@@ -313,6 +313,9 @@ public static class SetExtensions
 	#endregion
 
 	#region Point Methods
+	/// <summary>
+	/// Adds up all the points in the set.
+	/// </summary>
 	public static Point Sum(this Set<Point> s)
 	{
 		Point sum = Point.Origin;
@@ -322,10 +325,16 @@ public static class SetExtensions
 		}
 		return sum;
 	}
+	/// <summary>
+	/// Calculates the average point in the set.
+	/// </summary>
 	public static Point Average(this Set<Point> s) => s.Sum() / s.Count;
 	#endregion
 
 	#region Vector Methods
+	/// <summary>
+	/// Adds up all the vectors in the set.
+	/// </summary>
 	public static Vector Sum(this Set<Vector> s)
 	{
 		Vector sum = Vector.Zero;
@@ -335,6 +344,24 @@ public static class SetExtensions
 		}
 		return sum;
 	}
+	/// <summary>
+	/// Calculates the average vector in the set.
+	/// </summary>
 	public static Vector Average(this Set<Vector> s) => s.Sum() / s.Count;
+	#endregion
+
+	#region Nested Set Methods
+	/// <summary>
+	/// Calculates the total amount of elements in a two-dimensional set.
+	/// </summary>
+	public static int TotalCount<T>(this Set<Set<T>> s) where T : notnull
+	{
+		int sum = 0;
+		foreach (var set in s)
+		{
+			sum += set.Count;
+		}
+		return sum;
+	}
 	#endregion
 }
