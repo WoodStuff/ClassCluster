@@ -37,6 +37,7 @@ public class Vector
 		_x = x;
 		_y = y;
 	}
+
 	/// <summary>
 	/// Calculates the vector's magnitude, or length.
 	/// </summary>
