@@ -38,6 +38,24 @@ public class Point : IObject2D
 	/// <returns>A double representing the euclidean distance.</returns>
 	public double DistanceFromOrigin => Math.Sqrt(X * X + Y * Y);
 	/// <summary>
+	/// Calculates the point's taxicab distance from the origin (the point at (0, 0)).
+	/// </summary>
+	/// <returns>A double representing the taxicab distance.</returns>
+	public double GridDistFromOrigin => Math.Abs(X) + Math.Abs(Y);
+	/// <summary>
+	/// Calculates the point's angle from the origin, from 0 to <see cref="Math.Tau"/>.
+	/// </summary>
+	public double Theta
+	{
+		get
+		{
+			double angle = Math.Atan2(Y, X);
+			if (angle < 0) angle += Math.Tau;
+			return angle;
+		}
+	}
+	
+	/// <summary>
 	/// Calculates the point's euclidean distance from another point.
 	/// </summary>
 	/// <param name="other">The point to calculate distance to.</param>
@@ -58,11 +76,6 @@ public class Point : IObject2D
 	{
 		return p1.Distance(p2);
 	}
-	/// <summary>
-	/// Calculates the point's taxicab distance from the origin (the point at (0, 0)).
-	/// </summary>
-	/// <returns>A double representing the taxicab distance.</returns>
-	public double GridDistFromOrigin => Math.Abs(X) + Math.Abs(Y);
 	/// <summary>
 	/// Calculates the point's taxicab distance from another point.
 	/// </summary>

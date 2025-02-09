@@ -42,6 +42,18 @@ public class Vector
 	/// </summary>
 	/// <returns>A double representing the magnitude.</returns>
 	public double Magnitude => Math.Sqrt(X * X + Y * Y);
+	/// <summary>
+	/// Calculates the vector's angle, from 0 to <see cref="Math.Tau"/>.
+	/// </summary>
+	public double Theta
+	{
+		get
+		{
+			double angle = Math.Atan2(Y, X);
+			if (angle < 0) angle += Math.Tau;
+			return angle;
+		}
+	}
 
 	/// <summary>
 	/// Normalizes the vector.
