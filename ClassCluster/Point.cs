@@ -20,11 +20,11 @@ public class Point : IObject2D
 	/// <summary>
 	/// The X position of the point.
 	/// </summary>
-	public double X { get => _x; }
+	public double X => _x;
 	/// <summary>
 	/// The Y position of the point.
 	/// </summary>
-	public double Y { get => _y; }
+	public double Y => _y;
 
 	public Point(double x, double y)
 	{

@@ -14,15 +14,23 @@ public class Vector
 	/// The zero vector [0, 0];
 	/// </summary>
 	public static Vector Zero => new(0, 0);
+	/// <summary>
+	/// The unit vector [1, 0];
+	/// </summary>
+	public static Vector UnitX => new(1, 0);
+	/// <summary>
+	/// The unit vector [0, 1];
+	/// </summary>
+	public static Vector UnitY => new(0, 1);
 
 	/// <summary>
 	/// The X position of the vector.
 	/// </summary>
-	public double X { get => _x; }
+	public double X => _x;
 	/// <summary>
 	/// The Y position of the vector.
 	/// </summary>
-	public double Y { get => _y; }
+	public double Y => _y;
 
 	public Vector(double x, double y)
 	{
