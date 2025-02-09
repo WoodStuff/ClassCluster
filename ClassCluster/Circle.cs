@@ -14,7 +14,7 @@ public class Circle : IFigure2D
 	/// </summary>
 	public Point Center { get; set; }
 	/// <summary>
-	/// The radius of the edge - the distance from the center to the edge.
+	/// The radius of the circle - the distance from the center to the edge.
 	/// </summary>
 	public double Radius
 	{
