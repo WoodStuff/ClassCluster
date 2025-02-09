@@ -44,19 +44,11 @@ public class Circle : IFigure2D
 	/// <summary>
 	/// The circumference of the circle.
 	/// </summary>
-	public double Circumference
-	{
-		get => Radius * Math.Tau;
-		set => Radius = value / Math.Tau;
-	}
+	public double Circumference => Radius * Math.Tau;
 	/// <summary>
 	/// The area of the circle.
 	/// </summary>
-	public double Area
-	{
-		get => Radius * Radius * Math.PI;
-		set => Radius = Math.Sqrt(value / Math.PI);
-	}
+	public double Area => Radius * Radius * Math.PI;
 
 	/// <summary>
 	/// Calculates a point's signed distance from the circle.

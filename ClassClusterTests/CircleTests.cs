@@ -93,51 +93,11 @@ public class CircleTests
 	}
 
 	[TestMethod]
-	public void Circumference_SetsRadiusCorrectly()
-	{
-		Circle c1 = new(1)
-		{
-			Circumference = 5 * Math.Tau
-		};
-
-		Assert.AreEqual(5, c1.Radius, 1e-6);
-	}
-
-	[TestMethod]
-	public void Circumference_ThrowsError_WhenChangedToNonPositiveValue()
-	{
-		Circle c1 = new(1);
-
-		Assert.ThrowsException<ArgumentException>(() => c1.Circumference = 0, "Circle with circumference 0 was accepted.");
-		Assert.ThrowsException<ArgumentException>(() => c1.Circumference = -2, "Circle with negative circumference was accepted.");
-	}
-
-	[TestMethod]
 	public void Area_ReturnsCorrectValue()
 	{
 		Circle c1 = new(5);
 
 		Assert.AreEqual(25 * Math.PI, c1.Area, 1e-6);
-	}
-
-	[TestMethod]
-	public void Area_SetsRadiusCorrectly()
-	{
-		Circle c1 = new(1)
-		{
-			Area = 25 * Math.PI
-		};
-
-		Assert.AreEqual(5, c1.Radius, 1e-6);
-	}
-
-	[TestMethod]
-	public void Area_ThrowsError_WhenChangedToNonPositiveValue()
-	{
-		Circle c1 = new(1);
-
-		Assert.ThrowsException<ArgumentException>(() => c1.Area = 0, "Circle with area 0 was accepted.");
-		Assert.ThrowsException<ArgumentException>(() => c1.Area = -2, "Circle with negative area was accepted.");
 	}
 	#endregion
 
