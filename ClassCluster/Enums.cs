@@ -3,7 +3,7 @@
 /// <summary>
 /// Specifies an angle unit.
 /// </summary>
-public enum Angles
+public enum AngleUnit
 {
 	Degrees,
 	Radians,

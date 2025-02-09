@@ -60,9 +60,9 @@ public class Circle : IFigure2D
 	{
 		return p.Distance(Center) - Radius;
 	}
-	/*public Point PointAtAngle(double angle, Angles type)
+	/*public Point PointAtAngle(double angle, AngleUnit type)
 	{
-		angle = Utils.ConvertAngle(type, angle, Angles.Radians);
+		angle = Utils.ConvertAngle(type, angle, AngleUnit.Radians);
 	}*/
 	/// <summary>
 	/// Finds the relative position of a point to the circle.

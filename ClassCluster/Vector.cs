@@ -96,13 +96,13 @@ public class Vector
 	/// <param name="other">The other vector.</param>
 	/// <param name="type">The angle unit. Defaults to radians.</param>
 	/// <returns>The angle between the two vectors.</returns>
-	public double AngleBetween(Vector other, Angles type = Angles.Radians)
+	public double AngleBetween(Vector other, AngleUnit type = AngleUnit.Radians)
 	{
 		if (Magnitude == 0 || other.Magnitude == 0) throw new InvalidOperationException("Cannot calculate angle with a zero vector.");
 		double dotProduct = this * other;
 		double magnitudesProduct = Magnitude * other.Magnitude;
 		double angle = Math.Acos(dotProduct / magnitudesProduct);
-		if (type != Angles.Radians) angle = Utils.ConvertAngle(Angles.Radians, angle, type);
+		if (type != AngleUnit.Radians) angle = Utils.ConvertAngle(AngleUnit.Radians, angle, type);
 		return angle;
 	}
 	/// <summary>
@@ -112,7 +112,7 @@ public class Vector
 	/// <param name="v2">The second vector.</param>
 	/// <param name="type">The angle unit. Defaults to radians.</param>
 	/// <returns>The angle between the two vectors.</returns>
-	public static double AngleBetween(Vector v1, Vector v2, Angles type = Angles.Radians)
+	public static double AngleBetween(Vector v1, Vector v2, AngleUnit type = AngleUnit.Radians)
 	{
 		return v1.AngleBetween(v2, type);
 	}
@@ -122,9 +122,9 @@ public class Vector
 	/// <param name="angle">The angle to rotate by.</param>
 	/// <param name="type">The angle unit. Defaults to radians.</param>
 	/// <returns>The rotated vector.</returns>
-	public Vector RotatedBy(double angle, Angles type = Angles.Radians)
+	public Vector RotatedBy(double angle, AngleUnit type = AngleUnit.Radians)
 	{
-		if (type != Angles.Radians) angle = Utils.ConvertAngle(type, angle, Angles.Radians);
+		if (type != AngleUnit.Radians) angle = Utils.ConvertAngle(type, angle, AngleUnit.Radians);
 		double x = Math.Round(X * Math.Cos(angle) - Y * Math.Sin(angle), 6);
 		double y = Math.Round(X * Math.Sin(angle) + Y * Math.Cos(angle), 6);
 		return new(x, y);
@@ -149,7 +149,7 @@ public class Vector
 	/// </summary>
 	/// <param name="angle">The angle to rotate by.</param>
 	/// <param name="type">The angle unit. Defaults to radians.</param>
-	public void Rotate(double angle, Angles type = Angles.Radians)
+	public void Rotate(double angle, AngleUnit type = AngleUnit.Radians)
 	{
 		Vector rotated = RotatedBy(angle, type);
 		_x = rotated.X;

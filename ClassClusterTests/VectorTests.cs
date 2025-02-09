@@ -228,7 +228,7 @@ public class VectorTests
 	{
 		Vector v1 = new(5, 0);
 		Vector v2 = new(5, 5);
-		double angle = v1.AngleBetween(v2, Angles.Radians);
+		double angle = v1.AngleBetween(v2, AngleUnit.Radians);
 		Assert.AreEqual(Math.PI / 4, angle, 1e-6);
 	}
 
@@ -237,7 +237,7 @@ public class VectorTests
 	{
 		Vector v1 = new(5, 0);
 		Vector v2 = new(5, 5);
-		double angle = v1.AngleBetween(v2, Angles.Degrees);
+		double angle = v1.AngleBetween(v2, AngleUnit.Degrees);
 		Assert.AreEqual(45, angle, 1e-6);
 	}
 
@@ -306,7 +306,7 @@ public class VectorTests
 	public void Rotate_CalculatesCorrectAngle_InRadians()
 	{
 		Vector v1 = new(5, -2);
-		Vector rotated = v1.RotatedBy(Math.PI / 2, Angles.Radians);
+		Vector rotated = v1.RotatedBy(Math.PI / 2, AngleUnit.Radians);
 		Assert.AreEqual(new(2, 5), rotated);
 	}
 
@@ -314,7 +314,7 @@ public class VectorTests
 	public void Rotate_CalculatesCorrectAngle_InDegrees()
 	{
 		Vector v1 = new(5, -2);
-		Vector rotated = v1.RotatedBy(90, Angles.Degrees);
+		Vector rotated = v1.RotatedBy(90, AngleUnit.Degrees);
 		Assert.AreEqual(new(2, 5), rotated);
 	}
 
@@ -330,7 +330,7 @@ public class VectorTests
 	public void Rotate_LeavesVectorUnchanged_WhenRotatingByTauRadians()
 	{
 		Vector v1 = new(5, -2);
-		Vector rotated = v1.RotatedBy(Math.Tau, Angles.Radians);
+		Vector rotated = v1.RotatedBy(Math.Tau, AngleUnit.Radians);
 		Assert.AreEqual(v1, rotated);
 	}
 
@@ -338,7 +338,7 @@ public class VectorTests
 	public void Rotate_InvertsVector_WhenRotatingByPiRadians()
 	{
 		Vector v1 = new(5, -2);
-		Vector rotated = v1.RotatedBy(Math.PI, Angles.Radians);
+		Vector rotated = v1.RotatedBy(Math.PI, AngleUnit.Radians);
 		Assert.AreEqual(-v1, rotated);
 	}
 	#endregion

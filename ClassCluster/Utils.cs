@@ -9,19 +9,19 @@ internal static class Utils
 	/// <param name="angle">The value of the angle.</param>
 	/// <param name="output">The angle unit to convert the angle into.</param>
 	/// <returns>A double representing the angle in the <paramref name="output"/> unit.</returns>
-	public static double ConvertAngle(Angles input, double angle, Angles output)
+	public static double ConvertAngle(AngleUnit input, double angle, AngleUnit output)
 	{
 		if (input == output) return angle;
 		var angleInDegrees = input switch
 		{
-			Angles.Degrees => angle,
-			Angles.Radians => angle * 180.0 / Math.PI,
+			AngleUnit.Degrees => angle,
+			AngleUnit.Radians => angle * 180.0 / Math.PI,
 			_ => throw new ArgumentException("Invalid input angle unit.")
 		};
 		angleInDegrees = output switch
 		{
-			Angles.Degrees => angleInDegrees,
-			Angles.Radians => angleInDegrees * Math.PI / 180.0,
+			AngleUnit.Degrees => angleInDegrees,
+			AngleUnit.Radians => angleInDegrees * Math.PI / 180.0,
 			_ => throw new ArgumentException("Invalid output angle unit.")
 		};
 		return angleInDegrees;
