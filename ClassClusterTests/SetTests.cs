@@ -8,7 +8,7 @@ public class SetTests
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0028:Simplify collection initialization")]
 	public void Constructor_InitializesEmptySet_WithNoArguments()
 	{
-		Set s1 = new();
+		Set<double> s1 = new();
 
 		Assert.AreEqual(0, s1.Count);
 	}
@@ -16,7 +16,7 @@ public class SetTests
 	[TestMethod]
 	public void Constructor_InitializesSet()
 	{
-		Set s1 = new(4, 5.5, -7, 1);
+		Set<double> s1 = new(4, 5.5, -7, 1);
 
 		Assert.AreEqual(4, s1.Count);
 	}
@@ -24,7 +24,7 @@ public class SetTests
 	[TestMethod]
 	public void Constructor_RemovesDuplicateElements()
 	{
-		Set s1 = new(1, 5, 5, 8, 5, 2, 5, 2);
+		Set<double> s1 = new(1, 5, 5, 8, 5, 2, 5, 2);
 
 		Assert.AreEqual(4, s1.Count);
 	}
@@ -32,7 +32,7 @@ public class SetTests
 	[TestMethod]
 	public void Constructor_InitializesSet_ThroughArray()
 	{
-		Set s1 = [4, 5.5, -7, 1];
+		Set<double> s1 = [4, 5.5, -7, 1];
 
 		Assert.AreEqual(4, s1.Count);
 	}
@@ -40,8 +40,8 @@ public class SetTests
 	[TestMethod]
 	public void Constructor_InitializesSet_ThroughAnotherSet()
 	{
-		Set s1 = [4, 5.5, -7, 1];
-		Set s2 = new(s1);
+		Set<double> s1 = [4, 5.5, -7, 1];
+		Set<double> s2 = new(s1);
 
 		Assert.AreEqual(4, s2.Count);
 	}
@@ -51,7 +51,7 @@ public class SetTests
 	[TestMethod]
 	public void EmptySet_HasCorrectProperties()
 	{
-		Set s1 = [];
+		Set<double> s1 = [];
 		Assert.AreEqual(0, s1.Count);
 		Assert.IsTrue(s1.IsEmpty);
 	}
@@ -59,56 +59,48 @@ public class SetTests
 	[TestMethod]
 	public void NonEmptySet_IsNotEmpty()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 		Assert.IsFalse(s1.IsEmpty);
 	}
 
 	[TestMethod]
 	public void Min_ReturnsSmallestValue()
 	{
-		Set s1 = [2, 4, 1.5, -4, 7, 0];
+		Set<double> s1 = [2, 4, 1.5, -4, 7, 0];
 
-		double result = s1.Min;
+		double result = s1.Min();
 
 		Assert.AreEqual(-4, result);
 	}
 
 	[TestMethod]
-	public void Min_ReturnsNaN_ForEmptySet()
+	public void Min_ThrowsError_ForEmptySet()
 	{
-		Set s1 = [];
-
-		double result = s1.Min;
-
-		Assert.IsTrue(double.IsNaN(result));
+		Assert.ThrowsException<InvalidOperationException>(() => Set<double>.Empty.Max());
 	}
 
 	[TestMethod]
 	public void Max_ReturnsLargestValue()
 	{
-		Set s1 = [2, 4, 1.5, -4, 7, 0];
+		Set<double> s1 = [2, 4, 1.5, -4, 7, 0];
 
-		double result = s1.Max;
+		double result = s1.Max();
 
 		Assert.AreEqual(7, result);
 	}
 
 	[TestMethod]
-	public void Max_ReturnsNaN_ForEmptySet()
+	public void Max_ThrowsError_ForEmptySet()
 	{
-		Set s1 = [];
-
-		double result = s1.Max;
-
-		Assert.IsTrue(double.IsNaN(result));
+		Assert.ThrowsException<InvalidOperationException>(() => Set<double>.Empty.Min());
 	}
 
 	[TestMethod]
 	public void Range_ReturnsCorrectValue_ForTwoValues()
 	{
-		Set s1 = [6, -7.5];
+		Set<double> s1 = [6, -7.5];
 
-		double result = s1.Range;
+		double result = s1.Range();
 
 		Assert.AreEqual(13.5, result);
 	}
@@ -116,9 +108,9 @@ public class SetTests
 	[TestMethod]
 	public void Range_ReturnsCorrectValue_ForMoreThanTwoValues()
 	{
-		Set s1 = [2, 3, 5, 7, 11];
+		Set<double> s1 = [2, 3, 5, 7, 11];
 
-		double result = s1.Range;
+		double result = s1.Range();
 
 		Assert.AreEqual(9, result);
 	}
@@ -126,29 +118,25 @@ public class SetTests
 	[TestMethod]
 	public void Range_ReturnsZero_ForSingleValue()
 	{
-		Set s1 = [4.5];
+		Set<double> s1 = [4.5];
 
-		double result = s1.Range;
+		double result = s1.Range();
 
 		Assert.AreEqual(0, result);
 	}
 
 	[TestMethod]
-	public void Range_ReturnsNaN_ForEmptySet()
+	public void Range_ThrowsError_ForEmptySet()
 	{
-		Set s1 = [];
-
-		double result = s1.Range;
-
-		Assert.IsTrue(double.IsNaN(result));
+		Assert.ThrowsException<InvalidOperationException>(() => Set<double>.Empty.Range());
 	}
 
 	[TestMethod]
 	public void Sum_CalculatesCorrectSum()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 
-		double result = s1.Sum;
+		double result = s1.Sum();
 
 		Assert.AreEqual(15, result);
 	}
@@ -156,9 +144,9 @@ public class SetTests
 	[TestMethod]
 	public void Sum_ReturnsZero_ForEmptySet()
 	{
-		Set s1 = [];
+		Set<double> s1 = [];
 
-		double result = s1.Sum;
+		double result = s1.Sum();
 
 		Assert.AreEqual(0, result);
 	}
@@ -166,9 +154,9 @@ public class SetTests
 	[TestMethod]
 	public void Average_CalculatesCorrectAverage()
 	{
-		Set s1 = [2, 3, 4, 5];
+		Set<double> s1 = [2, 3, 4, 5];
 
-		double result = s1.Average;
+		double result = s1.Average();
 
 		Assert.AreEqual(3.5, result);
 	}
@@ -176,9 +164,9 @@ public class SetTests
 	[TestMethod]
 	public void Average_ReturnsNaN_ForEmptySet()
 	{
-		Set s1 = [];
+		Set<double> s1 = [];
 
-		double result = s1.Average;
+		double result = s1.Average();
 
 		Assert.IsTrue(double.IsNaN(result));
 	}
@@ -188,7 +176,7 @@ public class SetTests
 	[TestMethod]
 	public void Contains_ReturnsTrue_ForElementInSet()
 	{
-		Set s1 = [4, 5.5, -7, 1];
+		Set<double> s1 = [4, 5.5, -7, 1];
 
 		Assert.IsTrue(s1.Contains(4));
 		Assert.IsTrue(s1.Contains(5.5));
@@ -199,7 +187,7 @@ public class SetTests
 	[TestMethod]
 	public void Contains_ReturnsFalse_ForElementNotInSet()
 	{
-		Set s1 = [4, 5.5, -7, 1];
+		Set<double> s1 = [4, 5.5, -7, 1];
 
 		Assert.IsFalse(s1.Contains(6));
 		Assert.IsFalse(s1.Contains(-4));
@@ -210,7 +198,7 @@ public class SetTests
 	[TestMethod]
 	public void Contains_ReturnsFalse_ForEmptySet()
 	{
-		Set s1 = [];
+		Set<double> s1 = [];
 
 		Assert.IsFalse(s1.Contains(-1));
 		Assert.IsFalse(s1.Contains(0));
@@ -220,8 +208,8 @@ public class SetTests
 	[TestMethod]
 	public void Subset_ReturnsTrue_WithSubsetOfOriginalSet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [2, 3, 4];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [2, 3, 4];
 
 		Assert.IsTrue(s1.Subset(s2));
 	}
@@ -229,8 +217,8 @@ public class SetTests
 	[TestMethod]
 	public void Subset_ReturnsTrue_ForIdenticalSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [1, 2, 3, 4, 5];
 
 		Assert.IsTrue(s1.Subset(s2));
 	}
@@ -238,8 +226,8 @@ public class SetTests
 	[TestMethod]
 	public void Subset_ReturnsFalse_WithSetWithoutCommonElements()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [6, 7, 8];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [6, 7, 8];
 
 		Assert.IsFalse(s1.Subset(s2));
 	}
@@ -247,8 +235,8 @@ public class SetTests
 	[TestMethod]
 	public void Subset_ReturnsFalse_WithIntersectingSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [3, 4, 5, 6, 7];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [3, 4, 5, 6, 7];
 
 		Assert.IsFalse(s1.Subset(s2));
 	}
@@ -256,8 +244,8 @@ public class SetTests
 	[TestMethod]
 	public void Subset_ReturnsFalse_WithSupersetOfOriginalSet()
 	{
-		Set s1 = [2, 3, 4];
-		Set s2 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [2, 3, 4];
+		Set<double> s2 = [1, 2, 3, 4, 5];
 
 		Assert.IsFalse(s1.Subset(s2));
 	}
@@ -265,8 +253,8 @@ public class SetTests
 	[TestMethod]
 	public void ProperSubset_ReturnsTrue_WithSubsetOfOriginalSet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [2, 3, 4];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [2, 3, 4];
 
 		Assert.IsTrue(s1.ProperSubset(s2));
 	}
@@ -274,8 +262,8 @@ public class SetTests
 	[TestMethod]
 	public void ProperSubset_ReturnsFalse_ForIdenticalSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [1, 2, 3, 4, 5];
 
 		Assert.IsFalse(s1.ProperSubset(s2));
 	}
@@ -283,8 +271,8 @@ public class SetTests
 	[TestMethod]
 	public void ProperSubset_ReturnsFalse_WithIntersectingSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [3, 4, 5, 6, 7];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [3, 4, 5, 6, 7];
 
 		Assert.IsFalse(s1.ProperSubset(s2));
 	}
@@ -294,8 +282,8 @@ public class SetTests
 	[TestMethod]
 	public void Equality_ReturnsTrue_ForSetsWithSameElementsInSameOrder()
 	{
-		Set s1 = [-3, 2, 8, 4.5, -5.2];
-		Set s2 = [-3, 2, 8, 4.5, -5.2];
+		Set<double> s1 = [-3, 2, 8, 4.5, -5.2];
+		Set<double> s2 = [-3, 2, 8, 4.5, -5.2];
 
 		Assert.AreEqual(s1, s2);
 	}
@@ -303,8 +291,8 @@ public class SetTests
 	[TestMethod]
 	public void Equality_ReturnsTrue_ForSetsWithSameElementsInDifferentOrder()
 	{
-		Set s1 = [-3, 2, 8, 4.5, -5.2];
-		Set s2 = [2, 8, -3, -5.2, 4.5];
+		Set<double> s1 = [-3, 2, 8, 4.5, -5.2];
+		Set<double> s2 = [2, 8, -3, -5.2, 4.5];
 
 		Assert.AreEqual(s1, s2);
 	}
@@ -312,8 +300,8 @@ public class SetTests
 	[TestMethod]
 	public void Equality_ReturnsFalse_ForSetsWithDifferentLengths()
 	{
-		Set s1 = [-3, 2, 8, 4.5];
-		Set s2 = [-3, 2, 8, 4.5, -5.2];
+		Set<double> s1 = [-3, 2, 8, 4.5];
+		Set<double> s2 = [-3, 2, 8, 4.5, -5.2];
 
 		Assert.AreNotEqual(s1, s2);
 	}
@@ -321,8 +309,8 @@ public class SetTests
 	[TestMethod]
 	public void Equality_ReturnsFalse_ForSetsWithDifferentElements()
 	{
-		Set s1 = [-3, 2, 8, 4.5, -5];
-		Set s2 = [-3, 2, 8, 4.5, -5.2];
+		Set<double> s1 = [-3, 2, 8, 4.5, -5];
+		Set<double> s2 = [-3, 2, 8, 4.5, -5.2];
 
 		Assert.AreNotEqual(s1, s2);
 	}
@@ -332,7 +320,7 @@ public class SetTests
 	[TestMethod]
 	public void Add_AddsNumberToSet()
 	{
-		Set s1 = [2, 3];
+		Set<double> s1 = [2, 3];
 		s1.Add(8);
 
 		Assert.IsTrue(s1.Contains(8));
@@ -342,7 +330,7 @@ public class SetTests
 	[TestMethod]
 	public void Add_DoesNotRemoveElements()
 	{
-		Set s1 = [2, 3];
+		Set<double> s1 = [2, 3];
 		s1.Add(8);
 
 		Assert.IsTrue(s1.Contains(2));
@@ -352,7 +340,7 @@ public class SetTests
 	[TestMethod]
 	public void Add_LeavesSetUnchanged_WhenElementIsAlreadyPresent()
 	{
-		Set s1 = [2, 3, 8];
+		Set<double> s1 = [2, 3, 8];
 		Assert.IsTrue(s1.Contains(8));
 		Assert.AreEqual(3, s1.Count);
 
@@ -364,7 +352,7 @@ public class SetTests
 	[TestMethod]
 	public void Add_AddsMultipleNumbersToSet()
 	{
-		Set s1 = [2, 3];
+		Set<double> s1 = [2, 3];
 		s1.Add(4, 5, 6);
 
 		Assert.IsTrue(s1.Contains(4));
@@ -376,7 +364,7 @@ public class SetTests
 	[TestMethod]
 	public void Add_AddsMultipleNumbersToSet_WithMixedDuplicates()
 	{
-		Set s1 = [1, 2, 4, 6];
+		Set<double> s1 = [1, 2, 4, 6];
 		s1.Add(3, 4, 5, 6, 5);
 
 		Assert.IsTrue(s1.Contains(3));
@@ -387,8 +375,8 @@ public class SetTests
 	[TestMethod]
 	public void Add_HandlesSetArgumentProperly()
 	{
-		Set s1 = [1, 2, 4, 6];
-		Set s2 = [3, 4, 5, 6];
+		Set<double> s1 = [1, 2, 4, 6];
+		Set<double> s2 = [3, 4, 5, 6];
 		s1.Add(s2);
 
 		Assert.IsTrue(s1.Contains(3));
@@ -399,7 +387,7 @@ public class SetTests
 	[TestMethod]
 	public void Remove_RemovesNumberFromSet()
 	{
-		Set s1 = [2, 3, 8];
+		Set<double> s1 = [2, 3, 8];
 		s1.Remove(8);
 
 		Assert.IsFalse(s1.Contains(8));
@@ -409,7 +397,7 @@ public class SetTests
 	[TestMethod]
 	public void Remove_LeavesSetUnchanged_WhenElementIsNotInSet()
 	{
-		Set s1 = [2, 3];
+		Set<double> s1 = [2, 3];
 		Assert.IsFalse(s1.Contains(8));
 		Assert.AreEqual(2, s1.Count);
 
@@ -421,7 +409,7 @@ public class SetTests
 	[TestMethod]
 	public void Remove_RemovesMultipleNumbersFromSet()
 	{
-		Set s1 = [2, 3, 4, 5, 6];
+		Set<double> s1 = [2, 3, 4, 5, 6];
 		s1.Remove(4, 5, 6);
 
 		Assert.IsFalse(s1.Contains(4));
@@ -433,7 +421,7 @@ public class SetTests
 	[TestMethod]
 	public void Remove_RemovesMultipleNumbersFromSet_WithMixedDuplicates()
 	{
-		Set s1 = [1, 2, 4, 6];
+		Set<double> s1 = [1, 2, 4, 6];
 		s1.Remove(3, 4, 5, 6, 4);
 
 		Assert.IsFalse(s1.Contains(4));
@@ -444,8 +432,8 @@ public class SetTests
 	[TestMethod]
 	public void Remove_HandlesSetArgumentProperly()
 	{
-		Set s1 = [1, 2, 4, 6];
-		Set s2 = [3, 4, 5, 6];
+		Set<double> s1 = [1, 2, 4, 6];
+		Set<double> s2 = [3, 4, 5, 6];
 		s1.Remove(s2);
 
 		Assert.IsFalse(s1.Contains(4));
@@ -456,7 +444,7 @@ public class SetTests
 	[TestMethod]
 	public void Keep_RemovesNumbersFromSet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 		s1.Keep(2);
 
 		Assert.AreEqual(s1, [2]);
@@ -465,7 +453,7 @@ public class SetTests
 	[TestMethod]
 	public void Keep_KeepsMultipleNumbers()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 		s1.Keep(2, 3, 5);
 
 		Assert.AreEqual(s1, [2, 3, 5]);
@@ -474,7 +462,7 @@ public class SetTests
 	[TestMethod]
 	public void Keep_EmptiesSet_WhenKeepingNumbersNotInSet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 		s1.Keep(6, 7, 8);
 
 		Assert.AreEqual(s1, []);
@@ -483,7 +471,7 @@ public class SetTests
 	[TestMethod]
 	public void Keep_KeepsMultipleNumbers_WithMixedDuplicates()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 		s1.Keep(2, 3, 4, 6, 4);
 
 		Assert.AreEqual(s1, [2, 3, 4]);
@@ -492,8 +480,8 @@ public class SetTests
 	[TestMethod]
 	public void Keep_HandlesSetArgumentProperly()
 	{
-		Set s1 = [1, 2, 3, 4];
-		Set s2 = [3, 4, 5, 6];
+		Set<double> s1 = [1, 2, 3, 4];
+		Set<double> s2 = [3, 4, 5, 6];
 		s1.Keep(s2);
 
 		Assert.AreEqual(s1, [3, 4]);
@@ -504,11 +492,11 @@ public class SetTests
 	[TestMethod]
 	public void Union_ReturnsCombinedSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [6, 7, 8];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [6, 7, 8];
 
-		Set result = s1.Union(s2);
-		Set expected = [1, 2, 3, 4, 5, 6, 7, 8];
+		Set<double> result = s1.Union(s2);
+		Set<double> expected = [1, 2, 3, 4, 5, 6, 7, 8];
 
 		Assert.AreEqual(expected, result);
 	}
@@ -516,11 +504,11 @@ public class SetTests
 	[TestMethod]
 	public void Union_OmitsDuplicates()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [3, 4, 5, 6, 7];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [3, 4, 5, 6, 7];
 
-		Set result = s1.Union(s2);
-		Set expected = [1, 2, 3, 4, 5, 6, 7];
+		Set<double> result = s1.Union(s2);
+		Set<double> expected = [1, 2, 3, 4, 5, 6, 7];
 
 		Assert.AreEqual(expected, result);
 	}
@@ -528,10 +516,10 @@ public class SetTests
 	[TestMethod]
 	public void Union_ReturnsOriginalSet_WithEmptySet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [];
 
-		Set result = s1.Union(s2);
+		Set<double> result = s1.Union(s2);
 
 		Assert.AreEqual(s1, result);
 	}
@@ -539,10 +527,10 @@ public class SetTests
 	[TestMethod]
 	public void Union_ReturnsOriginalSet_WithSubset()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [2, 3, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [2, 3, 5];
 
-		Set result = s1.Union(s2);
+		Set<double> result = s1.Union(s2);
 
 		Assert.AreEqual(s1, result);
 	}
@@ -550,9 +538,9 @@ public class SetTests
 	[TestMethod]
 	public void Union_ReturnsOriginalSet_WithSelf()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 
-		Set result = s1.Union(s1);
+		Set<double> result = s1.Union(s1);
 
 		Assert.AreEqual(s1, result);
 	}
@@ -560,10 +548,10 @@ public class SetTests
 	[TestMethod]
 	public void Union_ReturnsEmptySet_WithTwoEmptySets()
 	{
-		Set s1 = [];
-		Set s2 = [];
+		Set<double> s1 = [];
+		Set<double> s2 = [];
 
-		Set result = s1.Union(s2);
+		Set<double> result = s1.Union(s2);
 
 		Assert.AreEqual([], result);
 	}
@@ -571,11 +559,11 @@ public class SetTests
 	[TestMethod]
 	public void Difference_ReturnsDifferenceOfSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [2, 3, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [2, 3, 5];
 
-		Set result = s1.Difference(s2);
-		Set expected = [1, 4];
+		Set<double> result = s1.Difference(s2);
+		Set<double> expected = [1, 4];
 
 		Assert.AreEqual(expected, result);
 	}
@@ -583,11 +571,11 @@ public class SetTests
 	[TestMethod]
 	public void Difference_OmitsElementsNotInSet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [2, 3, 5, 7, 11];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [2, 3, 5, 7, 11];
 
-		Set result = s1.Difference(s2);
-		Set expected = [1, 4];
+		Set<double> result = s1.Difference(s2);
+		Set<double> expected = [1, 4];
 
 		Assert.AreEqual(expected, result);
 	}
@@ -595,10 +583,10 @@ public class SetTests
 	[TestMethod]
 	public void Difference_ReturnsOriginalSet_WithEmptySet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [];
 
-		Set result = s1.Difference(s2);
+		Set<double> result = s1.Difference(s2);
 
 		Assert.AreEqual(s1, result);
 	}
@@ -606,10 +594,10 @@ public class SetTests
 	[TestMethod]
 	public void Difference_ReturnsOriginalSet_WithSetWithoutCommonElements()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [6, 7, 8];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [6, 7, 8];
 
-		Set result = s1.Difference(s2);
+		Set<double> result = s1.Difference(s2);
 
 		Assert.AreEqual(s1, result);
 	}
@@ -617,9 +605,9 @@ public class SetTests
 	[TestMethod]
 	public void Difference_ReturnsEmptySet_WithSelf()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 
-		Set result = s1.Difference(s1);
+		Set<double> result = s1.Difference(s1);
 
 		Assert.AreEqual([], result);
 
@@ -628,10 +616,10 @@ public class SetTests
 	[TestMethod]
 	public void Difference_ReturnsEmptySet_WithTwoEmptySets()
 	{
-		Set s1 = [];
-		Set s2 = [];
+		Set<double> s1 = [];
+		Set<double> s2 = [];
 
-		Set result = s1.Difference(s2);
+		Set<double> result = s1.Difference(s2);
 
 		Assert.AreEqual([], result);
 	}
@@ -639,11 +627,11 @@ public class SetTests
 	[TestMethod]
 	public void Intersection_ReturnsIntersectionOfSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [3, 4, 5, 6, 7];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [3, 4, 5, 6, 7];
 
-		Set result = s1.Intersection(s2);
-		Set expected = [3, 4, 5];
+		Set<double> result = s1.Intersection(s2);
+		Set<double> expected = [3, 4, 5];
 
 		Assert.AreEqual(expected, result);
 	}
@@ -651,10 +639,10 @@ public class SetTests
 	[TestMethod]
 	public void Intersection_ReturnsOriginalSet_WithSuperset()
 	{
-		Set s1 = [2, 3, 4];
-		Set s2 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [2, 3, 4];
+		Set<double> s2 = [1, 2, 3, 4, 5];
 
-		Set result = s1.Intersection(s2);
+		Set<double> result = s1.Intersection(s2);
 
 		Assert.AreEqual(s1, result);
 	}
@@ -662,9 +650,9 @@ public class SetTests
 	[TestMethod]
 	public void Intersection_ReturnsOriginalSet_WithSelf()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 
-		Set result = s1.Intersection(s1);
+		Set<double> result = s1.Intersection(s1);
 
 		Assert.AreEqual(s1, result);
 	}
@@ -672,10 +660,10 @@ public class SetTests
 	[TestMethod]
 	public void Intersection_ReturnsEmptySet_WithSetWithoutCommonElements()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [];
 
-		Set result = s1.Intersection(s2);
+		Set<double> result = s1.Intersection(s2);
 
 		Assert.AreEqual([], result);
 	}
@@ -683,10 +671,10 @@ public class SetTests
 	[TestMethod]
 	public void Intersection_ReturnsEmptySet_WithEmptySet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [];
 
-		Set result = s1.Intersection(s2);
+		Set<double> result = s1.Intersection(s2);
 
 		Assert.AreEqual([], result);
 	}
@@ -694,10 +682,10 @@ public class SetTests
 	[TestMethod]
 	public void Intersection_ReturnsEmptySet_WithTwoEmptySets()
 	{
-		Set s1 = [];
-		Set s2 = [];
+		Set<double> s1 = [];
+		Set<double> s2 = [];
 
-		Set result = s1.Intersection(s2);
+		Set<double> result = s1.Intersection(s2);
 
 		Assert.AreEqual([], result);
 	}
@@ -707,8 +695,8 @@ public class SetTests
 	[TestMethod]
 	public void FromRange_GeneratesCorrectSet_WithoutStep()
 	{
-		Set s1 = Set.FromRange(3, 7);
-		Set expected = [3, 4, 5, 6, 7];
+		Set<double> s1 = Set<double>.FromRange(3, 7);
+		Set<double> expected = [3, 4, 5, 6, 7];
 
 		Assert.AreEqual(expected, s1);
 	}
@@ -716,8 +704,8 @@ public class SetTests
 	[TestMethod]
 	public void FromRange_GeneratesCorrectSet_WithStep()
 	{
-		Set s1 = Set.FromRange(3, 11, 2);
-		Set expected = [3, 5, 7, 9, 11];
+		Set<double> s1 = Set<double>.FromRange(3, 11, 2);
+		Set<double> expected = [3, 5, 7, 9, 11];
 
 		Assert.AreEqual(expected, s1);
 	}
@@ -725,34 +713,34 @@ public class SetTests
 	[TestMethod]
 	public void FromRange_GeneratesSingleton_WhenStartIsEqualToEnd()
 	{
-		Set s1 = Set.FromRange(7, 7);
-		Set expected = [7];
+		Set<double> s1 = Set<double>.FromRange(7, 7);
+		Set<double> expected = [7];
 
-		Assert.AreEqual(1, s1.Count, "Generated set did not have only one element.");
+		Assert.AreEqual(1, s1.Count, "Generated Set<double> did not have only one element.");
 		Assert.AreEqual(expected, s1);
 	}
 
 	[TestMethod]
 	public void FromRange_ExcludesEnd_WhenStepSkipsOverEnd()
 	{
-		Set s1 = Set.FromRange(3, 10, 2);
-		Set expected = [3, 5, 7, 9];
+		Set<double> s1 = Set<double>.FromRange(3, 10, 2);
+		Set<double> expected = [3, 5, 7, 9];
 
-		Assert.IsFalse(s1.Contains(10), "Set contained end element when step did not align with it.");
+		Assert.IsFalse(s1.Contains(10), "Set<double> contained end element when step did not align with it.");
 		Assert.AreEqual(expected, s1);
 	}
 
 	[TestMethod]
 	public void FromRange_ThrowsError_WhenStepIsNotPositive()
 	{
-		Assert.ThrowsException<ArgumentException>(() => Set.FromRange(1, 5, 0), "Set with step 0 was accepted.");
-		Assert.ThrowsException<ArgumentException>(() => Set.FromRange(1, 5, -2), "Set with negative was accepted.");
+		Assert.ThrowsException<ArgumentException>(() => Set<double>.FromRange(1, 5, 0), "Set<double> with step 0 was accepted.");
+		Assert.ThrowsException<ArgumentException>(() => Set<double>.FromRange(1, 5, -2), "Set<double> with negative was accepted.");
 	}
 
 	[TestMethod]
 	public void FromRange_ThrowsError_WhenStartIsGreaterThanEnd()
 	{
-		Assert.ThrowsException<ArgumentException>(() => Set.FromRange(5, 1));
+		Assert.ThrowsException<ArgumentException>(() => Set<double>.FromRange(5, 1));
 	}
 	#endregion
 
@@ -760,8 +748,8 @@ public class SetTests
 	[TestMethod]
 	public void AdditionOperator_WithDouble_AddsNumberToSet()
 	{
-		Set s1 = [2, 3];
-		Set s2 = s1 + 8;
+		Set<double> s1 = [2, 3];
+		Set<double> s2 = s1 + 8;
 
 		Assert.AreEqual([2, 3, 8], s2);
 	}
@@ -769,11 +757,11 @@ public class SetTests
 	[TestMethod]
 	public void AdditionOperator_WithSet_CombinesSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [3, 4, 5, 6, 7];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [3, 4, 5, 6, 7];
 
-		Set result = s1 + s2;
-		Set expected = [1, 2, 3, 4, 5, 6, 7];
+		Set<double> result = s1 + s2;
+		Set<double> expected = [1, 2, 3, 4, 5, 6, 7];
 
 		Assert.AreEqual(expected, result);
 	}
@@ -781,8 +769,8 @@ public class SetTests
 	[TestMethod]
 	public void SubtractionOperator_WithDouble_RemovesNumberFromSet()
 	{
-		Set s1 = [2, 3, 8];
-		Set s2 = s1 - 8;
+		Set<double> s1 = [2, 3, 8];
+		Set<double> s2 = s1 - 8;
 
 		Assert.AreEqual([2, 3], s2);
 	}
@@ -790,11 +778,11 @@ public class SetTests
 	[TestMethod]
 	public void SubtractionOperator_WithDouble_ReturnsDifferenceOfSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [2, 3, 5, 7, 11];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [2, 3, 5, 7, 11];
 
-		Set result = s1 - s2;
-		Set expected = [1, 4];
+		Set<double> result = s1 - s2;
+		Set<double> expected = [1, 4];
 
 		Assert.AreEqual(expected, result);
 	}
@@ -802,11 +790,11 @@ public class SetTests
 	[TestMethod]
 	public void MultiplicationOperator_ReturnsIntersectionOfSets()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
-		Set s2 = [3, 4, 5, 6, 7];
+		Set<double> s1 = [1, 2, 3, 4, 5];
+		Set<double> s2 = [3, 4, 5, 6, 7];
 
-		Set result = s1 * s2;
-		Set expected = [3, 4, 5];
+		Set<double> result = s1 * s2;
+		Set<double> expected = [3, 4, 5];
 
 		Assert.AreEqual(expected, result);
 	}
@@ -814,7 +802,7 @@ public class SetTests
 	[TestMethod]
 	public void CountOperator_ReturnsElementCount()
 	{
-		Set s1 = [2, 3, 5, 7, 11];
+		Set<double> s1 = [2, 3, 5, 7, 11];
 
 		int count = ~s1;
 
@@ -824,7 +812,7 @@ public class SetTests
 	[TestMethod]
 	public void CountOperator_ReturnsZero_ForEmptySet()
 	{
-		Set s1 = [];
+		Set<double> s1 = [];
 
 		int count = ~s1;
 
@@ -834,18 +822,18 @@ public class SetTests
 	[TestMethod]
 	public void Boolean_ReturnsTrue_ForNonEmptySet()
 	{
-		Set s1 = [1, 2, 3, 4, 5];
+		Set<double> s1 = [1, 2, 3, 4, 5];
 
 		if (s1) { /* passed */ }
-		else { Assert.Fail("Non-empty set returned false."); }
+		else { Assert.Fail("Non-empty Set<double> returned false."); }
 	}
 
 	[TestMethod]
 	public void Boolean_ReturnsFalse_ForEmptySet()
 	{
-		Set s1 = [];
+		Set<double> s1 = [];
 
-		if (s1) { Assert.Fail("Empty set returned false."); }
+		if (s1) { Assert.Fail("Empty Set<double> returned false."); }
 	}
 	#endregion
 
@@ -853,7 +841,7 @@ public class SetTests
 	[TestMethod]
 	public void Iteration_LoopsThroughEachElement()
 	{
-		Set s1 = [2, 3, 5, 7, 11];
+		Set<double> s1 = [2, 3, 5, 7, 11];
 
 		int i = 0;
 		foreach (double element in s1)
@@ -868,7 +856,7 @@ public class SetTests
 	[TestMethod]
 	public void Iteration_LoopsFromSmallestToLargest()
 	{
-		Set s1 = [5, -2, 4.2, 0, -26.5];
+		Set<double> s1 = [5, -2, 4.2, 0, -26.5];
 
 		double previous = double.NegativeInfinity;
 		foreach (double element in s1)
