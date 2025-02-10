@@ -208,8 +208,8 @@ public class Line : IObject2D
 		Line l = p2 ? this - (Vector)P2 : this - (Vector)P1;
 		if (normalize)
 		{
-			l.P1.Normalize();
-			l.P2.Normalize();
+			l.P1 = l.P1.ToNormalized();
+			l.P2 = l.P2.ToNormalized();
 		}
 		return l;
 	}

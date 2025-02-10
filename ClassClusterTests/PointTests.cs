@@ -260,6 +260,8 @@ public class PointTests
 
 		p1.Normalize();
 
+		Assert.AreNotEqual(p1, new(4, 7));
+		Assert.AreNotEqual(p2, new(4, 7));
 		Assert.AreEqual(p1, p2);
 	}
 	#endregion
