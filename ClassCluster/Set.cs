@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Linq;
 using System.Numerics;
 
 namespace ClassCluster;
@@ -362,6 +362,19 @@ public static class SetExtensions
 			sum += set.Count;
 		}
 		return sum;
+	}
+	/// <summary>
+	/// Flattens a two-dimensional set.
+	/// </summary>
+	/// <returns>A new set containing all of the values in the nested sets.</returns>
+	public static Set<T> Flatten<T>(this Set<Set<T>> s) where T : notnull
+	{
+		Set<T> flattened = [];
+		foreach (var nestedSet in s)
+		{
+			flattened.Add(nestedSet);
+		}
+		return flattened;
 	}
 	#endregion
 }

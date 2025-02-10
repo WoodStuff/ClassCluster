@@ -3,7 +3,7 @@
 namespace ClassCluster;
 
 /// <summary>
-/// Represents a 2D circle.
+/// Represents a circle.
 /// </summary>
 public class Circle : IFigure2D
 {
@@ -109,8 +109,20 @@ public class Circle : IFigure2D
 		return !(left == right);
 	}
 
+	/// <summary>
+	/// Moves the circle by a vector.
+	/// </summary>
 	public static Circle operator +(Circle c, Vector v) => new(c.Center + v, c.Radius);
+	/// <summary>
+	/// Increases the radius of the circle by some number.
+	/// </summary>
 	public static Circle operator +(Circle c, double n) => new(c.Center, c.Radius + n);
+	/// <summary>
+	/// Subtracts a vector from the circle.
+	/// </summary>
 	public static Circle operator -(Circle c, Vector v) => new(c.Center - v, c.Radius);
+	/// <summary>
+	/// Decreases the radius of the circle by some number.
+	/// </summary>
 	public static Circle operator -(Circle c, double n) => new(c.Center, c.Radius - n);
 }
