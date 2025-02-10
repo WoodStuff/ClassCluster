@@ -58,6 +58,19 @@ public class PointTests
 		double distance = p1.GridDistFromOrigin;
 		Assert.AreEqual(expected, distance);
 	}
+
+	[DataTestMethod]
+	[DataRow(3, 0, 0)]
+	[DataRow(2.5, 2.5, Math.PI * 0.25)]
+	[DataRow(0, 3, Math.PI * 0.5)]
+	[DataRow(-3, 0, Math.PI)]
+	[DataRow(0, -3, Math.PI * 1.5)]
+	public void Theta_ReturnsCorrectAngle(double x, double y, double expected)
+	{
+		Point p1 = new(x, y);
+		double theta = p1.Theta;
+		Assert.AreEqual(expected, theta);
+	}
 	#endregion
 
 	#region Equality Tests
@@ -75,13 +88,6 @@ public class PointTests
 		Point p1 = new(6, -8);
 		Point p2 = new(7, -8);
 		Assert.AreNotEqual(p1, p2);
-	}
-
-	[TestMethod]
-	public void Equality_ReturnsFalse_ForNull()
-	{
-		Point p1 = new(6, -8);
-		Assert.AreNotEqual(null, p1);
 	}
 	#endregion
 

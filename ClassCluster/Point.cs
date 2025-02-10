@@ -5,7 +5,7 @@ namespace ClassCluster;
 /// <summary>
 /// Represents a 2D point.
 /// </summary>
-public class Point : IObject2D
+public struct Point : IObject2D
 {
 	private const double Tolerance = 1e-6;
 
@@ -20,11 +20,11 @@ public class Point : IObject2D
 	/// <summary>
 	/// The X position of the point.
 	/// </summary>
-	public double X => _x;
+	public readonly double X => _x;
 	/// <summary>
 	/// The Y position of the point.
 	/// </summary>
-	public double Y => _y;
+	public readonly double Y => _y;
 
 	public Point(double x, double y)
 	{
@@ -36,16 +36,16 @@ public class Point : IObject2D
 	/// Calculates the point's euclidean distance from the origin (the point at (0, 0)).
 	/// </summary>
 	/// <returns>A double representing the euclidean distance.</returns>
-	public double DistanceFromOrigin => Math.Sqrt(X * X + Y * Y);
+	public readonly double DistanceFromOrigin => Math.Sqrt(X * X + Y * Y);
 	/// <summary>
 	/// Calculates the point's taxicab distance from the origin (the point at (0, 0)).
 	/// </summary>
 	/// <returns>A double representing the taxicab distance.</returns>
-	public double GridDistFromOrigin => Math.Abs(X) + Math.Abs(Y);
+	public readonly double GridDistFromOrigin => Math.Abs(X) + Math.Abs(Y);
 	/// <summary>
-	/// Calculates the point's angle from the origin, from 0 to <see cref="Math.Tau"/>.
+	/// Calculates the point's angle in radians from the origin, from 0 to <see cref="Math.Tau"/>.
 	/// </summary>
-	public double Theta
+	public readonly double Theta
 	{
 		get
 		{
@@ -60,7 +60,7 @@ public class Point : IObject2D
 	/// </summary>
 	/// <param name="other">The point to calculate distance to.</param>
 	/// <returns>A double representing the euclidean distance.</returns>
-	public double Distance(Point other)
+	public readonly double Distance(Point other)
 	{
 		double dx = X - other.X;
 		double dy = Y - other.Y;
@@ -81,7 +81,7 @@ public class Point : IObject2D
 	/// </summary>
 	/// <param name="other">The point to calculate taxicab distance to.</param>
 	/// <returns>A double representing the taxicab distance.</returns>
-	public double GridDist(Point other)
+	public readonly double GridDist(Point other)
 	{
 		double dx = X - other.X;
 		double dy = Y - other.Y;
@@ -103,7 +103,7 @@ public class Point : IObject2D
 	/// Returns the origin if the given point is the origin.
 	/// </summary>
 	/// <returns>The normalized point</returns>
-	public Point ToNormalized()
+	public readonly Point ToNormalized()
 	{
 		double length = DistanceFromOrigin;
 		if (length == 0) return this;
@@ -123,8 +123,8 @@ public class Point : IObject2D
 		_y /= length;
 	}
 
-	public override string ToString() => $"({X}, {Y})";
-	public override bool Equals(object? obj)
+	public override readonly string ToString() => $"({X}, {Y})";
+	public override readonly bool Equals(object? obj)
 	{
 		if (obj == null || GetType() != obj.GetType())
 		{
@@ -134,14 +134,13 @@ public class Point : IObject2D
 		Point other = (Point)obj;
 		return Math.Abs(X - other.X) < Tolerance && Math.Abs(Y - other.Y) < Tolerance;
 	}
-	public override int GetHashCode() => HashCode.Combine(X, Y);
+	public override readonly int GetHashCode() => HashCode.Combine(X, Y);
 
 	public static implicit operator Point((double x, double y) tuple) => new(tuple.x, tuple.y);
 	public static explicit operator Point(Vector v) => new(v.X, v.Y);
 	
 	public static bool operator ==(Point left, Point right)
 	{
-		if (left is null) return right is null;
 		return left.Equals(right);
 	}
 	public static bool operator !=(Point left, Point right)

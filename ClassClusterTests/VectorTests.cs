@@ -37,6 +37,19 @@ public class VectorTests
 		double magnitude = v1.Magnitude;
 		Assert.AreEqual(expected, magnitude);
 	}
+
+	[DataTestMethod]
+	[DataRow(3, 0, 0)]
+	[DataRow(2.5, 2.5, Math.PI * 0.25)]
+	[DataRow(0, 3, Math.PI * 0.5)]
+	[DataRow(-3, 0, Math.PI)]
+	[DataRow(0, -3, Math.PI * 1.5)]
+	public void Theta_ReturnsCorrectAngle(double x, double y, double expected)
+	{
+		Vector v1 = new(x, y);
+		double theta = v1.Theta;
+		Assert.AreEqual(expected, theta);
+	}
 	#endregion
 
 	#region Equality Tests

@@ -193,7 +193,7 @@ public class Line : IObject2D
 		if (IsParallelTo(other)) return null;
 
 		double xIntersection = (other.YIntercept - YIntercept) / (Slope - other.Slope);
-		double yIntersection = PointAtX(xIntersection)!.Y;
+		double yIntersection = PointAtX(xIntersection).Value.Y;
 
 		return new Point(xIntersection, yIntersection);
 	}
@@ -241,8 +241,8 @@ public class Line : IObject2D
 		}
 
 		Line other = (Line)obj;
-		double inter = IsVertical ? PointAtY(0)!.X : YIntercept;
-		double otherInter = other.IsVertical ? other.PointAtY(0)!.X : other.YIntercept;
+		double inter = IsVertical ? PointAtY(0).Value.X : YIntercept;
+		double otherInter = other.IsVertical ? other.PointAtY(0).Value.X : other.YIntercept;
 		return Math.Abs(Slope - other.Slope) < 0.000001 && Math.Abs(inter - otherInter) < 0.000001;
 	}
 	public override int GetHashCode()
