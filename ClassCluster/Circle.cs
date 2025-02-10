@@ -56,10 +56,7 @@ public class Circle : IFigure2D<Circle>
 	/// </summary>
 	/// <param name="p">The point to calculate distance from.</param>
 	/// <returns>A double representing the signed distance.</returns>
-	public double Distance(Point p)
-	{
-		return p.Distance(Center) - Radius;
-	}
+	public double Distance(Point p) => p.Distance(Center) - Radius;
 	/// <summary>
 	/// Finds the point on this circle on a specified angle.
 	/// </summary>
@@ -94,20 +91,14 @@ public class Circle : IFigure2D<Circle>
 		Circle other = (Circle)obj;
 		return Center == other.Center && Math.Abs(Radius - other.Radius) < 1e-6;
 	}
-	public override int GetHashCode()
-	{
-		return HashCode.Combine(Center, Radius);
-	}
+	public override int GetHashCode() => HashCode.Combine(Center, Radius);
 
 	public static bool operator ==(Circle left, Circle right)
 	{
 		if (left is null) return right is null;
 		return left.Equals(right);
 	}
-	public static bool operator !=(Circle left, Circle right)
-	{
-		return !(left == right);
-	}
+	public static bool operator !=(Circle left, Circle right) => !(left == right);
 
 	/// <summary>
 	/// Moves the circle by a vector.

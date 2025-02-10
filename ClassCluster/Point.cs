@@ -72,10 +72,7 @@ public struct Point : IObject2D<Point>
 	/// <param name="p1">The first point.</param>
 	/// <param name="p2">The second point.</param>
 	/// <returns>A double representing the euclidean distance.</returns>
-	public static double Distance(Point p1, Point p2)
-	{
-		return p1.Distance(p2);
-	}
+	public static double Distance(Point p1, Point p2) => p1.Distance(p2);
 	/// <summary>
 	/// Calculates the point's taxicab distance from another point.
 	/// </summary>
@@ -93,10 +90,7 @@ public struct Point : IObject2D<Point>
 	/// <param name="p1">The first point.</param>
 	/// <param name="p2">The second point.</param>
 	/// <returns>A double representing the taxicab distance.</returns>
-	public static double GridDist(Point p1, Point p2)
-	{
-		return p1.GridDist(p2);
-	}
+	public static double GridDist(Point p1, Point p2) => p1.GridDist(p2);
 	/// <summary>
 	/// Normalizes the point as if it was a vector.
 	/// Shortens the point to have a length of 1 while maintaining the direction and returns it.
@@ -138,15 +132,9 @@ public struct Point : IObject2D<Point>
 
 	public static implicit operator Point((double x, double y) tuple) => new(tuple.x, tuple.y);
 	public static explicit operator Point(Vector v) => new(v.X, v.Y);
-	
-	public static bool operator ==(Point left, Point right)
-	{
-		return left.Equals(right);
-	}
-	public static bool operator !=(Point left, Point right)
-	{
-		return !(left == right);
-	}
+
+	public static bool operator ==(Point left, Point right) => left.Equals(right);
+	public static bool operator !=(Point left, Point right) => !(left == right);
 
 	public static Point operator +(Point left, Point right)	=> new(left.X + right.X, left.Y + right.Y);
 	public static Point operator +(Point p, Vector v) => new(p.X + v.X, p.Y + v.Y);

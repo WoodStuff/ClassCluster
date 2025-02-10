@@ -43,12 +43,6 @@ public readonly struct Boundary<T> where T : notnull
 
 	public static implicit operator Boundary<T>(T obj) => new(obj);
 
-	public static bool operator ==(Boundary<T> left, Boundary<T> right)
-	{
-		return left.Equals(right);
-	}
-	public static bool operator !=(Boundary<T> left, Boundary<T> right)
-	{
-		return !(left == right);
-	}
+	public static bool operator ==(Boundary<T> left, Boundary<T> right) => left.Equals(right);
+	public static bool operator !=(Boundary<T> left, Boundary<T> right) => !(left == right);
 }

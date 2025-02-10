@@ -85,20 +85,14 @@ public struct Vector
 	/// </summary>
 	/// <param name="other">The point to calculate the dot product with.</param>
 	/// <returns>The dot product.</returns>
-	public readonly double Dot(Vector other)
-	{
-		return X * other.X + Y * other.Y;
-	}
+	public readonly double Dot(Vector other) => X * other.X + Y * other.Y;
 	/// <summary>
 	/// Calculates the dot product between two vectors.
 	/// </summary>
 	/// <param name="v1">The first vector.</param>
 	/// <param name="v2">The second vector.</param>
 	/// <returns>The dot product.</returns>
-	public static double Dot(Vector v1, Vector v2)
-	{
-		return v1.Dot(v2);
-	}
+	public static double Dot(Vector v1, Vector v2) => v1.Dot(v2);
 	/// <summary>
 	/// Calculates the angle between this and the input vector in the desired angle unit.
 	/// </summary>
@@ -121,10 +115,7 @@ public struct Vector
 	/// <param name="v2">The second vector.</param>
 	/// <param name="type">The angle unit. Defaults to radians.</param>
 	/// <returns>The angle between the two vectors.</returns>
-	public static double AngleBetween(Vector v1, Vector v2, AngleUnit type = AngleUnit.Radians)
-	{
-		return v1.AngleBetween(v2, type);
-	}
+	public static double AngleBetween(Vector v1, Vector v2, AngleUnit type = AngleUnit.Radians) => v1.AngleBetween(v2, type);
 	/// <summary>
 	/// Rotates the vector counterclockwise and returns it.
 	/// </summary>
@@ -180,14 +171,8 @@ public struct Vector
 
 	public static explicit operator Vector(Point p) => new(p.X, p.Y);
 
-	public static bool operator ==(Vector left, Vector right)
-	{
-		return left.Equals(right);
-	}
-	public static bool operator !=(Vector left, Vector right)
-	{
-		return !(left == right);
-	}
+	public static bool operator ==(Vector left, Vector right) => left.Equals(right);
+	public static bool operator !=(Vector left, Vector right) => !(left == right);
 
 	public static Vector operator +(Vector left, Vector right) => new(left.X + right.X, left.Y + right.Y);
 	public static Vector operator -(Vector left, Vector right) => new(left.X - right.X, left.Y - right.Y);

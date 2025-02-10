@@ -14,19 +14,10 @@ public class Set<T> : ICollection<T> where T : notnull
 	public static Set<T> Empty => [];
 	private HashSet<T> num;
 
-	public Set()
-	{
-		num = [];
-	}
+	public Set() => num = [];
 	public Set(params T[] n) : this((IEnumerable<T>)n) { }
-	public Set(IEnumerable<T> n)
-	{
-		num = new(n);
-	}
-	public Set(HashSet<T> s)
-	{
-		num = s;
-	}
+	public Set(IEnumerable<T> n) => num = new(n);
+	public Set(HashSet<T> s) => num = s;
 
 	/// <summary>
 	/// Creates a set containing all numbers in a range.
@@ -247,10 +238,7 @@ public class Set<T> : ICollection<T> where T : notnull
 		if (left is null) return right is null;
 		return left.Equals(right);
 	}
-	public static bool operator !=(Set<T> left, Set<T> right)
-	{
-		return !(left == right);
-	}
+	public static bool operator !=(Set<T> left, Set<T> right) => !(left == right);
 
 	public static Set<T> operator +(Set<T> s, T value)
 	{

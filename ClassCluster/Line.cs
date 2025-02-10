@@ -116,20 +116,14 @@ public class Line : IObject2D<Line>
 	/// </summary>
 	/// <param name="other">The line to check parallelness.</param>
 	/// <returns>Result of the check.</returns>
-	public bool IsParallelTo(Line other)
-	{
-		return Slope == other.Slope;
-	}
+	public bool IsParallelTo(Line other) => Slope == other.Slope;
 	/// <summary>
 	/// Checks if two lines are parallel.
 	/// </summary>
 	/// <param name="l1">The first line to check parallelness of.</param>
 	/// <param name="l2">The second line to check parallelness of.</param>
 	/// <returns>Result of the check.</returns>
-	public static bool AreParallel(Line l1, Line l2)
-	{
-		return l1.IsParallelTo(l2);
-	}
+	public static bool AreParallel(Line l1, Line l2) => l1.IsParallelTo(l2);
 	/// <summary>
 	/// Checks if the line is perpendicular to another line.
 	/// </summary>
@@ -147,10 +141,7 @@ public class Line : IObject2D<Line>
 	/// <param name="l1">The first line to check perpendicularness of.</param>
 	/// <param name="l2">The second line to check perpendicularness of.</param>
 	/// <returns>Result of the check.</returns>
-	public static bool ArePerpendicular(Line l1, Line l2)
-	{
-		return l1.IsPerpendicularTo(l2);
-	}
+	public static bool ArePerpendicular(Line l1, Line l2) => l1.IsPerpendicularTo(l2);
 	/// <summary>
 	/// Checks if the line contains a point.
 	/// </summary>
@@ -218,19 +209,13 @@ public class Line : IObject2D<Line>
 	/// </summary>
 	/// <param name="p">The point the line must pass through.</param>
 	/// <returns>A new parallel line passing through the point p.</returns>
-	public Line ParallelThrough(Point p)
-	{
-		return new Line(p, p + P2 - P1);
-	}
+	public Line ParallelThrough(Point p) => new(p, p + P2 - P1);
 
 	/// <summary>
 	/// Clones the line with the same anchor points.
 	/// </summary>
 	/// <returns>A copy of the line.</returns>
-	public Line Clone()
-	{
-		return (Line)MemberwiseClone();
-	}
+	public Line Clone() => (Line)MemberwiseClone();
 
 	public override string ToString() => $"-{P1}--{P2}-";
 	public override bool Equals(object? obj)
@@ -256,10 +241,7 @@ public class Line : IObject2D<Line>
 		if (left is null) return right is null;
 		return left.Equals(right);
 	}
-	public static bool operator !=(Line left, Line right)
-	{
-		return !(left == right);
-	}
+	public static bool operator !=(Line left, Line right) => !(left == right);
 
 	public static Line operator +(Line l, Vector v) => new(l.P1 + v, l.P2 + v);
 	public static Line operator -(Line l, Vector v) => new(l.P1 - v, l.P2 - v);
