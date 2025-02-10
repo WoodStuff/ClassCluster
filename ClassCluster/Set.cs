@@ -279,6 +279,9 @@ public class Set<T> : ICollection<T> where T : notnull
 	private HashSet<T> SortedNum => IsComparable() ? [.. num.OrderBy(x => x)] : num;
 }
 
+/// <summary>
+/// Set methods for specific types.
+/// </summary>
 public static class SetExtensions
 {
 	#region Numeric Methods
@@ -309,7 +312,7 @@ public static class SetExtensions
 	/// <summary>
 	/// Calculates the average value in the set.
 	/// </summary>
-	public static double Average<T>(this Set<T> s) where T : INumber<T> => (double)(dynamic)s.Sum() / s.Count;
+	public static double Average<T>(this Set<T> s) where T : INumber<T> => Convert.ToDouble(s.Sum()) / s.Count;
 	#endregion
 
 	#region Point Methods
