@@ -5,7 +5,7 @@ namespace ClassCluster;
 /// <summary>
 /// Represents an unbounded 2D line.
 /// </summary>
-public class Line : IObject2D
+public class Line : IObject2D<Line>
 {
 	private Point _p1;
 	private Point _p2;

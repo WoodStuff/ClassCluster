@@ -5,7 +5,7 @@ namespace ClassCluster;
 /// <summary>
 /// Represents a circle.
 /// </summary>
-public class Circle : IFigure2D
+public class Circle : IFigure2D<Circle>
 {
 	private double _radius;
 
@@ -84,7 +84,7 @@ public class Circle : IFigure2D
 	}
 
 	// interface members
-	double IFigure2D.Perimeter => Circumference;
+	double IFigure2D<Circle>.Perimeter => Circumference;
 
 	public override string ToString() => $"Circle({Radius}) : {Center}";
 	public override bool Equals(object? obj)

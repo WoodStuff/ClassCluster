@@ -5,7 +5,7 @@ namespace ClassCluster;
 /// <summary>
 /// Represents a 2D point.
 /// </summary>
-public struct Point : IObject2D
+public struct Point : IObject2D<Point>
 {
 	private const double Tolerance = 1e-6;
 

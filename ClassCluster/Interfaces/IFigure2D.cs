@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a bounded 2D object that encloses a space and has area.
 /// </summary>
-internal interface IFigure2D : IObject2D
+internal interface IFigure2D<TSelf> : IObject2D<TSelf> where TSelf : IFigure2D<TSelf>
 {
 	/// <summary>
 	/// The area of the <see cref="IFigure2D"/>.

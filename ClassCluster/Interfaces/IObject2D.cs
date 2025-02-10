@@ -1,8 +1,11 @@
-﻿namespace ClassCluster.Interfaces;
+﻿using System.Numerics;
+
+namespace ClassCluster.Interfaces;
 
 /// <summary>
 /// Represents a 2D geometrical object.
 /// </summary>
-internal interface IObject2D
+internal interface IObject2D<TSelf> : IAdditionOperators<TSelf, Vector, TSelf>, ISubtractionOperators<TSelf, Vector, TSelf> where TSelf : IObject2D<TSelf>
 {
+	
 }
