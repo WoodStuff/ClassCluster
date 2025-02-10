@@ -68,13 +68,6 @@ public class VectorTests
 		Vector v2 = new(7, -8);
 		Assert.AreNotEqual(v1, v2);
 	}
-
-	[TestMethod]
-	public void Equality_ReturnsFalse_ForNull()
-	{
-		Vector v1 = new(6, -8);
-		Assert.AreNotEqual(null, v1);
-	}
 	#endregion
 
 	#region Operator Tests

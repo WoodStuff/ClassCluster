@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a 2D vector.
 /// </summary>
-public class Vector
+public struct Vector
 {
 	private const double Tolerance = 1e-6;
 
@@ -26,11 +26,11 @@ public class Vector
 	/// <summary>
 	/// The X position of the vector.
 	/// </summary>
-	public double X => _x;
+	public readonly double X => _x;
 	/// <summary>
 	/// The Y position of the vector.
 	/// </summary>
-	public double Y => _y;
+	public readonly double Y => _y;
 
 	public Vector(double x, double y)
 	{
@@ -51,11 +51,11 @@ public class Vector
 	/// Calculates the vector's magnitude, or length.
 	/// </summary>
 	/// <returns>A double representing the magnitude.</returns>
-	public double Magnitude => Math.Sqrt(X * X + Y * Y);
+	public readonly double Magnitude => Math.Sqrt(X * X + Y * Y);
 	/// <summary>
 	/// Calculates the vector's angle in radians, from 0 to <see cref="Math.Tau"/>.
 	/// </summary>
-	public double Theta
+	public readonly double Theta
 	{
 		get
 		{
@@ -71,7 +71,7 @@ public class Vector
 	/// Returns the zero vector if the given vector is the zero vector.
 	/// </summary>
 	/// <returns>The normalized vector.</returns>
-	public Vector ToNormalized()
+	public readonly Vector ToNormalized()
 	{
 		double length = Magnitude;
 		if (length != 0)
@@ -85,7 +85,7 @@ public class Vector
 	/// </summary>
 	/// <param name="other">The point to calculate the dot product with.</param>
 	/// <returns>The dot product.</returns>
-	public double Dot(Vector other)
+	public readonly double Dot(Vector other)
 	{
 		return X * other.X + Y * other.Y;
 	}
@@ -105,7 +105,7 @@ public class Vector
 	/// <param name="other">The other vector.</param>
 	/// <param name="type">The angle unit. Defaults to radians.</param>
 	/// <returns>The angle between the two vectors.</returns>
-	public double AngleBetween(Vector other, AngleUnit type = AngleUnit.Radians)
+	public readonly double AngleBetween(Vector other, AngleUnit type = AngleUnit.Radians)
 	{
 		if (Magnitude == 0 || other.Magnitude == 0) throw new InvalidOperationException("Cannot calculate angle with a zero vector.");
 		double dotProduct = this * other;
@@ -131,7 +131,7 @@ public class Vector
 	/// <param name="angle">The angle to rotate by.</param>
 	/// <param name="type">The angle unit. Defaults to radians.</param>
 	/// <returns>The rotated vector.</returns>
-	public Vector RotatedBy(double angle, AngleUnit type = AngleUnit.Radians)
+	public readonly Vector RotatedBy(double angle, AngleUnit type = AngleUnit.Radians)
 	{
 		if (type != AngleUnit.Radians) angle = Utils.ConvertAngle(type, angle, AngleUnit.Radians);
 		double x = Math.Round(X * Math.Cos(angle) - Y * Math.Sin(angle), 6);
@@ -165,8 +165,8 @@ public class Vector
 		_y = rotated.Y;
 	}
 
-	public override string ToString() => $"[{X}, {Y}]";
-	public override bool Equals(object? obj)
+	public override readonly string ToString() => $"[{X}, {Y}]";
+	public override readonly bool Equals(object? obj)
 	{
 		if (obj == null || GetType() != obj.GetType())
 		{
@@ -176,13 +176,12 @@ public class Vector
 		Vector other = (Vector)obj;
 		return Math.Abs(X - other.X) < Tolerance && Math.Abs(Y - other.Y) < Tolerance;
 	}
-	public override int GetHashCode() => HashCode.Combine(X, Y);
+	public override readonly int GetHashCode() => HashCode.Combine(X, Y);
 
 	public static explicit operator Vector(Point p) => new(p.X, p.Y);
 
 	public static bool operator ==(Vector left, Vector right)
 	{
-		if (left is null) return right is null;
 		return left.Equals(right);
 	}
 	public static bool operator !=(Vector left, Vector right)
