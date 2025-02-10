@@ -40,7 +40,7 @@ public struct Vector
 
 	/// <summary>
 	/// Creates a vector with magnitude 1 corresponding to the angle given.
-	/// Starts from [0, 1] and goes counterclockwise.
+	/// Starts from [1, 0] and goes counterclockwise.
 	/// </summary>
 	/// <param name="angle">The angle.</param>
 	/// <param name="type">The angle unit that <paramref name="angle"/> is expressed in.</param>
