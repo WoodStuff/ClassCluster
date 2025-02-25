@@ -15,7 +15,7 @@ public struct Point : IObject2D<Point>
 	/// <summary>
 	/// The point at (0, 0).
 	/// </summary>
-	public static readonly Point Origin = new(0, 0);
+	public static Point Origin => new(0, 0);
 
 	/// <summary>
 	/// The X position of the point.
