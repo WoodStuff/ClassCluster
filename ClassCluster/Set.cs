@@ -181,6 +181,15 @@ public class Set<T> : ICollection<T> where T : notnull
 		}
 		num = final.num;
 	}
+
+	public void Filter(Predicate<T> predicate)
+	{
+		foreach (T value in num)
+		{
+			if (!predicate(value)) num.Remove(value);
+		}
+	}
+
 	/// <summary>
 	/// Removes all elements from the set.
 	/// </summary>
