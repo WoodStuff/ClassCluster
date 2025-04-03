@@ -39,7 +39,7 @@ public readonly struct Boundary<T> where T : notnull
 		Boundary<T> other = (Boundary<T>)obj;
 		return Closed == other.Closed && Value.Equals(other.Value);
 	}
-	public override int GetHashCode() => Value.GetHashCode();
+	public override int GetHashCode() => HashCode.Combine(Value, Closed);
 
 	public static implicit operator Boundary<T>(T obj) => new(obj);
 
