@@ -65,6 +65,19 @@ public class Circle : IFigure2D<Circle>
 	/// <returns>The point on this circle located at the <paramref name="angle"/></returns>
 	public Point PointAtAngle(double angle, AngleUnit type = AngleUnit.Radians) => Center + Vector.FromAngle(angle, type) * Radius;
 	/// <summary>
+	/// Creates a tangent line passing through the point at the specified angle.
+	/// </summary>
+	/// <param name="angle">The angle of the point on the circle that the tangent line touches.</param>
+	/// <param name="type">The unit <paramref name="angle"/> is expressed in.</param>
+	/// <returns>A line tangent to the circle in the point <see cref="PointAtAngle(double, AngleUnit)"/>.</returns>
+	public Line Tangent(double angle, AngleUnit type = AngleUnit.Radians)
+	{
+		double rightAngle = Utils.ConvertAngle(AngleUnit.Radians, Math.PI / 2, type);
+		Line l1 = new(Center, PointAtAngle(angle + rightAngle, type));
+		Vector v1 = Vector.FromAngle(angle - rightAngle, type).RotatedBy(90, AngleUnit.Degrees) * Radius;
+		return l1 + v1;
+	}
+	/// <summary>
 	/// Finds the relative position of a point to the circle.
 	/// </summary>
 	/// <param name="p">The point to locate relative to the circle.</param>
