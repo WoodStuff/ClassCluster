@@ -153,6 +153,17 @@ public class Line : IObject2D<Line>
 		return PointAtX(p.X)! == p;
 	}
 	/// <summary>
+	/// Calculates the distance to a point.
+	/// </summary>
+	/// <param name="p"></param>
+	/// <returns></returns>
+	public double DistanceTo(Point p)
+	{
+		Line perpendicular = PerpendicularThrough(p);
+		Point intersection = Intersection(perpendicular)!.Value;
+		return intersection.Distance(p);
+	}
+	/// <summary>
 	/// Gets the point at the specified x coordinate.
 	/// </summary>
 	/// <param name="x">The x coordinate.</param>
@@ -205,10 +216,22 @@ public class Line : IObject2D<Line>
 		return l;
 	}
 	/// <summary>
-	/// Creates a line parallel to this one that passes through a given point.
+	/// Creates a line perpendicular to this one that passes through a given point <paramref name="p"/>.
 	/// </summary>
 	/// <param name="p">The point the line must pass through.</param>
-	/// <returns>A new parallel line passing through the point p.</returns>
+	/// <returns>A line perpendicular to this one passing through the point <paramref name="p"/>.</returns>
+	public Line PerpendicularThrough(Point p)
+	{
+		Vector v1 = (Vector)(P1 - P2);
+		v1.Rotate(Math.PI / 2, AngleUnit.Radians);
+		Point onNewLine = p + v1;
+		return new(p, onNewLine);
+	}
+	/// <summary>
+	/// Creates a line parallel to this one that passes through a given point <paramref name="p"/>.
+	/// </summary>
+	/// <param name="p">The point the line must pass through.</param>
+	/// <returns>A new parallel line passing through the point <paramref name="p"/>.</returns>
 	public Line ParallelThrough(Point p) => new(p, p + P2 - P1);
 
 	/// <summary>
