@@ -598,6 +598,17 @@ public class LineTests
 	}
 
 	[TestMethod]
+	public void Intersection_HandlesLinesOnAxisCorrectly()
+	{
+		Line l1 = Line.Horizontal;
+		Line l2 = Line.Vertical;
+		Point? p1 = l1.Intersection(l2);
+		Point? p2 = l2.Intersection(l1);
+		Assert.AreEqual(Point.Origin, p1);
+		Assert.AreEqual(Point.Origin, p2);
+	}
+
+	[TestMethod]
 	public void Intersection_HandlesPerpendicularLinesCorrectly()
 	{
 		Line l1 = new((1, 1), (3, 5));

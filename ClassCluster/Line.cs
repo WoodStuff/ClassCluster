@@ -184,7 +184,7 @@ public class Line : IObject2D<Line>
 		if (IsParallelTo(other)) return null;
 
 		double xIntersection = (other.YIntercept - YIntercept) / (Slope - other.Slope);
-		double yIntersection = PointAtX(xIntersection)!.Value.Y;
+		double yIntersection = PointAtX(xIntersection)?.Y ?? other.PointAtX(xIntersection)!.Value.Y;
 
 		return new Point(xIntersection, yIntersection);
 	}
