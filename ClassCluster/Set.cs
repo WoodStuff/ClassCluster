@@ -16,7 +16,7 @@ public class Set<T> : ICollection<T> where T : notnull
 
 	public Set() => num = [];
 	public Set(params T[] n) : this((IEnumerable<T>)n) { }
-	public Set(IEnumerable<T> n) => num = new(n);
+	public Set(IEnumerable<T> n) => num = [.. n];
 	public Set(HashSet<T> s) => num = s;
 
 	/// <summary>
@@ -208,7 +208,7 @@ public class Set<T> : ICollection<T> where T : notnull
 	public Set<T> Clone()
 	{
 		Set<T> set = (Set<T>)MemberwiseClone();
-		set.num = new HashSet<T>(num);
+		set.num = [.. num];
 		return set;
 	}
 
