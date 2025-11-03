@@ -96,13 +96,18 @@ public struct Point : IObject2D<Point>
 	/// Shortens the point to have a length of 1 while maintaining the direction and returns it.
 	/// Returns the origin if the given point is the origin.
 	/// </summary>
-	/// <returns>The normalized point</returns>
+	/// <returns>The normalized point.</returns>
 	public readonly Point ToNormalized()
 	{
 		double length = DistanceFromOrigin;
 		if (length == 0) return this;
 		return new(X / length, Y / length);
 	}
+	/// <summary>
+	/// Rounds the point's coordinates to the nearest integers.
+	/// </summary>
+	/// <returns>The rounded point.</returns>
+	public readonly Point ToRounded() => new(Math.Round(X), Math.Round(Y));
 
 	/// <summary>
 	/// Normalizes the point as if it was a vector.
@@ -115,6 +120,14 @@ public struct Point : IObject2D<Point>
 		if (length == 0) return;
 		_x /= length;
 		_y /= length;
+	}
+	/// <summary>
+	/// Rounds the point's coordinates to the nearest integers.
+	/// </summary>
+	public void Round()
+	{
+		_x = Math.Round(X);
+		_y = Math.Round(Y);
 	}
 
 	public override readonly string ToString() => $"({X}, {Y})";
@@ -129,6 +142,11 @@ public struct Point : IObject2D<Point>
 		return Math.Abs(X - other.X) < Tolerance && Math.Abs(Y - other.Y) < Tolerance;
 	}
 	public override readonly int GetHashCode() => HashCode.Combine(X, Y);
+	public readonly void Deconstruct(out double x, out double y)
+	{
+		x = X;
+		y = Y;
+	}
 
 	public static implicit operator Point((double x, double y) tuple) => new(tuple.x, tuple.y);
 	public static explicit operator Point(Vector v) => new(v.X, v.Y);

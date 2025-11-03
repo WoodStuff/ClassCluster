@@ -168,6 +168,11 @@ public struct Vector
 		return Math.Abs(X - other.X) < Tolerance && Math.Abs(Y - other.Y) < Tolerance;
 	}
 	public override readonly int GetHashCode() => HashCode.Combine(X, Y);
+	public readonly void Deconstruct(out double x, out double y)
+	{
+		x = X;
+		y = Y;
+	}
 
 	public static explicit operator Vector(Point p) => new(p.X, p.Y);
 
