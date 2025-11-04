@@ -1,6 +1,6 @@
 ﻿using ClassCluster.Interfaces;
 
-namespace ClassCluster;
+namespace ClassCluster.Geometry;
 
 /// <summary>
 /// Represents a circle.

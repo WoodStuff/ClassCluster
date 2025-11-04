@@ -1,4 +1,4 @@
-﻿namespace ClassCluster;
+﻿namespace ClassCluster.Geometry;
 
 /// <summary>
 /// Represents a 2D vector.
@@ -75,9 +75,7 @@ public struct Vector
 	{
 		double length = Magnitude;
 		if (length != 0)
-		{
 			return new(X / length, Y / length);
-		}
 		return this;
 	}
 	/// <summary>
@@ -160,9 +158,7 @@ public struct Vector
 	public override readonly bool Equals(object? obj)
 	{
 		if (obj == null || GetType() != obj.GetType())
-		{
 			return false;
-		}
 
 		Vector other = (Vector)obj;
 		return Math.Abs(X - other.X) < Tolerance && Math.Abs(Y - other.Y) < Tolerance;

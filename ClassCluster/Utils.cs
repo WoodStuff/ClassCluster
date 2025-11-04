@@ -1,4 +1,6 @@
-﻿namespace ClassCluster;
+﻿using ClassCluster.Geometry;
+
+namespace ClassCluster;
 
 internal static class Utils
 {

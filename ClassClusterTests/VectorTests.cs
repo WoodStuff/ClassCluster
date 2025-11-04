@@ -1,4 +1,6 @@
-﻿namespace ClassCluster.Tests;
+﻿using ClassCluster.Geometry;
+
+namespace ClassCluster.Tests;
 
 [TestClass]
 public class VectorTests

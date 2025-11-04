@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Vector = ClassCluster.Geometry.Vector;
 
 namespace ClassCluster.Interfaces;
 

@@ -1,4 +1,4 @@
-﻿using ClassCluster;
+﻿using ClassCluster.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Numerics;
 

@@ -1,6 +1,6 @@
 ﻿using ClassCluster.Interfaces;
 
-namespace ClassCluster;
+namespace ClassCluster.Geometry;
 
 /// <summary>
 /// Represents an unbounded 2D line.
@@ -244,9 +244,7 @@ public class Line : IObject2D<Line>
 	public override bool Equals(object? obj)
 	{
 		if (obj == null || GetType() != obj.GetType())
-		{
 			return false;
-		}
 
 		Line other = (Line)obj;
 		double inter = IsVertical ? PointAtY(0)!.Value.X : YIntercept;

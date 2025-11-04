@@ -1,6 +1,6 @@
 ﻿using ClassCluster.Interfaces;
 
-namespace ClassCluster;
+namespace ClassCluster.Geometry;
 
 /// <summary>
 /// Represents a 2D point.
@@ -134,9 +134,7 @@ public struct Point : IObject2D<Point>
 	public override readonly bool Equals(object? obj)
 	{
 		if (obj == null || GetType() != obj.GetType())
-		{
 			return false;
-		}
 
 		Point other = (Point)obj;
 		return Math.Abs(X - other.X) < Tolerance && Math.Abs(Y - other.Y) < Tolerance;

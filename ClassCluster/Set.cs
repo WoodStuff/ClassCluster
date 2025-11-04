@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Numerics;
+using ClassCluster.Geometry;
+using Vector = ClassCluster.Geometry.Vector;
 
 namespace ClassCluster;
 

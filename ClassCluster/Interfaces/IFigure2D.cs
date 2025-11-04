@@ -1,4 +1,6 @@
-﻿namespace ClassCluster.Interfaces;
+﻿using ClassCluster.Geometry;
+
+namespace ClassCluster.Interfaces;
 
 /// <summary>
 /// Represents a bounded 2D object that encloses a space and has area.
