@@ -40,6 +40,11 @@ internal static class Utils
 			float f => float.IsInfinity(f),
 			Point p => double.IsInfinity(p.X) || double.IsInfinity(p.Y),
 			Vector v => double.IsInfinity(v.X) || double.IsInfinity(v.Y),
+
+			Boundary<double> b => IsInfinity(b.Value),
+			Boundary<float> b => IsInfinity(b.Value),
+			Boundary<Point> b => IsInfinity(b.Value),
+			Boundary<Vector> b => IsInfinity(b.Value),
 			_ => false
 		};
 	}
